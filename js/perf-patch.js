@@ -39,21 +39,24 @@
       var mapPage = document.getElementById('page-map');
       var mapContainer = document.getElementById('map-container');
 
-      // 确保地图容器有正确高度
+      // 确保 map-page 和 map-container 都有正确高度
       if (mapPage) {
+        var navH = (navBar && navBar.offsetHeight > 0) ? navBar.offsetHeight : 84;
+        mapPage.style.height = 'calc(100% - ' + navH + 'px)';
+        mapPage.style.display = 'flex';
+        mapPage.style.flexDirection = 'column';
+      }
+      if (mapContainer) {
+        mapContainer.style.flex = '1';
+        mapContainer.style.minHeight = '200px';
+      }
+      // 延后修正（导航栏可能延迟渲染）
+      setTimeout(function() {
         if (navBar && navBar.offsetHeight > 0) {
           mapPage.style.height = 'calc(100% - ' + navBar.offsetHeight + 'px)';
-        } else {
-          // 导航栏尚未渲染，使用安全默认值并延后修正
-          mapPage.style.height = 'calc(100% - 84px)';
-          setTimeout(function() {
-            if (navBar && navBar.offsetHeight > 0) {
-              mapPage.style.height = 'calc(100% - ' + navBar.offsetHeight + 'px)';
-            }
-            if (app.map) app.map.invalidateSize();
-          }, 100);
         }
-      }
+        if (app.map) app.map.invalidateSize();
+      }, 150);
 
       if (typeof L !== 'undefined') {
         this.map = L.map('map-container', {
