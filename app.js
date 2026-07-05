@@ -330,15 +330,14 @@ const app = {
           attributionControl: false
         }).setView([35.42, 119.531], 13);
 
-        L.GridLayer.GridDebug = L.GridLayer.extend({
-          createTile: function(coords) {
-            const tile = document.createElement('div');
-            tile.style.cssText = 'width:100%;height:100%;background:#f5f0eb;box-sizing:border-box;border-right:1px dashed #e0d8d0;border-bottom:1px dashed #e0d8d0;';
-            return tile;
-          }
+        const amapVector = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+          subdomains: '1234', maxZoom: 19, attribution: '&copy; 高德地图'
         });
-        L.gridLayer.gridDebug = function(opts) { return new L.GridLayer.GridDebug(opts); };
-        L.gridLayer.gridDebug().addTo(this.map);
+        const amapSatellite = L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', {
+          subdomains: '1234', maxZoom: 19, attribution: '&copy; 高德地图'
+        });
+        amapVector.addTo(this.map);
+        L.control.layers({ '高德矢量': amapVector, '高德卫星': amapSatellite }, null, { position: 'topright', collapsed: true }).addTo(this.map);
 
         this.addMapMarkers();
 
