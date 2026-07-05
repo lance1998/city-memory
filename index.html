@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>城市微记忆 · 地标时空共建地图</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css1.css">
+  <link rel="stylesheet" href="css2.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -13,14 +14,9 @@
 </head>
 <body>
   <div id="app">
-    <!-- ==================== 地图首页 ==================== -->
     <div id="page-map" class="page active">
       <div class="map-header">
-        <div class="city-selector" onclick="app.showCityPicker()">
-          <i class="fas fa-map-marker-alt"></i>
-          <span id="current-city">日照</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
+        <div class="city-selector" onclick="app.showCityPicker()"><i class="fas fa-map-marker-alt"></i><span id="current-city">日照</span><i class="fas fa-chevron-down"></i></div>
         <div class="year-filter">
           <span class="filter-btn active" data-year="all">全部</span>
           <span class="filter-btn" data-year="70s">70s</span>
@@ -29,100 +25,45 @@
           <span class="filter-btn" data-year="00s">00s</span>
           <span class="filter-btn" data-year="10s">10s</span>
         </div>
-        <!-- 路线选择器 -->
-        <div class="route-selector" id="route-selector">
-          <div class="route-selector-scroll" id="route-selector-scroll">
-            <span class="route-chip active" data-route="0" onclick="app.toggleMapRoute(0)"><i class="fas fa-times"></i> 隐藏路线</span>
-          </div>
-        </div>
+        <div class="route-selector" id="route-selector"><div class="route-selector-scroll" id="route-selector-scroll"><span class="route-chip active" data-route="0" onclick="app.toggleMapRoute(0)"><i class="fas fa-times"></i> 隐藏路线</span></div></div>
       </div>
       <div id="map-container"></div>
-      <div class="map-locate-btn" onclick="app.locateMe()">
-        <i class="fas fa-crosshairs"></i>
-      </div>
+      <div class="map-locate-btn" onclick="app.locateMe()"><i class="fas fa-crosshairs"></i></div>
     </div>
 
-    <!-- ==================== 发现广场 ==================== -->
     <div id="page-discover" class="page">
       <div class="discover-header">
         <h1>发现</h1>
-        <div class="search-bar">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="搜索地标、回忆、标签..." id="discover-search">
-          <button class="search-clear-btn" onclick="app.clearSearch()" style="display:none;"><i class="fas fa-times-circle"></i></button>
-        </div>
-        <div class="year-filter discover-filter">
-          <span class="filter-btn active" data-year="all">全部</span>
-          <span class="filter-btn" data-year="70s">70年代</span>
-          <span class="filter-btn" data-year="80s">80年代</span>
-          <span class="filter-btn" data-year="90s">90年代</span>
-          <span class="filter-btn" data-year="00s">00年代</span>
-          <span class="filter-btn" data-year="10s">10年代</span>
-        </div>
-        <div class="sort-bar">
-          <span class="sort-btn active" data-sort="newest">最新发布</span>
-          <span class="sort-btn" data-sort="likes">最多点赞</span>
-          <span class="sort-btn" data-sort="comments">最多评论</span>
-          <span class="sort-btn" data-sort="editor">编辑推荐</span>
-        </div>
+        <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="搜索地标、回忆、标签..." id="discover-search"><button class="search-clear-btn" onclick="app.clearSearch()" style="display:none;"><i class="fas fa-times-circle"></i></button></div>
+        <div class="year-filter discover-filter"><span class="filter-btn active" data-year="all">全部</span><span class="filter-btn" data-year="70s">70年代</span><span class="filter-btn" data-year="80s">80年代</span><span class="filter-btn" data-year="90s">90年代</span><span class="filter-btn" data-year="00s">00年代</span><span class="filter-btn" data-year="10s">10年代</span></div>
+        <div class="sort-bar"><span class="sort-btn active" data-sort="newest">最新发布</span><span class="sort-btn" data-sort="likes">最多点赞</span><span class="sort-btn" data-sort="comments">最多评论</span><span class="sort-btn" data-sort="editor">编辑推荐</span></div>
       </div>
       <div class="discover-content" id="discover-waterfall">
-        <div class="discover-feed-section" id="discover-feed-section">
-          <div class="discover-feed-header">
-            <h3><i class="fas fa-rss"></i> 关注动态</h3>
-            <span onclick="app.showFeedPage()">查看全部 <i class="fas fa-chevron-right"></i></span>
-          </div>
-          <div id="discover-feed-list"></div>
-        </div>
-        <div class="story-entry-card" onclick="app.showStory()">
-          <div class="story-entry-bg"><div class="story-entry-overlay"></div></div>
-          <div class="story-entry-content">
-            <div class="story-entry-icon"><i class="fas fa-book-open"></i></div>
-            <div class="story-entry-text">
-              <h3>城市故事</h3>
-              <p>文字冒险 · 探索日照往事 · 11种结局等你发现</p>
-            </div>
-            <div class="story-entry-arrow"><i class="fas fa-chevron-right"></i></div>
-          </div>
-        </div>
+        <div class="discover-feed-section" id="discover-feed-section"><div class="discover-feed-header"><h3><i class="fas fa-rss"></i> 关注动态</h3><span onclick="app.showFeedPage()">查看全部 <i class="fas fa-chevron-right"></i></span></div><div id="discover-feed-list"></div></div>
+        <div class="story-entry-card" onclick="app.showStory()"><div class="story-entry-bg"><div class="story-entry-overlay"></div></div><div class="story-entry-content"><div class="story-entry-icon"><i class="fas fa-book-open"></i></div><div class="story-entry-text"><h3>城市故事</h3><p>文字冒险 · 探索日照往事 · 11种结局等你发现</p></div><div class="story-entry-arrow"><i class="fas fa-chevron-right"></i></div></div></div>
       </div>
     </div>
 
-    <!-- ==================== 时光玩法 ==================== -->
     <div id="page-time" class="page">
-      <div class="time-header">
-        <h1>时光玩法</h1>
-        <p>穿越城市的光影，邂逅被遗忘的记忆</p>
-      </div>
-      <div class="time-content">
-        <div class="time-grid">
-          <div class="time-card" onclick="app.showTimeCapsule()"><div class="time-icon"><i class="fas fa-envelope-open-text"></i></div><h3>时光胶囊</h3><p>给未来写一封信</p></div>
-          <div class="time-card" onclick="app.showMemoryRoutes()"><div class="time-icon"><i class="fas fa-route"></i></div><h3>记忆路线</h3><p>打卡城市故事线</p></div>
-          <div class="time-card" onclick="app.showTimePost()"><div class="time-icon"><i class="fas fa-stamp"></i></div><h3>时光邮局</h3><p>寄一张记忆明信片</p></div>
-          <div class="time-card" onclick="app.showQuiz()"><div class="time-icon"><i class="fas fa-question-circle"></i></div><h3>怀旧问答</h3><p>看图猜地标年代</p></div>
-          <div class="time-card" onclick="app.showBlindBox()"><div class="time-icon"><i class="fas fa-gift"></i></div><h3>年代盲盒</h3><p>随机邂逅旧时光</p></div>
-          <div class="time-card" onclick="app.showCalendar()"><div class="time-icon"><i class="fas fa-calendar-day"></i></div><h3>时光日历</h3><p>历史上的今天</p></div>
-          <div class="time-card" onclick="app.showHeritageZone()"><div class="time-icon" style="background:#FFF8E1;color:#8B6914;"><i class="fas fa-scroll"></i></div><h3>非遗寻访</h3><p>探寻传统技艺记忆</p></div>
-          <div class="time-card" onclick="app.showChallenge()"><div class="time-icon" style="background:#E8F5E9;color:#5B8C5A;"><i class="fas fa-graduation-cap"></i></div><h3>研学闯关</h3><p>答题解锁城市知识</p></div>
-          <div class="time-card" onclick="app.openStarMap()"><div class="time-icon" style="background:linear-gradient(135deg,#4A6FA5,#7B9FD4)"><i class="fas fa-star"></i></div><h3>城市星图</h3><p>星空中的城市记忆</p></div>
-          <div class="time-card" onclick="app.showFragments()"><div class="time-icon" style="background:#FFF3E0;color:#E65100;"><i class="fas fa-puzzle-piece"></i></div><h3>记忆碎片</h3><p>打卡收集解锁故事</p></div>
-        </div>
-      </div>
+      <div class="time-header"><h1>时光玩法</h1><p>穿越城市的光影，邂逅被遗忘的记忆</p></div>
+      <div class="time-content"><div class="time-grid">
+        <div class="time-card" onclick="app.showTimeCapsule()"><div class="time-icon"><i class="fas fa-envelope-open-text"></i></div><h3>时光胶囊</h3><p>给未来写一封信</p></div>
+        <div class="time-card" onclick="app.showMemoryRoutes()"><div class="time-icon"><i class="fas fa-route"></i></div><h3>记忆路线</h3><p>打卡城市故事线</p></div>
+        <div class="time-card" onclick="app.showTimePost()"><div class="time-icon"><i class="fas fa-stamp"></i></div><h3>时光邮局</h3><p>寄一张记忆明信片</p></div>
+        <div class="time-card" onclick="app.showQuiz()"><div class="time-icon"><i class="fas fa-question-circle"></i></div><h3>怀旧问答</h3><p>看图猜地标年代</p></div>
+        <div class="time-card" onclick="app.showBlindBox()"><div class="time-icon"><i class="fas fa-gift"></i></div><h3>年代盲盒</h3><p>随机邂逅旧时光</p></div>
+        <div class="time-card" onclick="app.showCalendar()"><div class="time-icon"><i class="fas fa-calendar-day"></i></div><h3>时光日历</h3><p>历史上的今天</p></div>
+        <div class="time-card" onclick="app.showHeritageZone()"><div class="time-icon" style="background:#FFF8E1;color:#8B6914;"><i class="fas fa-scroll"></i></div><h3>非遗寻访</h3><p>探寻传统技艺记忆</p></div>
+        <div class="time-card" onclick="app.showChallenge()"><div class="time-icon" style="background:#E8F5E9;color:#5B8C5A;"><i class="fas fa-graduation-cap"></i></div><h3>研学闯关</h3><p>答题解锁城市知识</p></div>
+        <div class="time-card" onclick="app.openStarMap()"><div class="time-icon" style="background:linear-gradient(135deg,#4A6FA5,#7B9FD4)"><i class="fas fa-star"></i></div><h3>城市星图</h3><p>星空中的城市记忆</p></div>
+        <div class="time-card" onclick="app.showFragments()"><div class="time-icon" style="background:#FFF3E0;color:#E65100;"><i class="fas fa-puzzle-piece"></i></div><h3>记忆碎片</h3><p>打卡收集解锁故事</p></div>
+      </div></div>
     </div>
 
-    <!-- ==================== 个人中心 ==================== -->
     <div id="page-profile" class="page">
       <div class="profile-header">
         <div class="profile-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="头像"></div>
-        <div class="profile-info">
-          <h2 id="profile-name">城市记忆者</h2>
-          <p id="profile-bio">记录每一座城市的变迁</p>
-          <div class="profile-stats">
-            <div class="stat"><span id="stat-memories">0</span><label>记忆</label></div>
-            <div class="stat"><span id="stat-likes">0</span><label>获赞</label></div>
-            <div class="stat"><span id="stat-cities">0</span><label>城市</label></div>
-          </div>
-        </div>
+        <div class="profile-info"><h2 id="profile-name">城市记忆者</h2><p id="profile-bio">记录每一座城市的变迁</p><div class="profile-stats"><div class="stat"><span id="stat-memories">0</span><label>记忆</label></div><div class="stat"><span id="stat-likes">0</span><label>获赞</label></div><div class="stat"><span id="stat-cities">0</span><label>城市</label></div></div></div>
       </div>
       <div class="profile-menu">
         <div class="menu-item" onclick="app.showMyUploads()"><i class="fas fa-images"></i><span>我的上传</span><i class="fas fa-chevron-right"></i></div>
@@ -141,43 +82,13 @@
       </div>
     </div>
 
-    <!-- ==================== 上传页面 ==================== -->
     <div id="page-upload" class="page upload-page">
-      <div class="upload-header">
-        <button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button>
-        <h2>上传记忆</h2>
-        <span class="step-indicator">步骤 <span id="upload-step">1</span>/3</span>
-      </div>
-      <div class="upload-step active" id="upload-step-1">
-        <div class="step-title">选择地标位置</div>
-        <div class="upload-map" id="upload-map"></div>
-        <div class="upload-search"><i class="fas fa-search"></i><input type="text" placeholder="搜索地名..." id="location-search"></div>
-        <div class="selected-location" id="selected-location"><i class="fas fa-map-pin"></i><span>长按地图选择位置</span></div>
-        <button class="next-btn" onclick="app.nextUploadStep()">下一步</button>
-      </div>
-      <div class="upload-step" id="upload-step-2">
-        <div class="step-title">填写记忆信息</div>
-        <div class="form-group"><label>地标名称</label><input type="text" id="upload-title" placeholder="例如：日照老火车站"></div>
-        <div class="form-group"><label>老照片（最多3张）</label><div class="photo-upload" id="old-photo-upload"><div class="upload-placeholder" onclick="app.selectPhoto('old')"><i class="fas fa-plus"></i><span>添加老照片</span></div></div></div>
-        <div class="form-group"><label>AI 修复</label><button class="ai-fix-btn" onclick="app.aiFixPhoto()"><i class="fas fa-magic"></i> 一键 AI 修复</button><div class="ai-preview" id="ai-preview"></div></div>
-        <div class="form-group"><label>新照片（可选）</label><div class="photo-upload" id="new-photo-upload"><div class="upload-placeholder" onclick="app.selectPhoto('new')"><i class="fas fa-plus"></i><span>添加新照片或使用街景</span></div></div><label class="checkbox-label"><input type="checkbox" id="use-streetview"> 使用地图街景作为新照片</label></div>
-        <div class="form-group"><label>年代</label><select id="upload-year"><option value="">请选择年代</option><option value="70年代">1970年代</option><option value="80年代">1980年代</option><option value="90年代">1990年代</option><option value="00年代">2000年代</option><option value="10年代">2010年代</option><option value="20年代">2020年代</option></select></div>
-        <div class="form-group"><label>回忆文字</label><textarea id="upload-story" rows="4" placeholder="写下你的回忆..."></textarea></div>
-        <div class="form-group"><label>语音讲述（可选，最长3分钟）</label><button class="voice-record-btn" id="voice-btn" onclick="app.toggleVoiceRecord()"><i class="fas fa-microphone"></i> 点击录制</button><div class="voice-timer" id="voice-timer"></div></div>
-        <div class="form-group"><label>标签</label><input type="text" id="upload-tags" placeholder="#童年 #校园 #老街（用空格分隔）"></div>
-        <div class="form-group"><label>隐私设置</label><div class="privacy-options"><label class="privacy-option active" id="privacy-private"><input type="radio" name="privacy" value="private" checked onchange="app.selectPrivacy('private')"><i class="fas fa-lock"></i><div><strong>仅自己可见</strong><span>存入私人记忆，其他人不可见</span></div></label><label class="privacy-option" id="privacy-public"><input type="radio" name="privacy" value="public" onchange="app.selectPrivacy('public')"><i class="fas fa-globe"></i><div><strong>公开发布</strong><span>经审核后进入公共地图，位置将模糊处理</span></div></label></div><div class="privacy-notice" id="privacy-notice"><i class="fas fa-shield-alt"></i> 住宅类记忆默认私密，你可以随时申请公开</div></div>
-        <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="upload-anonymous"> 匿名发布</label></div>
-        <div class="step-buttons"><button class="prev-btn" onclick="app.prevUploadStep()">上一步</button><button class="next-btn" onclick="app.nextUploadStep()">下一步</button></div>
-      </div>
-      <div class="upload-step" id="upload-step-3">
-        <div class="step-title">确认发布</div>
-        <div class="preview-card" id="upload-preview"></div>
-        <div class="upload-tips"><i class="fas fa-info-circle"></i> 发布后需经审核，通过后即可在地图上看到你的记忆</div>
-        <div class="step-buttons"><button class="prev-btn" onclick="app.prevUploadStep()">上一步</button><button class="publish-btn" onclick="app.publishMemory()"><i class="fas fa-paper-plane"></i> 发布记忆</button></div>
-      </div>
+      <div class="upload-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2>上传记忆</h2><span class="step-indicator">步骤 <span id="upload-step">1</span>/3</span></div>
+      <div class="upload-step active" id="upload-step-1"><div class="step-title">选择地标位置</div><div class="upload-map" id="upload-map"></div><div class="upload-search"><i class="fas fa-search"></i><input type="text" placeholder="搜索地名..." id="location-search"></div><div class="selected-location" id="selected-location"><i class="fas fa-map-pin"></i><span>长按地图选择位置</span></div><button class="next-btn" onclick="app.nextUploadStep()">下一步</button></div>
+      <div class="upload-step" id="upload-step-2"><div class="step-title">填写记忆信息</div><div class="form-group"><label>地标名称</label><input type="text" id="upload-title" placeholder="例如：日照老火车站"></div><div class="form-group"><label>老照片（最多3张）</label><div class="photo-upload" id="old-photo-upload"><div class="upload-placeholder" onclick="app.selectPhoto('old')"><i class="fas fa-plus"></i><span>添加老照片</span></div></div></div><div class="form-group"><label>AI 修复</label><button class="ai-fix-btn" onclick="app.aiFixPhoto()"><i class="fas fa-magic"></i> 一键 AI 修复</button><div class="ai-preview" id="ai-preview"></div></div><div class="form-group"><label>新照片（可选）</label><div class="photo-upload" id="new-photo-upload"><div class="upload-placeholder" onclick="app.selectPhoto('new')"><i class="fas fa-plus"></i><span>添加新照片或使用街景</span></div></div><label class="checkbox-label"><input type="checkbox" id="use-streetview"> 使用地图街景作为新照片</label></div><div class="form-group"><label>年代</label><select id="upload-year"><option value="">请选择年代</option><option value="70年代">1970年代</option><option value="80年代">1980年代</option><option value="90年代">1990年代</option><option value="00年代">2000年代</option><option value="10年代">2010年代</option><option value="20年代">2020年代</option></select></div><div class="form-group"><label>回忆文字</label><textarea id="upload-story" rows="4" placeholder="写下你的回忆..."></textarea></div><div class="form-group"><label>语音讲述（可选，最长3分钟）</label><button class="voice-record-btn" id="voice-btn" onclick="app.toggleVoiceRecord()"><i class="fas fa-microphone"></i> 点击录制</button><div class="voice-timer" id="voice-timer"></div></div><div class="form-group"><label>标签</label><input type="text" id="upload-tags" placeholder="#童年 #校园 #老街（用空格分隔）"></div><div class="form-group"><label>隐私设置</label><div class="privacy-options"><label class="privacy-option active" id="privacy-private"><input type="radio" name="privacy" value="private" checked onchange="app.selectPrivacy('private')"><i class="fas fa-lock"></i><div><strong>仅自己可见</strong><span>存入私人记忆，其他人不可见</span></div></label><label class="privacy-option" id="privacy-public"><input type="radio" name="privacy" value="public" onchange="app.selectPrivacy('public')"><i class="fas fa-globe"></i><div><strong>公开发布</strong><span>经审核后进入公共地图，位置将模糊处理</span></div></label></div><div class="privacy-notice" id="privacy-notice"><i class="fas fa-shield-alt"></i> 住宅类记忆默认私密，你可以随时申请公开</div></div><div class="form-group"><label class="checkbox-label"><input type="checkbox" id="upload-anonymous"> 匿名发布</label></div><div class="step-buttons"><button class="prev-btn" onclick="app.prevUploadStep()">上一步</button><button class="next-btn" onclick="app.nextUploadStep()">下一步</button></div></div>
+      <div class="upload-step" id="upload-step-3"><div class="step-title">确认发布</div><div class="preview-card" id="upload-preview"></div><div class="upload-tips"><i class="fas fa-info-circle"></i> 发布后需经审核，通过后即可在地图上看到你的记忆</div><div class="step-buttons"><button class="prev-btn" onclick="app.prevUploadStep()">上一步</button><button class="publish-btn" onclick="app.publishMemory()"><i class="fas fa-paper-plane"></i> 发布记忆</button></div></div>
     </div>
 
-    <!-- Sub-pages and modals -->
     <div id="page-feed" class="page"><div class="subpage-header"><h2>关注动态</h2><button class="header-action-btn" onclick="app.showNotifications()"><i class="fas fa-bell"></i><span class="notif-dot" id="notif-dot"></span></button></div><div class="feed-content" id="feed-list"></div></div>
     <div id="page-circles" class="page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2>话题圈子</h2></div><div class="circles-content" id="circles-list"></div></div>
     <div id="page-circle-detail" class="page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2 id="circle-detail-title">圈子详情</h2></div><div class="circle-detail-content" id="circle-detail-content"></div></div>
@@ -190,7 +101,6 @@
     <div id="page-level" class="page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2>我的等级</h2></div><div class="level-content" id="level-content"></div></div>
     <div id="page-leaderboard" class="page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2>路线排行榜</h2></div><div class="weekly-best-content" id="leaderboard-content"></div></div>
 
-    <!-- Modals -->
     <div id="memory-detail" class="detail-modal"><div class="detail-backdrop" onclick="app.closeDetail()"></div><div class="detail-sheet"><div class="detail-handle"></div><div class="detail-content" id="detail-content"></div></div></div>
     <div id="city-picker" class="modal"><div class="modal-backdrop" onclick="app.hideCityPicker()"></div><div class="modal-sheet"><div class="modal-header"><h3>选择城市</h3><button onclick="app.hideCityPicker()"><i class="fas fa-times"></i></button></div><div class="city-search"><i class="fas fa-search"></i><input type="text" placeholder="搜索城市..."></div></div></div>
     <div id="share-modal" class="modal"><div class="modal-backdrop" onclick="app.hideShare()"></div><div class="modal-sheet share-sheet"><h3>分享到</h3><div class="share-options"><div class="share-option" onclick="app.shareWeixin()"><i class="fab fa-weixin"></i><span>微信</span></div><div class="share-option" onclick="app.shareMoments()"><i class="fas fa-comment"></i><span>朋友圈</span></div><div class="share-option" onclick="app.shareWeibo()"><i class="fab fa-weibo"></i><span>微博</span></div><div class="share-option" onclick="app.copyLink()"><i class="fas fa-link"></i><span>复制链接</span></div><div class="share-option" onclick="app.generatePoster()"><i class="fas fa-image"></i><span>生成海报</span></div></div><button class="cancel-btn" onclick="app.hideShare()">取消</button></div></div>
@@ -208,7 +118,6 @@
     <div id="page-fragments" class="page fragments-page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2>记忆碎片</h2></div><div class="fragments-scroll" id="fragments-content"></div></div>
     <div id="page-story" class="page story-page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2>城市故事</h2><span class="story-endings-count" id="story-endings-count"></span></div><div class="story-content" id="story-content"></div></div>
 
-    <!-- Capsule, route, quiz, blindbox, post, calendar, shop pages -->
     <div id="page-capsule" class="page capsule-page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2>时光胶囊</h2></div><div class="capsule-tabs"><span class="capsule-tab active" data-tab="write">写胶囊</span><span class="capsule-tab" data-tab="list">我的胶囊</span></div><div class="capsule-panel active" id="capsule-write"><div class="capsule-form"><div class="form-group"><label>收件人</label><select id="capsule-recipient"><option value="self">未来的自己</option><option value="friend">指定好友</option><option value="random">随机陌生人</option></select></div><div class="form-group"><label>解锁时间</label><select id="capsule-unlock"><option value="1year">1年后</option><option value="5year">5年后</option><option value="10year">10年后</option><option value="custom">自定义</option></select></div><div class="form-group"><label>内容</label><textarea id="capsule-content" rows="6" placeholder="写下你想对未来的自己或某人说的话..."></textarea></div><div class="form-group"><label>附上照片（可选）</label><div class="photo-upload" id="capsule-photo-upload"><div class="upload-placeholder" onclick="app.selectPhoto('capsule')"><i class="fas fa-plus"></i><span>添加照片</span></div></div></div><div class="form-group"><label>胶囊样式</label><div class="capsule-styles"><div class="capsule-style active" data-style="classic"><div class="style-preview classic"></div><span>经典</span></div><div class="capsule-style" data-style="vintage"><div class="style-preview vintage"></div><span>复古</span></div><div class="capsule-style" data-style="modern"><div class="style-preview modern"></div><span>现代</span></div></div></div><button class="bury-btn" onclick="app.buryCapsule()"><i class="fas fa-archive"></i> 埋下胶囊</button></div></div><div class="capsule-panel" id="capsule-list"><div class="capsule-list" id="my-capsules"></div></div></div>
     <div id="page-routes" class="page routes-page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2>记忆路线</h2></div><div class="routes-list" id="routes-list"></div></div>
     <div id="page-route-detail" class="page route-detail-page"><div class="subpage-header"><button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></button><h2 id="route-detail-title">路线详情</h2></div><div class="route-detail-content" id="route-detail-content"></div></div>
@@ -226,7 +135,6 @@
     <div id="poster-modal" class="modal"><div class="modal-backdrop" onclick="app.hidePoster()"></div><div class="modal-sheet poster-sheet"><div class="modal-header"><h3>怀旧海报</h3><button onclick="app.hidePoster()"><i class="fas fa-times"></i></button></div><div class="poster-canvas-container"><div id="poster-canvas" class="poster-canvas"></div></div><button class="buy-btn" onclick="app.downloadPoster()"><i class="fas fa-download"></i> 保存海报</button></div></div>
     <div id="edit-modal" class="modal"><div class="modal-backdrop" onclick="app.hideEdit()"></div><div class="modal-sheet"><div class="modal-header"><h3 id="edit-title">编辑</h3><button onclick="app.hideEdit()"><i class="fas fa-times"></i></button></div><div class="edit-form" style="padding:16px;"><div class="form-group"><input type="text" id="edit-input" placeholder="请输入..."></div><button class="next-btn" onclick="app.saveEdit()">保存</button></div></div></div>
 
-    <!-- ==================== 底部导航栏 ==================== -->
     <nav class="bottom-tab-bar" id="bottom-tab">
       <div class="tab-item active" data-page="map"><i class="fas fa-map-marked-alt"></i><span>地图</span></div>
       <div class="tab-item" data-page="discover"><i class="fas fa-compass"></i><span>发现</span></div>
@@ -238,8 +146,9 @@
     <div id="toast" class="toast"></div>
   </div>
 
-  <script src="js/data.js"></script>
+  <script src="data.js"></script>
   <script src="js/china_cities_expanded.js"></script>
-  <script src="js/app.js"></script>
+  <script src="app.js"></script>
+  <script src="js/city-picker-fix.js"></script>
 </body>
 </html>
