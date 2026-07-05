@@ -1,10 +1,6 @@
-/***********************************
- * 城市微记忆 - 数据层
- * 包含所有种子数据和数据模型
- ***********************************/
+
 
 const DB = {
-  // 当前用户
   currentUser: {
     id: 'u001',
     nickname: '城市记忆者',
@@ -19,7 +15,6 @@ const DB = {
     createdAt: '2026-01-15'
   },
 
-  // 城市记忆数据（日照种子数据）
   memories: [
     {
       id: 1,
@@ -231,7 +226,6 @@ const DB = {
     }
   ],
 
-  // 评论数据
   comments: [
     { id: 1, memoryId: 1, userId: 'u010', authorName: '日照小哥', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u10', content: '我也是！小时候坐火车去济南，凌晨四点多就要到车站等车。', createdAt: '2026-03-16', likes: 12 },
     { id: 2, memoryId: 1, userId: 'u011', authorName: '怀旧达人', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u11', content: '老站台的味道，现在的年轻人体会不到了。', createdAt: '2026-03-17', likes: 8 },
@@ -239,13 +233,10 @@ const DB = {
     { id: 4, memoryId: 3, userId: 'u013', authorName: '海边钓鱼佬', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u13', content: '现在的万平口收费了，怀念以前免费开放的日子。', createdAt: '2026-04-21', likes: 22 }
   ],
 
-  // 收藏数据
   favorites: [1, 3, 6],
 
-  // 浏览足迹
   footprints: [1, 2, 3, 4, 6],
 
-  // 记忆路线
   routes: [
     {
       id: 1,
@@ -297,7 +288,6 @@ const DB = {
     }
   ],
 
-  // 非遗记忆
   heritage: [
     { id: 101, title: '日照黑陶', category: 'heritage', desc: '国家级非遗，距今已有五千多年历史，以其"黑如漆、亮如镜、薄如纸、硬如瓷"著称', image: 'https://picsum.photos/seed/heritage1/400/300', location: '日照市陶艺馆' },
     { id: 102, title: '岚山渔民号子', category: 'heritage', desc: '渔民出海劳作时唱的劳动号子，已被列入省级非物质文化遗产名录', image: 'https://picsum.photos/seed/heritage2/400/300', location: '岚山区渔港' },
@@ -305,21 +295,18 @@ const DB = {
     { id: 104, title: '五莲割花', category: 'heritage', desc: '传统手工刺绣技艺，以针法细腻、图案生动闻名', image: 'https://picsum.photos/seed/heritage4/400/300', location: '五莲县' }
   ],
 
-  // 老字号
   timehonored: [
     { id: 201, title: '日照茶庄', category: 'timehonored', desc: '创立于1956年，三代人经营的日照绿茶老店，是日照绿茶的活招牌', image: 'https://picsum.photos/seed/time1/400/300', location: '海曲中路' },
     { id: 202, title: '石臼海产行', category: 'timehonored', desc: '三代人经营的海味老店，从渔船到餐桌，四十年如一日的新鲜', image: 'https://picsum.photos/seed/time2/400/300', location: '石臼渔港' },
     { id: 203, title: '海曲书店', category: 'timehonored', desc: '藏在老街深处的小书店，开了四十年，是几代日照人的阅读记忆', image: 'https://picsum.photos/seed/time3/400/300', location: '海曲路' }
   ],
 
-  // 文旅活动
   activities: [
     { id: 1, title: '老照片征集大赛', desc: '晒出你珍藏的城市老照片，讲述照片背后的故事，赢文创大奖', image: 'https://picsum.photos/seed/act1/400/200', status: '进行中', endDate: '2026-08-15', participants: 1280, tag: '征集' },
     { id: 2, title: '城市记忆文化节', desc: '一年一度的城市记忆盛宴，怀旧市集、年代主题演出、记忆论坛', image: 'https://picsum.photos/seed/act2/400/200', status: '即将开始', endDate: '2026-10-01', participants: 560, tag: '节庆' },
     { id: 3, title: '非遗寻访打卡', desc: '寻访日照非遗传承人，记录传统技艺，完成打卡解锁专属勋章', image: 'https://picsum.photos/seed/act3/400/200', status: '进行中', endDate: '2026-09-30', participants: 340, tag: '打卡' }
   ],
 
-  // 时光胶囊
   capsules: [
     {
       id: 1,
@@ -333,7 +320,6 @@ const DB = {
     }
   ],
 
-  // 文创商品
   products: [
     { id: 1, name: '日照记忆明信片套装', price: 28, category: 'postcard', image: 'https://picsum.photos/seed/prod1/300/300', desc: '精选8张日照地标新旧对比明信片，附赠复古邮票贴纸' },
     { id: 2, name: '城市记忆2027日历', price: 58, category: 'calendar', image: 'https://picsum.photos/seed/prod2/300/300', desc: '365天，365个日照记忆故事，每天翻开一页旧时光' },
@@ -343,7 +329,6 @@ const DB = {
     { id: 6, name: '复古搪瓷杯', price: 45, category: 'gift', image: 'https://picsum.photos/seed/prod6/300/300', desc: '印有老日照地标的复古搪瓷杯，怀旧必备' }
   ],
 
-  // 勋章
   badges: [
     { id: 1, name: '首次上传', desc: '发布第一条城市记忆', icon: 'fa-upload', unlocked: true },
     { id: 2, name: '探索达人', desc: '浏览10条不同记忆', icon: 'fa-eye', unlocked: true },
@@ -357,7 +342,6 @@ const DB = {
     { id: 10, name: '研学达人', desc: '完成研学闯关挑战', icon: 'fa-graduation-cap', unlocked: false }
   ],
 
-  // 问答题目
   quizQuestions: [
     {
       id: 1,
@@ -394,7 +378,6 @@ const DB = {
     }
   ],
 
-  // 话题专题
   topics: [
     { id: 1, title: '消失的老校门', desc: '那些曾经走进走出的大门，见证了多少人的青春', count: 128 },
     { id: 2, title: '老市场的烟火气', desc: '喧嚣、热闹、讨价还价，最接地气的生活场景', count: 96 },
@@ -402,7 +385,6 @@ const DB = {
     { id: 4, title: '工厂岁月', desc: '父辈们的奋斗年代，工业记忆的见证', count: 78 }
   ],
 
-  // 私人记忆（自家老房子等）
   privateMemories: [
     {
       id: 'p001',
@@ -438,7 +420,6 @@ const DB = {
     }
   ],
 
-  // 当前状态
   state: {
     currentPage: 'map',
     prevPage: null,
@@ -462,7 +443,6 @@ const DB = {
   }
 };
 
-// 本地存储封装
 const Storage = {
   get(key) {
     try {
@@ -477,10 +457,8 @@ const Storage = {
   }
 };
 
-// 初始化本地数据
 function initStorage() {
   if (!Storage.get('initialized')) {
-    // 首次访问：保存所有 mock 数据到 LocalStorage
     Storage.set('memories', DB.memories);
     Storage.set('favorites', DB.favorites);
     Storage.set('footprints', DB.footprints);
@@ -498,7 +476,6 @@ function initStorage() {
     Storage.set('initialized', true);
     console.log('[Storage] 首次初始化完成');
   } else {
-    // 后续访问：从 LocalStorage 加载数据覆盖到 DB
     const memories = Storage.get('memories');
     if (memories) DB.memories = memories;
     const favorites = Storage.get('favorites');
@@ -532,7 +509,6 @@ function initStorage() {
   }
 }
 
-// 便捷保存方法
 DB.save = function(keys) {
   if (!keys) keys = ['memories', 'favorites', 'footprints', 'capsules', 'badges', 'comments', 'currentUser', 'state', 'privateMemories', 'weeklyBest', 'fragments', 'storyUnlocked', 'storyEndings'];
   keys.forEach(key => {
@@ -540,7 +516,6 @@ DB.save = function(keys) {
   });
 };
 
-// 工具函数
 const Utils = {
   formatDate(dateStr) {
     const d = new Date(dateStr);
@@ -560,9 +535,6 @@ const Utils = {
   }
 };
 
-// ===== 社交功能扩展数据 =====
-
-// 其他用户资料（用于关注、用户主页等功能）
 DB.users = [
   { id: 'u002', nickname: '老日照人', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u2', bio: '在日照生活了50年，记录这座城市的变化', city: '日照', level: 4, levelName: '城市讲述者', memoryCount: 23, likeCount: 1520, followerCount: 342, followingCount: 56, isExpert: true, isFollowing: true },
   { id: 'u003', nickname: '海曲中路80号', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u3', bio: '百货大楼的常客，如今是两个孩子的妈妈', city: '日照', level: 3, levelName: '记录者', memoryCount: 15, likeCount: 890, followerCount: 128, followingCount: 34, isExpert: false, isFollowing: false },
@@ -578,7 +550,6 @@ DB.users = [
   { id: 'u013', nickname: '海边钓鱼佬', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u13', bio: '日照土著，海钓二十年，记录海岸线的变化', city: '日照', level: 3, levelName: '记录者', memoryCount: 9, likeCount: 520, followerCount: 92, followingCount: 55, isExpert: false, isFollowing: true }
 ];
 
-// 等级体系
 DB.levelSystem = [
   { level: 1, name: '新手', minExp: 0, maxExp: 100, icon: 'fa-seedling', color: '#95a5a6' },
   { level: 2, name: '见证者', minExp: 100, maxExp: 500, icon: 'fa-eye', color: '#3498db' },
@@ -587,7 +558,6 @@ DB.levelSystem = [
   { level: 5, name: '城市记忆守护者', minExp: 5000, maxExp: 99999, icon: 'fa-shield-alt', color: '#e74c3c' }
 ];
 
-// 当前用户社交数据（扩展 currentUser）
 DB.currentUser.level = 2;
 DB.currentUser.levelName = '见证者';
 DB.currentUser.exp = 350;
@@ -596,7 +566,6 @@ DB.currentUser.followingCount = 15;
 DB.currentUser.following = ['u002', 'u004', 'u006', 'u010'];
 DB.currentUser.familyCircle = ['妈妈', '舅舅'];
 
-// 记忆接力数据（同一地标多人的不同年代记忆）
 DB.memoryRelay = [
   {
     landmarkId: 1,
@@ -626,7 +595,6 @@ DB.memoryRelay = [
   }
 ];
 
-// 话题圈子数据（升级版 topics）
 DB.circles = [
   { id: 1, title: '消失的老校门', desc: '那些曾经走进走出的大门，见证了多少人的青春', count: 128, members: 856, ownerName: '九六届毕业生', ownerId: 'u005', pinned: [{ memoryId: 4, title: '日照一中老校门' }, { memoryId: 2, title: '日照百货大楼（对面就是老校门）' }], posts: 42 },
   { id: 2, title: '老市场的烟火气', desc: '喧嚣、热闹、讨价还价，最接地气的生活场景', count: 96, members: 623, ownerName: '老城区阿姨', ownerId: 'u007', pinned: [{ memoryId: 6, title: '太阳城市场' }], posts: 31 },
@@ -634,7 +602,6 @@ DB.circles = [
   { id: 4, title: '工厂岁月', desc: '父辈们的奋斗年代，工业记忆的见证', count: 78, members: 412, ownerName: '港口二代', ownerId: 'u009', pinned: [{ memoryId: 8, title: '日照港' }], posts: 19 }
 ];
 
-// 关注动态 feed
 DB.feedItems = [
   { id: 'f1', type: 'memory', userId: 'u002', userName: '老日照人', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u2', action: '发布了一条新记忆', memoryId: 1, memoryTitle: '日照老火车站', memoryImage: 'https://picsum.photos/seed/rztrain1/400/300', time: '2小时前', likes: 45, comments: 8 },
   { id: 'f2', type: 'relay', userId: 'u010', userName: '日照小哥', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u10', action: '在「日照老火车站」接力了一段记忆', relayTitle: '日照老火车站', relayYear: '10年代', time: '5小时前' },
@@ -646,7 +613,6 @@ DB.feedItems = [
   { id: 'f8', type: 'follow', userId: 'u011', userName: '怀旧达人', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u11', action: '关注了你', time: '3天前' }
 ];
 
-// 消息通知
 DB.notifications = [
   { id: 'n1', type: 'system', title: '欢迎加入城市微记忆', content: '开始记录你身边正在消失的城市记忆吧！', read: false, time: '2026-01-15' },
   { id: 'n2', type: 'like', title: '有人赞了你的记忆', content: '石臼老张 赞了你发布的「外婆家的老院子」', read: false, time: '昨天' },
@@ -658,7 +624,6 @@ DB.notifications = [
   { id: 'n8', type: 'capsule', title: '时光胶囊提醒', content: '你寄给好友「日照小哥」的时光明信片已被签收', read: true, time: '1周前' }
 ];
 
-// 附近记忆者
 DB.nearbyUsers = [
   { userId: 'u010', nickname: '日照小哥', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u10', distance: '200m', status: '正在探索石臼所老街', level: 2, levelName: '见证者' },
   { userId: 'u006', nickname: '石臼老张', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u6', distance: '500m', status: '刚发布了新记忆', level: 3, levelName: '记录者' },
@@ -666,7 +631,6 @@ DB.nearbyUsers = [
   { userId: 'u011', nickname: '怀旧达人', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u11', distance: '1.2km', status: '正在浏览海曲公园', level: 1, levelName: '新手' }
 ];
 
-// 路线排行榜
 DB.routeLeaderboard = [
   { userId: 'u004', userName: '海边的孩子', completedRoutes: 3, totalCheckins: 12, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u4' },
   { userId: 'u002', userName: '老日照人', completedRoutes: 3, totalCheckins: 11, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=u2' },
@@ -675,7 +639,6 @@ DB.routeLeaderboard = [
   { userId: 'u001', userName: '城市记忆者', completedRoutes: 1, totalCheckins: 4, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=user' }
 ];
 
-// 本周最佳记忆投票
 DB.weeklyBest = {
   candidates: [
     { memoryId: 1, title: '日照老火车站', authorName: '老日照人', image: 'https://picsum.photos/seed/rztrain1/400/300', votes: 156 },
@@ -687,7 +650,6 @@ DB.weeklyBest = {
   endTime: '2026-07-07'
 };
 
-// ==================== 记忆碎片收集数据（盲盒收集游戏化） ====================
 DB.fragments = DB.memories.map(m => ({
   memoryId: m.id,
   title: m.title,
@@ -698,7 +660,6 @@ DB.fragments = DB.memories.map(m => ({
 }));
 DB.storyUnlocked = false;
 
-// ==================== 互动分支叙事数据（城市故事） ====================
 DB.storyNodes = {
   start: { text: '你站在日照火车站前，手中握着一张泛黄的老照片。照片上是一座简朴的站房，站牌上写着"日照"。这是1990年的夏天...', choices: [
     { text: '走进候车大厅', next: 'hall', icon: 'fa-door-open' },
@@ -747,7 +708,6 @@ DB.storyNodes = {
     { text: '登上了那列绿皮火车', next: 'ending_journey', icon: 'fa-train' },
     { text: '决定不去济南，继续留在日照', next: 'square', icon: 'fa-home' }
   ]},
-  // 结局节点（无 choices）
   ending_modern: { text: '【结局：城市漫步者】你走进了日照的现代商圈，从老火车站到万达广场，你看到了这座城市30年的巨变。旧貌换新颜，但那些温暖的记忆永远刻在老日照人的心里。你决定用脚步丈量每一个角落，成为这座城市的故事收集者。', isEnding: true, endingTitle: '城市漫步者', endingIcon: 'fa-walking' },
   ending_nostalgia: { text: '【结局：时光守望者】你坐在铁轨上，看着夕阳西下。风吹过铁轨发出低沉的鸣响，仿佛在诉说着过去的故事。你决定留在这里，记录每一个即将消失的瞬间。也许有一天，这些记录会成为后人眼中的珍贵历史。', isEnding: true, endingTitle: '时光守望者', endingIcon: 'fa-clock' },
   ending_story: { text: '【结局：故事讲述者】列车员的故事让你着迷——20年的铁路生涯，见证了无数悲欢离合。你拿起笔开始记录，把这些故事变成文字。从此，你成为了日照故事的讲述者，让更多人听到这座城市的心跳。', isEnding: true, endingTitle: '故事讲述者', endingIcon: 'fa-book-open' },

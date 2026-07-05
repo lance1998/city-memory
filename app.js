@@ -1,35 +1,25 @@
-/***********************************
- * 城市微记忆 - 核心应用逻辑
- * 包含所有模块的交互实现
- ***********************************/
 
-// HTML 安全转义工具函数
+
 function escHtml(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
-// 魔法数字命名常量
 const NAV_HEIGHT = 52;
 const HEADER_HEIGHT = 48;
 const ANIMATION_DURATION = 300;
 const MAX_UPLOAD_SIZE = 10;
 
-
-// 城市星图 Canvas 元素 ID
 let starCanvasId = 'star-map-canvas';
 
 const app = {
-  // ==================== 定时器和监听器管理 ====================
-  // 定时器列表，用于批量清理防止内存泄漏
   _timers: [],
-  // 事件监听器列表，用于批量移除防止内存泄漏
   _listeners: [],
 
-  /** 记录一个定时器ID到列表中 */
+  
   _addTimer(id) {
     if (id != null) this._timers.push(id);
     return id;
   },
 
-  /** 批量清理所有已记录的定时器 */
+  
   _clearTimers() {
     this._timers.forEach(id => {
       clearTimeout(id);
@@ -38,14 +28,14 @@ const app = {
     this._timers = [];
   },
 
-  /** 包装 addEventListener，自动记录监听器以便后续批量移除 */
+  
   _addListener(el, event, fn, options) {
     if (!el) return;
     el.addEventListener(event, fn, options);
     this._listeners.push({ el, event, fn, options });
   },
 
-  /** 批量移除所有已记录的事件监听器 */
+  
   _clearListeners() {
     this._listeners.forEach(({ el, event, fn, options }) => {
       if (el) el.removeEventListener(event, fn, options);
@@ -53,11 +43,9 @@ const app = {
     this._listeners = [];
   },
 
-  // ==================== DOM 缓存 ====================
-  // DOM 元素引用缓存，避免重复查询
   _domCache: {},
 
-  /** 带缓存的 DOM 元素查询方法 */
+  
   _$(id) {
     if (!this._domCache[id]) {
       this._domCache[id] = document.getElementById(id);
@@ -65,10 +53,8 @@ const app = {
     return this._domCache[id];
   },
 
-  // ==================== 初始化 ====================
   init() {
     initStorage();
-    // 加载保存的主题
     const savedTheme = Storage.get('theme');
     if (savedTheme !== null) this.setTheme(savedTheme);
     this.bindEvents();
@@ -85,13 +71,11 @@ const app = {
   },
 
   initOrientation() {
-    // 使用 matchMedia 检测屏幕方向，兼容分屏/折叠设备
     const portraitQuery = window.matchMedia('(orientation: portrait)');
     const landscapeQuery = window.matchMedia('(orientation: landscape)');
     const handleChange = () => {
       const isPortrait = portraitQuery.matches;
       document.documentElement.dataset.orientation = isPortrait ? 'portrait' : 'landscape';
-      // 折叠设备/分屏时重新计算地图尺寸
       if (this.map) {
         setTimeout(() => this.map.invalidateSize(), 150);
       }
@@ -99,7 +83,6 @@ const app = {
     portraitQuery.addEventListener('change', handleChange);
     landscapeQuery.addEventListener('change', handleChange);
     handleChange();
-    // 额外监听分屏/折叠设备的多窗口模式
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
@@ -113,9 +96,7 @@ const app = {
     });
   },
 
-  // ==================== 事件绑定 ====================
   bindEvents() {
-    // 底部 Tab 切换
     document.querySelectorAll('.tab-item').forEach(tab => {
       tab.addEventListener('click', (e) => {
         const page = tab.dataset.page;
@@ -128,7 +109,6 @@ const app = {
       });
     });
 
-    // 年代筛选（地图页）
     document.querySelectorAll('#page-map .filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('#page-map .filter-btn').forEach(b => b.classList.remove('active'));
@@ -138,7 +118,6 @@ const app = {
       });
     });
 
-    // 年代筛选（发现页）
     document.querySelectorAll('#page-discover .filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('#page-discover .filter-btn').forEach(b => b.classList.remove('active'));
@@ -148,7 +127,6 @@ const app = {
       });
     });
 
-    // 排序方式
     document.querySelectorAll('.sort-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
@@ -158,7 +136,6 @@ const app = {
       });
     });
 
-    // 搜索
     const searchInput = document.getElementById('discover-search');
     if (searchInput) {
       let searchTimer;
@@ -168,14 +145,12 @@ const app = {
       });
     }
 
-    // 城市标签点击
     document.querySelectorAll('.city-tag').forEach(tag => {
       tag.addEventListener('click', () => {
         this.selectCity(tag.textContent);
       });
     });
 
-    // 城市列表点击
     document.querySelectorAll('.city-items span').forEach(item => {
       item.addEventListener('click', () => {
         const city = item.textContent;
@@ -183,7 +158,6 @@ const app = {
       });
     });
 
-    // 时光胶囊标签切换
     document.querySelectorAll('.capsule-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.capsule-tab').forEach(t => t.classList.remove('active'));
@@ -193,7 +167,6 @@ const app = {
       });
     });
 
-    // 胶囊样式选择
     document.querySelectorAll('.capsule-style').forEach(style => {
       style.addEventListener('click', () => {
         document.querySelectorAll('.capsule-style').forEach(s => s.classList.remove('active'));
@@ -201,7 +174,6 @@ const app = {
       });
     });
 
-    // 商城分类
     document.querySelectorAll('.shop-cat').forEach(cat => {
       cat.addEventListener('click', () => {
         document.querySelectorAll('.shop-cat').forEach(c => c.classList.remove('active'));
@@ -210,7 +182,6 @@ const app = {
       });
     });
 
-    // 时光邮局标签切换
     document.querySelectorAll('.post-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.post-tab').forEach(t => t.classList.remove('active'));
@@ -220,7 +191,6 @@ const app = {
       });
     });
 
-    // 城市搜索过滤
     const citySearch = document.querySelector('.city-search input');
     if (citySearch) {
       citySearch.addEventListener('input', (e) => {
@@ -231,7 +201,6 @@ const app = {
       });
     }
 
-    // 设置项点击
     document.querySelectorAll('.setting-item').forEach(item => {
       item.addEventListener('click', () => {
         const label = item.querySelector('span')?.textContent;
@@ -242,7 +211,6 @@ const app = {
       });
     });
 
-    // 评论回车发送
     const commentInput = document.getElementById('comment-input');
     if (commentInput) {
       commentInput.addEventListener('keypress', (e) => {
@@ -250,7 +218,6 @@ const app = {
       });
     }
 
-    // 回到顶部
     const discoverPage = document.getElementById('page-discover');
     const backToTop = document.getElementById('back-to-top');
     if (discoverPage && backToTop) {
@@ -260,7 +227,6 @@ const app = {
     }
   },
 
-  // ==================== 页面导航 ====================
   switchTab(page) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
@@ -282,7 +248,6 @@ const app = {
   },
 
   goBack() {
-    // 返回时清理定时器和监听器，防止内存泄漏
     this._clearTimers();
     this._clearListeners();
     const backMap = {
@@ -316,7 +281,6 @@ const app = {
     }
   },
 
-  // ==================== Toast ====================
   toast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -324,10 +288,8 @@ const app = {
     setTimeout(() => t.classList.remove('show'), 2000);
   },
 
-  // ==================== 地图模块 (Leaflet + OpenStreetMap) ====================
   initMap() {
     try {
-      // 动态计算地图容器高度 = viewport - 导航栏实际高度
       const navBar = document.querySelector('.bottom-tab-bar');
       const mapPage = document.getElementById('page-map');
       const mapContainer = document.getElementById('map-container');
@@ -339,30 +301,25 @@ const app = {
       if (typeof L !== 'undefined') {
         this.map = L.map('map-container').setView([35.42, 119.531], 13);
 
-        // 高德矢量地图（中文标注）
         const amapVector = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
           subdomains: '1234',
           maxZoom: 19,
           attribution: '&copy; 高德地图'
         });
 
-        // 高德卫星影像
         const amapSatellite = L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', {
           subdomains: '1234',
           maxZoom: 19,
           attribution: '&copy; 高德地图'
         });
 
-        // 默认加载矢量地图
         amapVector.addTo(this.map);
 
-        // 图层切换控件
         L.control.layers({
           '高德矢量': amapVector,
           '高德卫星': amapSatellite
         }, null, { position: 'topright', collapsed: true }).addTo(this.map);
 
-        // 根据 zoom 级别切换标记样式（pin <-> thumb）
         this.map.on('zoomend', () => {
           const zoomed = this.map.getZoom() >= 15;
           this.markers.forEach(marker => {
@@ -370,10 +327,7 @@ const app = {
           });
         });
 
-        // 地图点击空白处 — 提示上传记忆
         this.map.on('click', (e) => {
-          // 如果点击的是标记，Leaflet 会触发 marker 的 click 事件，不会到这里
-          // 但为了保险，检查一下是否有标记被点击
           this.showMapUploadHint(e.latlng);
         });
 
@@ -419,9 +373,7 @@ const app = {
       const color = this.getMarkerColor(m.year);
       const visited = DB.footprints.includes(m.id);
       const glow = visited ? 'box-shadow:0 0 0 4px rgba(199,91,57,0.3),0 2px 6px rgba(0,0,0,0.3);' : 'box-shadow:0 2px 6px rgba(0,0,0,0.3);';
-      // 两种标记样式：pin（缩小）和 thumb（放大）
       const pinHtml = `<div style="width:36px;height:44px;position:relative;cursor:pointer;"><div style="width:36px;height:36px;border-radius:50% 50% 50% 0;background:${color};transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;${glow}"><i class="fas fa-map-pin" style="transform:rotate(45deg);color:#fff;font-size:14px;"></i></div><div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:8px;height:4px;background:rgba(0,0,0,0.2);border-radius:50%;"></div>${visited ? '<div style="position:absolute;top:-4px;right:-4px;width:14px;height:14px;background:#C75B39;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;"><i class="fas fa-check" style="color:#fff;font-size:8px;"></i></div>' : ''}</div>`;
-      // 限制缩略图尺寸不超过 64x64
       const thumbHtml = `<div class="map-thumb-only" style="cursor:pointer;"><img src="${m.oldImages[0]}" alt="${m.title}" style="width:56px;height:46px;object-fit:cover;max-width:64px;max-height:64px;"><div class="map-thumb-year">${m.year ? m.year.replace('年代','') : ''}</div></div>`;
       const pinIcon = L.divIcon({ className: '', html: pinHtml, iconSize: [36, 44], iconAnchor: [18, 44] });
       const thumbIcon = L.divIcon({ className: '', html: thumbHtml, iconSize: [56, 46], iconAnchor: [28, 46] });
@@ -433,7 +385,6 @@ const app = {
       this.markerLayer.addLayer(marker);
     });
 
-    // 使用事件委托：在 LayerGroup 上统一监听 marker 点击，避免每个 marker 单独绑定
     this.markerLayer.on('click', (e) => {
       const layer = e.layer;
       if (layer.memoryId !== undefined) {
@@ -447,7 +398,6 @@ const app = {
   },
 
   showMapUploadHint(latlng) {
-    // 关闭已有提示
     const existing = document.getElementById('map-upload-hint');
     if (existing) existing.remove();
     const popup = document.createElement('div');
@@ -477,11 +427,9 @@ const app = {
   startUploadAt(lat, lng) {
     this.navigateTo('upload');
     this.resetUpload();
-    // 预填充位置
     this.uploadData = this.uploadData || {};
     this.uploadData.lat = lat;
     this.uploadData.lng = lng;
-    // 自动跳到步骤2（照片上传）
     this._addTimer(setTimeout(() => {
       const step1 = document.getElementById('upload-step1');
       const step2 = document.getElementById('upload-step2');
@@ -553,14 +501,12 @@ const app = {
     }
   },
 
-  // ==================== 地图路线展示 ====================
   _routeLayers: null,
   _activeRouteId: 0,
 
   initRouteSelector() {
     const scroll = document.getElementById('route-selector-scroll');
     if (!scroll) return;
-    // 为每条路线创建选择 chip
     let html = '<span class="route-chip active" data-route="0" onclick="app.toggleMapRoute(0)"><i class="fas fa-eye-slash"></i> 隐藏路线</span>';
     DB.routes.forEach(r => {
       html += `<span class="route-chip" data-route="${r.id}" onclick="app.toggleMapRoute(${r.id})" style="--route-color:${r.color}">${escHtml(r.title)}</span>`;
@@ -569,19 +515,15 @@ const app = {
   },
 
   toggleMapRoute(routeId) {
-    // 切换路线显示
     if (this._activeRouteId === routeId && routeId !== 0) {
-      // 再次点击同一路线则隐藏
       routeId = 0;
     }
     this._activeRouteId = routeId;
 
-    // 更新 chip 激活状态
     document.querySelectorAll('.route-chip').forEach(chip => {
       chip.classList.toggle('active', parseInt(chip.dataset.route) === routeId);
     });
 
-    // 清除已有路线图层
     if (this._routeLayers) {
       this._routeLayers.forEach(l => l.forEach(layer => this.map.removeLayer(layer)));
       this._routeLayers = null;
@@ -596,7 +538,6 @@ const app = {
     const layers = [];
     const latlngs = route.stops.map(s => [s.lat, s.lng]);
 
-    // 绘制路线 polyline（带虚线尾迹效果）
     const polyline = L.polyline(latlngs, {
       color: route.color,
       weight: 4,
@@ -607,7 +548,6 @@ const app = {
     }).addTo(this.map);
     layers.push([polyline]);
 
-    // 底部发光路线
     const glow = L.polyline(latlngs, {
       color: route.color,
       weight: 12,
@@ -617,11 +557,9 @@ const app = {
     }).addTo(this.map);
     layers.push([glow]);
 
-    // 获取打卡进度
     const completions = Storage.get('routeCheckins') || {};
     const checked = completions[routeId] || 0;
 
-    // 站点标记
     route.stops.forEach((stop, i) => {
       const isChecked = i < checked;
       const marker = L.circleMarker([stop.lat, stop.lng], {
@@ -633,7 +571,6 @@ const app = {
         className: 'route-stop-marker'
       }).addTo(this.map);
 
-      // 序号 circleIcon
       const iconHtml = `<div style="width:22px;height:22px;border-radius:50%;background:${isChecked ? route.color : '#fff'};border:3px solid ${route.color};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:${isChecked ? '#fff' : route.color};box-shadow:0 2px 6px rgba(0,0,0,0.3)">${isChecked ? '<i class="fas fa-check" style="font-size:10px"></i>' : (i + 1)}</div>`;
 
       const icon = L.divIcon({ html: iconHtml, className: '', iconSize: [22, 22], iconAnchor: [11, 11] });
@@ -651,7 +588,6 @@ const app = {
 
     this._routeLayers = layers;
 
-    // 适配地图视图到路线范围
     const bounds = L.latLngBounds(latlngs).pad(0.3);
     this.map.fitBounds(bounds, { padding: [50, 50] });
   },
@@ -665,7 +601,6 @@ const app = {
       this.toast('该站点已打卡');
       return;
     }
-    // 必须按顺序打卡
     if (stopIndex !== checked) {
       this.toast('请先打卡第' + (checked + 1) + '站');
       return;
@@ -674,10 +609,8 @@ const app = {
     Storage.set('routeCheckins', completions);
     this.toast('打卡成功：' + route.stops[stopIndex].name);
 
-    // 刷新路线标记
     this.toggleMapRoute(routeId);
 
-    // 检查是否完成
     if (completions[routeId] >= route.stops.length) {
       this._addTimer(setTimeout(() => {
         this.toast('恭喜完成「' + route.title + '」路线！');
@@ -716,7 +649,6 @@ const app = {
     this.openComments(DB.state.currentMemoryId);
   },
 
-  // ==================== 滑动对比组件 ====================
   createCompareSlider(oldImg, newImg) {
     const container = document.createElement('div');
     container.className = 'compare-container';
@@ -752,13 +684,11 @@ const app = {
     return container;
   },
 
-  // ==================== 记忆详情 ====================
   openDetail(id) {
     const m = DB.memories.find(x => x.id === id);
     if (!m) return;
     DB.state.currentMemoryId = id;
 
-    // 添加足迹
     if (!DB.footprints.includes(id)) {
       DB.footprints.push(id);
       DB.save(['footprints']);
@@ -823,8 +753,6 @@ const app = {
     DB.state.currentMemoryId = null;
   },
 
-  // ==================== 记忆DNA ====================
-  // 切换DNA面板的展开/收起
   toggleDNAPanel(id) {
     const panel = document.getElementById('dna-panel-' + id);
     const chevron = document.getElementById('dna-chevron-' + id);
@@ -834,11 +762,9 @@ const app = {
     if (chevron) {
       chevron.className = isHidden ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
     }
-    // 首次展开时绘制DNA指纹和雷达图
     if (isHidden) {
       const m = DB.memories.find(x => x.id === id);
       if (!m) return;
-      // 优先使用缓存，避免重复计算
       let dnaData = this._dnaCache[m.id];
       if (!dnaData) {
         dnaData = this.renderMemoryDNA(m);
@@ -846,7 +772,6 @@ const app = {
       }
       this.drawDNAFlower('dna-flower-' + id, dnaData);
       this.drawDNARadar('dna-radar-' + id, dnaData);
-      // 渲染分数列表
       const scoresEl = document.getElementById('dna-scores-' + id);
       if (scoresEl) {
         scoresEl.innerHTML = dnaData.dimensions.map(d =>
@@ -860,17 +785,13 @@ const app = {
     }
   },
 
-  // 计算记忆的6维度DNA分数
   renderMemoryDNA(memory) {
-    // 维度名称和颜色
     const dimNames = ['历史价值', '情感温度', '文化深度', '视觉质量', '社区热度', '时空跨度'];
     const dimColors = ['#C75B39', '#E07A5F', '#D4A574', '#8B6914', '#5B8C5A', '#6A5ACD'];
 
-    // 1. 历史价值：year越老分数越高
     const yearScoreMap = { '70年代': 100, '80年代': 85, '90年代': 70, '00年代': 50, '10年代': 30, '20年代': 20 };
     const historyScore = yearScoreMap[memory.year] || 40;
 
-    // 2. 情感温度：story长度 x 情感词频率
     const emotionWords = ['怀念', '记得', '小时候', '温暖', '泪', '想念', '难忘', '幸福', '开心', '感动', '怀念', '回忆', '青春', '童年', '妈妈', '爸爸', '奶奶', '爷爷', '那时候', '回不去'];
     const storyText = memory.story || '';
     let emotionCount = 0;
@@ -882,18 +803,14 @@ const app = {
     const storyLength = storyText.length;
     const emotionScore = Math.min(100, Math.round((storyLength / 5) * (1 + emotionCount * 0.3)));
 
-    // 3. 文化深度：tags数量 x isFeatured加分
     const tagsCount = (memory.tags || []).length;
     const cultureScore = Math.min(100, tagsCount * 20 + (memory.isFeatured ? 30 : 0));
 
-    // 4. 视觉质量：oldImages数量（固定1，基础分50+随机20）
     const visualScore = Math.min(100, 50 + Math.round(Math.random() * 20) + (memory.oldImages ? memory.oldImages.length * 10 : 0));
 
-    // 5. 社区热度：(likes + comments*2 + views/10) 归一化到0-100
     const communityRaw = (memory.likes || 0) + (memory.comments || 0) * 2 + (memory.views || 0) / 10;
     const communityScore = Math.min(100, Math.round(communityRaw / 20));
 
-    // 6. 时空跨度：固定50 + 随机30
     const spanScore = Math.min(100, 50 + Math.round(Math.random() * 30));
 
     const scores = [historyScore, emotionScore, cultureScore, visualScore, communityScore, spanScore];
@@ -904,12 +821,10 @@ const app = {
         score: Math.max(0, Math.min(100, scores[i])),
         color: dimColors[i]
       })),
-      // 综合分数
       totalScore: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
     };
   },
 
-  // Canvas 绘制六瓣花形指纹
   drawDNAFlower(canvasId, data) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
@@ -920,14 +835,11 @@ const app = {
     const cy = H / 2;
     const maxRadius = Math.min(cx, cy) - 20;
 
-    // 清空画布
     ctx.clearRect(0, 0, W, H);
 
-    // 获取主色调（从CSS变量）
     const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#C75B39';
     const primaryLight = getComputedStyle(document.documentElement).getPropertyValue('--primary-light').trim() || '#E8A88A';
 
-    // 解析颜色为 RGB
     function hexToRgb(hex) {
       hex = hex.replace('#', '');
       if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
@@ -941,18 +853,15 @@ const app = {
     const rgbPrimary = hexToRgb(primaryColor);
     const rgbLight = hexToRgb(primaryLight);
 
-    // 绘制背景装饰圈
     ctx.beginPath();
     ctx.arc(cx, cy, maxRadius + 5, 0, Math.PI * 2);
     ctx.strokeStyle = `rgba(${rgbPrimary.r},${rgbPrimary.g},${rgbPrimary.b},0.1)`;
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    // 绘制6个花瓣
     const dims = data.dimensions;
     const angleStep = (Math.PI * 2) / 6;
 
-    // 先绘制连接线形成六边形
     ctx.beginPath();
     for (let i = 0; i <= 6; i++) {
       const angle = angleStep * i - Math.PI / 2;
@@ -969,21 +878,17 @@ const app = {
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // 绘制花瓣
     for (let i = 0; i < 6; i++) {
       const angle = angleStep * i - Math.PI / 2;
       const score = dims[i].score;
       const petalLength = (score / 100) * maxRadius * 0.65 + maxRadius * 0.15;
       const petalWidth = maxRadius * 0.22 + (score / 100) * maxRadius * 0.08;
 
-      // 花瓣方向
       const dx = Math.cos(angle);
       const dy = Math.sin(angle);
-      // 垂直方向
       const px = -dy;
       const py = dx;
 
-      // 花瓣颜色渐变
       const grad = ctx.createLinearGradient(
         cx, cy,
         cx + dx * petalLength, cy + dy * petalLength
@@ -993,16 +898,13 @@ const app = {
       grad.addColorStop(0.5, `rgba(${dimRgb.r},${dimRgb.g},${dimRgb.b},0.4)`);
       grad.addColorStop(1, `rgba(${dimRgb.r},${dimRgb.g},${dimRgb.b},0.15)`);
 
-      // 使用贝塞尔曲线绘制花瓣形状
       ctx.beginPath();
       const tipX = cx + dx * petalLength;
       const tipY = cy + dy * petalLength;
       const cpDist = petalLength * 0.6;
 
-      // 花瓣左侧控制点
       const cp1x = cx + px * petalWidth + dx * cpDist * 0.5;
       const cp1y = cy + py * petalWidth + dy * cpDist * 0.5;
-      // 花瓣右侧控制点
       const cp2x = cx - px * petalWidth + dx * cpDist * 0.5;
       const cp2y = cy - py * petalWidth + dy * cpDist * 0.5;
 
@@ -1014,19 +916,16 @@ const app = {
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // 花瓣边框
       ctx.strokeStyle = `rgba(${dimRgb.r},${dimRgb.g},${dimRgb.b},0.5)`;
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // 在花瓣尖端绘制小圆点
       ctx.beginPath();
       ctx.arc(tipX, tipY, 3, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${dimRgb.r},${dimRgb.g},${dimRgb.b},0.8)`;
       ctx.fill();
     }
 
-    // 绘制中心圆（多层渐变）
     const centerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 18);
     centerGrad.addColorStop(0, `rgba(${rgbPrimary.r},${rgbPrimary.g},${rgbPrimary.b},0.9)`);
     centerGrad.addColorStop(0.6, `rgba(${rgbPrimary.r},${rgbPrimary.g},${rgbPrimary.b},0.6)`);
@@ -1037,14 +936,12 @@ const app = {
     ctx.fillStyle = centerGrad;
     ctx.fill();
 
-    // 中心综合分数字
     ctx.fillStyle = '#fff';
     ctx.font = 'bold 13px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(data.totalScore, cx, cy);
 
-    // 绘制维度标签
     ctx.font = '11px sans-serif';
     ctx.fillStyle = `rgba(${rgbPrimary.r},${rgbPrimary.g},${rgbPrimary.b},0.9)`;
     for (let i = 0; i < 6; i++) {
@@ -1055,7 +952,6 @@ const app = {
 
       ctx.save();
       ctx.translate(lx, ly);
-      // 旋转标签使其朝外
       let textAngle = angle;
       if (textAngle > Math.PI / 2 && textAngle < Math.PI * 1.5) {
         textAngle += Math.PI;
@@ -1068,15 +964,12 @@ const app = {
     }
   },
 
-  // ECharts 绘制雷达图
   drawDNARadar(containerId, data) {
     const container = document.getElementById(containerId);
     if (!container || typeof echarts === 'undefined') return;
 
-    // 初始化ECharts实例
     const chart = echarts.init(container);
 
-    // 获取主色调
     const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#C75B39';
     const primaryLight = getComputedStyle(document.documentElement).getPropertyValue('--primary-light').trim() || '#E8A88A';
 
@@ -1148,12 +1041,10 @@ const app = {
 
     chart.setOption(option);
 
-    // 响应窗口大小变化
     self._addListener(window, 'resize', function() {
       chart.resize();
     });
 
-    // 记录实例以便关闭时销毁
     container._echartInstance = chart;
   },
 
@@ -1163,7 +1054,6 @@ const app = {
     m.liked = !m.liked;
     m.likes += m.liked ? 1 : -1;
     DB.currentUser.likeCount += m.liked ? 1 : -1;
-    // 清除对应记忆的DNA缓存，因为likes变更会影响社区热度维度
     delete this._dnaCache[id];
     DB.save(['memories', 'currentUser']);
     this.renderProfile();
@@ -1185,7 +1075,6 @@ const app = {
     if (DB.state.currentMemoryId) this.openDetail(id);
   },
 
-  // ==================== 评论 ====================
   openComments(id) {
     const list = document.getElementById('comment-list');
     const comments = DB.comments.filter(c => c.memoryId === id);
@@ -1233,7 +1122,6 @@ const app = {
     this.toast('评论已发布');
   },
 
-  // ==================== 分享 ====================
   showShare() {
     document.getElementById('share-modal').classList.add('show');
   },
@@ -1242,20 +1130,16 @@ const app = {
     document.getElementById('share-modal').classList.remove('show');
   },
 
-  // ==================== 发现广场 ====================
   renderDiscover(searchQuery = '') {
     const container = document.getElementById('discover-waterfall');
     let memories = [...DB.memories];
 
-    // 城市筛选
     memories = memories.filter(m => m.city === DB.state.currentCity);
 
-    // 年代筛选
     if (DB.state.yearFilter !== 'all') {
       memories = memories.filter(m => Utils.getYearClass(m.year) === DB.state.yearFilter);
     }
 
-    // 搜索
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       memories = memories.filter(m =>
@@ -1263,7 +1147,6 @@ const app = {
       );
     }
 
-    // 排序
     switch (DB.state.sortBy) {
       case 'likes': memories.sort((a, b) => b.likes - a.likes); break;
       case 'comments': memories.sort((a, b) => b.comments - a.comments); break;
@@ -1271,13 +1154,10 @@ const app = {
       default: memories.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
-    // 渲染关注动态（前3条）
     this.renderDiscoverFeed();
 
-    // 热门地标（前5）
     const hotMemories = [...DB.memories].sort((a, b) => b.views - a.views).slice(0, 5);
 
-    // 话题
     const topicIcons = ['fa-school', 'fa-store', 'fa-landmark', 'fa-mountain-sun', 'fa-bridge'];
     const topicsHtml = DB.topics.map((t, i) =>
       `<div class="topic-card" onclick="app.showTopic(${t.id})">
@@ -1289,7 +1169,6 @@ const app = {
 
     let html = '';
 
-    // 话题专题 — 横向卡片
     html += `
       <div class="discover-section">
         <div class="section-header">
@@ -1300,7 +1179,6 @@ const app = {
       </div>
     `;
 
-    // 热门地标 — 横向滚动卡片
     html += `
       <div class="discover-section">
         <div class="section-header">
@@ -1321,7 +1199,6 @@ const app = {
       </div>
     `;
 
-    // 瀑布流卡片
     html += `<div class="waterfall-grid">`;
     html += memories.map(m => `
       <div class="waterfall-card" onclick="app.openDetail(${m.id})">
@@ -1350,7 +1227,6 @@ const app = {
 
     container.innerHTML = html;
 
-    // 瀑布流卡片滚动揭示动画
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1362,7 +1238,7 @@ const app = {
           }
         });
       }, { threshold: 0.1, rootMargin: '50px' });
-      
+
       container.querySelectorAll('.waterfall-card').forEach((card, i) => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
@@ -1451,7 +1327,6 @@ const app = {
     this.navigateTo('topic');
   },
 
-  // ==================== 上传模块 ====================
   initUpload() {
     this.uploadData = { step: 1, lat: null, lng: null, address: '' };
   },
@@ -1534,7 +1409,6 @@ const app = {
     const uploadArea = type === 'old' ? document.getElementById('old-photo-upload') :
                        type === 'new' ? document.getElementById('new-photo-upload') :
                        document.getElementById('capsule-photo-upload');
-    // 创建隐藏的文件选择器
     let fileInput = document.getElementById(`file-input-${type}`);
     if (!fileInput) {
       fileInput = document.createElement('input');
@@ -1555,7 +1429,6 @@ const app = {
       this.toast('请选择图片文件');
       return;
     }
-    // 限制 5MB
     if (file.size > 5 * 1024 * 1024) {
       this.toast('图片过大，请压缩后上传（最大5MB）');
       return;
@@ -1566,7 +1439,6 @@ const app = {
       const wrapper = document.createElement('div');
       wrapper.style.cssText = 'position:relative;width:100px;height:100px;flex-shrink:0;';
       wrapper.innerHTML = `<img src="${base64}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"><button onclick="this.parentElement.remove();event.stopPropagation();app.clearPhoto('${type}');" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:#EF5350;color:#fff;border:none;border-radius:50%;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-times"></i></button>`;
-      // 移除占位符
       const placeholder = uploadArea.querySelector('.upload-placeholder');
       if (placeholder) placeholder.style.display = 'none';
       uploadArea.appendChild(wrapper);
@@ -1576,7 +1448,6 @@ const app = {
       this.toast('图片已加载');
     };
     reader.readAsDataURL(file);
-    // 清空 input 值，允许重复选择同一文件
     e.target.value = '';
   },
 
@@ -1701,26 +1572,15 @@ const app = {
     this.checkBadge(9);
   },
 
-  // ==================== 时光玩法 ====================
-
-  // ==================== 城市星图可视化 ====================
-  // 星图动画帧ID，用于取消动画
   _starMapAnimId: null,
-  // 星图相关数据缓存
   _starMapData: null,
-  // 流星列表
   _shootingStars: [],
-  // 背景小星星
   _bgStars: [],
-  // 星云数据
   _nebulae: [],
-  // DNA计算结果缓存，避免重复计算
   _dnaCache: {},
 
-  // 进入城市星图全屏视图
   openStarMap() {
     DB.state.currentPage = 'starmap';
-    // 创建全屏容器
     let container = document.createElement('div');
     container.id = 'page-starmap';
     container.className = 'page active';
@@ -1736,15 +1596,12 @@ const app = {
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
     document.body.appendChild(container);
 
-    // 返回按钮事件
     this._addListener(document.getElementById('starmap-back'), 'click', function() {
       app.closeStarMap();
     });
 
-    // 初始化并开始渲染
     this.renderStarMap();
 
-    // 页面可见性变化时暂停/恢复星图动画
     this._starVisHandler = () => {
       if (document.hidden) {
         if (this._starMapAnimId) {
@@ -1760,21 +1617,17 @@ const app = {
     document.addEventListener('visibilitychange', this._starVisHandler);
   },
 
-  // 关闭星图，释放资源
   closeStarMap() {
     if (this._starMapAnimId) {
       cancelAnimationFrame(this._starMapAnimId);
       this._starMapAnimId = null;
     }
-    // 移除 resize 监听器，防止内存泄漏
     if (this._starMapResizeHandler) {
       window.removeEventListener('resize', this._starMapResizeHandler);
       this._starMapResizeHandler = null;
     }
-    // 清理所有定时器和事件监听器
     this._clearTimers();
     this._clearListeners();
-    // 移除页面可见性监听器
     if (this._starVisHandler) {
       document.removeEventListener('visibilitychange', this._starVisHandler);
       this._starVisHandler = null;
@@ -1784,7 +1637,6 @@ const app = {
     this.switchTab('time');
   },
 
-  // 初始化并渲染星空Canvas
   renderStarMap() {
     let self = this;
     let canvas = document.getElementById(starCanvasId);
@@ -1797,19 +1649,15 @@ const app = {
     canvas.height = H * dpr;
     ctx.scale(dpr, dpr);
 
-    // 取记忆数据（取前8个地标）
     let memories = DB.memories.slice(0, 8);
-    // 计算热度范围，用于归一化
     let maxHeat = 1;
     memories.forEach(function(m) {
       let heat = (m.likes || 0) + (m.views || 0) * 0.1;
       if (heat > maxHeat) maxHeat = heat;
     });
 
-    // 生成星星布局：以不规则间距分布在Canvas中心周围
     let cx = W / 2;
     let cy = H / 2;
-    // 使用预设的不规则角度和半径偏移，形成星座般效果
     let angleOffsets = [0, 45, 95, 155, 200, 260, 310, 350];
     let radiusFactors = [0.28, 0.22, 0.35, 0.18, 0.32, 0.25, 0.38, 0.15];
     let baseRadius = Math.min(W, H) * 0.38;
@@ -1818,14 +1666,12 @@ const app = {
       let heat = ((m.likes || 0) + (m.views || 0) * 0.1) / maxHeat;
       let angle = (angleOffsets[i] || 0) * Math.PI / 180;
       let dist = (radiusFactors[i] || 0.25) * baseRadius;
-      // 归一化半径和亮度
-      let radius = Math.max(3, 3 + heat * 10); // 3~13px
-      let brightness = Math.max(0.4, 0.4 + heat * 0.6); // 0.4~1.0
+      let radius = Math.max(3, 3 + heat * 10);
+      let brightness = Math.max(0.4, 0.4 + heat * 0.6);
 
-      // 围绕该星星公转的光点
       let orbitPoints = [];
-      let orbitCount = 1 + Math.floor((m.comments || 0) / 15); // 评论数决定光点数量
-      orbitCount = Math.min(orbitCount, 5); // 最多5个光点
+      let orbitCount = 1 + Math.floor((m.comments || 0) / 15);
+      orbitCount = Math.min(orbitCount, 5);
       for (let j = 0; j < orbitCount; j++) {
         orbitPoints.push({
           angle: Math.random() * Math.PI * 2,
@@ -1849,7 +1695,6 @@ const app = {
       };
     });
 
-    // 初始化200个背景闪烁小星星
     if (self._bgStars.length === 0) {
       for (let i = 0; i < 200; i++) {
         self._bgStars.push({
@@ -1862,14 +1707,12 @@ const app = {
         });
       }
     } else {
-      // resize时重新分布
       self._bgStars.forEach(function(s) {
         s.x = Math.random() * W;
         s.y = Math.random() * H;
       });
     }
 
-    // 初始化星云（径向渐变雾气）
     if (self._nebulae.length === 0) {
       let nebulaColors = [
         { r: 60, g: 80, b: 180 },
@@ -1891,10 +1734,8 @@ const app = {
       }
     }
 
-    // 保存数据到缓存
     self._starMapData = { canvas: canvas, ctx: ctx, W: W, H: H, dpr: dpr, stars: stars, cx: cx, cy: cy, time: 0 };
 
-    // 窗口resize自适应
     self._starMapResizeHandler = function() {
       let c = document.getElementById(starCanvasId);
       if (!c) return;
@@ -1906,7 +1747,6 @@ const app = {
       let nCtx = c.getContext('2d');
       nCtx.scale(nDpr, nDpr);
 
-      // 重新计算星星位置
       let nCx = nW / 2;
       let nCy = nH / 2;
       let nBaseRadius = Math.min(nW, nH) * 0.38;
@@ -1916,7 +1756,6 @@ const app = {
         star.x = nCx + Math.cos(angle) * dist;
         star.y = nCy + Math.sin(angle) * dist;
       });
-      // 重新分布背景星
       self._bgStars.forEach(function(s) {
         s.x = Math.random() * nW;
         s.y = Math.random() * nH;
@@ -1929,7 +1768,6 @@ const app = {
     };
     self._addListener(window, 'resize', self._starMapResizeHandler);
 
-    // canvas点击事件 — 检测是否点中了星星
     this._addListener(canvas, 'click', function(e) {
       let rect = canvas.getBoundingClientRect();
       let mx = e.clientX - rect.left;
@@ -1948,11 +1786,9 @@ const app = {
       }
     });
 
-    // 启动动画循环
     this.animateStarMap();
   },
 
-  // requestAnimationFrame 动画循环
   animateStarMap() {
     let self = this;
     let sd = this._starMapData;
@@ -1960,12 +1796,10 @@ const app = {
     let ctx = sd.ctx;
     let W = sd.W;
     let H = sd.H;
-    sd.time += 0.016; // 约每帧16ms
+    sd.time += 0.016;
 
-    // 清空画布
     ctx.clearRect(0, 0, W, H);
 
-    // ---- 绘制深色背景渐变 ----
     let bgGrad = ctx.createRadialGradient(sd.cx, sd.cy, 0, sd.cx, sd.cy, Math.max(W, H) * 0.7);
     bgGrad.addColorStop(0, '#0d1025');
     bgGrad.addColorStop(0.5, '#080b18');
@@ -1973,9 +1807,7 @@ const app = {
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, W, H);
 
-    // ---- 绘制星云雾气（径向渐变） ----
     this._nebulae.forEach(function(neb) {
-      // 缓慢漂移
       neb.x += neb.driftX;
       neb.y += neb.driftY;
       if (neb.x < -neb.rx) neb.x = W + neb.rx;
@@ -1992,9 +1824,7 @@ const app = {
       ctx.fillRect(neb.x - neb.rx, neb.y - neb.ry, neb.rx * 2, neb.ry * 2);
     });
 
-    // ---- 绘制背景200颗闪烁小星星 ----
     this._bgStars.forEach(function(s) {
-      // 闪烁效果
       let flicker = Math.sin(sd.time * s.speed * 60 + s.phase) * 0.5 + 0.5;
       let alpha = s.opacity * flicker;
       ctx.beginPath();
@@ -2003,7 +1833,6 @@ const app = {
       ctx.fill();
     });
 
-    // ---- 绘制流星 ----
     this._spawnShootingStar(W, H);
     this._shootingStars = this._shootingStars.filter(function(m) {
       m.x += m.vx;
@@ -2011,7 +1840,6 @@ const app = {
       m.life -= 0.012;
       if (m.life <= 0) return false;
 
-      // 流星尾巴（渐变线）
       let tailLen = 60 * m.life;
       let grad = ctx.createLinearGradient(m.x, m.y, m.x - m.vx * tailLen * 0.6, m.y - m.vy * tailLen * 0.6);
       grad.addColorStop(0, 'rgba(255,255,255,' + (m.life * 0.9).toFixed(3) + ')');
@@ -2023,7 +1851,6 @@ const app = {
       ctx.lineWidth = Math.max(1, 2 * m.life);
       ctx.stroke();
 
-      // 流星头部亮点
       ctx.beginPath();
       ctx.arc(m.x, m.y, Math.max(1, 2 * m.life), 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(255,255,255,' + m.life.toFixed(3) + ')';
@@ -2031,7 +1858,6 @@ const app = {
       return true;
     });
 
-    // ---- 绘制星座连线（暗淡虚线连接相邻星星） ----
     if (sd.stars.length > 1) {
       ctx.strokeStyle = 'rgba(100,140,220,0.08)';
       ctx.lineWidth = 0.8;
@@ -2042,7 +1868,6 @@ const app = {
         ctx.lineTo(sd.stars[i + 1].x, sd.stars[i + 1].y);
         ctx.stroke();
       }
-      // 连接首尾形成闭环
       ctx.beginPath();
       ctx.moveTo(sd.stars[sd.stars.length - 1].x, sd.stars[sd.stars.length - 1].y);
       ctx.lineTo(sd.stars[0].x, sd.stars[0].y);
@@ -2050,16 +1875,12 @@ const app = {
       ctx.setLineDash([]);
     }
 
-    // ---- 绘制每颗地标星星及其光点 ----
     sd.stars.forEach(function(star) {
-      // 脉冲效果
       let pulse = Math.sin(sd.time * 1.5 + star.pulsePhase) * 0.15 + 1;
       let drawRadius = star.radius * pulse;
 
-      // 已访问标记
       let isVisited = !!DB.state.starVisited[star.memory.id];
 
-      // 外层光晕
       let glowGrad = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.glowRadius * pulse);
       let baseColor = isVisited ? '255,200,80' : '140,180,255';
       glowGrad.addColorStop(0, 'rgba(' + baseColor + ',' + (star.brightness * 0.4).toFixed(3) + ')');
@@ -2070,7 +1891,6 @@ const app = {
       ctx.fillStyle = glowGrad;
       ctx.fill();
 
-      // 核心星体
       let coreGrad = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, drawRadius);
       coreGrad.addColorStop(0, 'rgba(255,255,255,' + star.brightness.toFixed(3) + ')');
       coreGrad.addColorStop(0.4, 'rgba(' + baseColor + ',' + (star.brightness * 0.8).toFixed(3) + ')');
@@ -2080,7 +1900,6 @@ const app = {
       ctx.fillStyle = coreGrad;
       ctx.fill();
 
-      // 已访问的星星加一个环
       if (isVisited) {
         ctx.beginPath();
         ctx.arc(star.x, star.y, drawRadius + 5, 0, Math.PI * 2);
@@ -2089,18 +1908,15 @@ const app = {
         ctx.stroke();
       }
 
-      // 星星名称标签
       ctx.font = '11px sans-serif';
       ctx.fillStyle = 'rgba(255,255,255,' + (star.brightness * 0.7).toFixed(3) + ')';
       ctx.textAlign = 'center';
       ctx.fillText(star.memory.title, star.x, star.y + drawRadius + 16);
 
-      // ---- 光点围绕公转 ----
       star.orbitPoints.forEach(function(pt) {
         pt.angle += pt.speed;
         let px = star.x + Math.cos(pt.angle) * pt.distance;
         let py = star.y + Math.sin(pt.angle) * pt.distance;
-        // 光点尾迹
         let trailAngle = pt.angle - pt.speed * 3;
         let tx = star.x + Math.cos(trailAngle) * pt.distance;
         let ty = star.y + Math.sin(trailAngle) * pt.distance;
@@ -2114,7 +1930,6 @@ const app = {
         ctx.lineWidth = pt.size;
         ctx.stroke();
 
-        // 光点本体
         ctx.beginPath();
         ctx.arc(px, py, pt.size, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(220,235,255,' + pt.opacity.toFixed(3) + ')';
@@ -2122,9 +1937,7 @@ const app = {
       });
     });
 
-    // 缓慢旋转效果 — 通过微调背景星星位置模拟
     this._bgStars.forEach(function(s) {
-      // 绕画布中心缓慢旋转
       let dx = s.x - sd.cx;
       let dy = s.y - sd.cy;
       let rotSpeed = 0.00005;
@@ -2132,23 +1945,19 @@ const app = {
       let sin = Math.sin(rotSpeed);
       s.x = sd.cx + dx * cos - dy * sin;
       s.y = sd.cy + dx * sin + dy * cos;
-      // 超出边界则循环
       if (s.x < -10) s.x = W + 10;
       if (s.x > W + 10) s.x = -10;
       if (s.y < -10) s.y = H + 10;
       if (s.y > H + 10) s.y = -10;
     });
 
-    // 继续动画循环
     this._starMapAnimId = requestAnimationFrame(function() {
       self.animateStarMap();
     });
   },
 
-  // 生成流星（每3-6秒一颗）
   _spawnShootingStar(W, H) {
-    // 用随机概率模拟定时生成
-    if (Math.random() < 0.005) { // 约3-6秒一颗（60fps * 0.005 ≈ 每200帧）
+    if (Math.random() < 0.005) {
       let startX = Math.random() * W * 0.8;
       let startY = Math.random() * H * 0.3;
       this._shootingStars.push({
@@ -2161,13 +1970,10 @@ const app = {
     }
   },
 
-  // 点击星星显示记忆详情
   showStarMapDetail(memory) {
-    // 标记已访问
     DB.state.starVisited[memory.id] = true;
     DB.save(['state']);
 
-    // 构建详情弹窗
     let overlay = document.createElement('div');
     overlay.id = 'starmap-detail-overlay';
     overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:910;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
@@ -2193,19 +1999,16 @@ const app = {
         '</div>' +
       '</div>';
 
-    // 点击遮罩关闭
     this._addListener(overlay, 'click', function(e) {
       if (e.target === overlay) overlay.remove();
     });
     document.body.appendChild(overlay);
 
-    // 关闭按钮
     this._addListener(document.getElementById('starmap-detail-close'), 'click', function() {
       overlay.remove();
     });
   },
 
-  // ==================== 时光玩法（原有） ====================
   showTimeCapsule() {
     this.navigateTo('capsule');
   },
@@ -2486,7 +2289,7 @@ const app = {
     document.getElementById('final-score').textContent = DB.state.quizScore;
     const badgeEl = document.getElementById('quiz-badge');
     if (DB.state.quizScore >= 80) {
-      badgeEl.innerHTML = '<div style="margin-top:16px;padding:12px;background:#FFF8E1;border-radius:8px;color:var(--accent);"><i class="fas fa-medal"></i> 解锁勋章：怀旧智者</div>'; // 静态文本无需转义
+      badgeEl.innerHTML = '<div style="margin-top:16px;padding:12px;background:#FFF8E1;border-radius:8px;color:var(--accent);"><i class="fas fa-medal"></i> 解锁勋章：怀旧智者</div>';
       const badge = DB.badges.find(b => b.id === 8);
       if (badge) badge.unlocked = true;
     } else {
@@ -2542,7 +2345,6 @@ const app = {
     `).join('') || '<div style="text-align:center;padding:40px;color:var(--text-light);">历史上的今天暂无记忆</div>';
   },
 
-  // ==================== 个人中心 ====================
   renderProfile() {
     document.getElementById('profile-name').textContent = DB.currentUser.nickname;
     document.getElementById('profile-bio').textContent = DB.currentUser.bio;
@@ -2720,7 +2522,6 @@ const app = {
     this.hideEdit();
   },
 
-  // ==================== 文创商城 ====================
   showShop() {
     this.navigateTo('shop');
   },
@@ -2756,7 +2557,6 @@ const app = {
     this.navigateTo('product');
   },
 
-  // ==================== 城市选择 ====================
   showCityPicker() {
     document.getElementById('city-picker').classList.add('show');
   },
@@ -2782,7 +2582,6 @@ const app = {
     this.filterMapMarkers();
   },
 
-  // ==================== 语音播放 ====================
   playVoice(url) {
     const bar = document.getElementById('voice-player');
     const progress = document.getElementById('voice-progress');
@@ -2803,7 +2602,6 @@ const app = {
     if (this.voiceInterval) { clearInterval(this.voiceInterval); this.voiceInterval = null; }
   },
 
-  // ==================== 分享功能 ====================
   shareWeixin() { this.toast('请使用微信分享'); this.hideShare(); },
   shareMoments() { this.toast('请使用朋友圈分享'); this.hideShare(); },
   shareWeibo() { this.toast('请使用微博分享'); this.hideShare(); },
@@ -2871,7 +2669,6 @@ const app = {
     if (clearBtn) clearBtn.style.display = 'none';
   },
 
-  // ==================== 非遗寻访专区 ====================
   showHeritageZone() {
     this.navigateTo('heritage');
     this.switchHeritageTab('heritage');
@@ -2916,7 +2713,6 @@ const app = {
     `).join('');
   },
 
-  // ==================== 文旅活动 ====================
   showActivities() {
     this.navigateTo('activities');
     this.renderActivities();
@@ -2954,7 +2750,6 @@ const app = {
     }
   },
 
-  // ==================== 研学闯关 ====================
   showChallenge() {
     this.navigateTo('challenge');
     document.getElementById('challenge-start').style.display = 'block';
@@ -3039,7 +2834,6 @@ const app = {
     }
   },
 
-  // ==================== 时空同框 ====================
   showTimeTravel() {
     const m = DB.memories.find(x => x.id === DB.state.currentMemoryId);
     document.getElementById('timetravel-old-img').src = m ? m.oldImages[0] : 'https://picsum.photos/seed/old/300/300';
@@ -3087,7 +2881,6 @@ const app = {
     this.hideTimeTravel();
   },
 
-  // ==================== 私人记忆 ====================
   showPrivateMemories() {
     this.navigateTo('private');
     this.renderPrivateList();
@@ -3204,10 +2997,6 @@ const app = {
     }
   },
 
-  // ===== 社交功能方法 =====
-
-  // 关注动态
-  // 消息中心
   showNotifications() {
     this.navigateTo('notifications');
     this.renderNotifications();
@@ -3227,7 +3016,6 @@ const app = {
       </div>`;
     });
     list.innerHTML = html;
-    // 隐藏红点
     const dot = document.getElementById('notif-dot');
     if (dot) dot.style.display = 'none';
   },
@@ -3237,7 +3025,6 @@ const app = {
     this.toast('已全部标记为已读');
   },
 
-  // 话题圈子列表
   showCircles() {
     this.navigateTo('circles');
     const list = document.getElementById('circles-list');
@@ -3262,7 +3049,6 @@ const app = {
     });
     list.innerHTML = html;
   },
-  // 圈子详情
   showCircleDetail(circleId) {
     this.navigateTo('circle-detail');
     const circle = DB.circles.find(c => c.id === circleId);
@@ -3298,7 +3084,6 @@ const app = {
       </div>`;
   },
 
-  // 记忆接力列表
   showRelay() {
     this.navigateTo('relay');
     const list = document.getElementById('relay-list');
@@ -3318,7 +3103,6 @@ const app = {
     });
     list.innerHTML = html;
   },
-  // 接力时间线
   showRelayTimeline(landmarkId) {
     this.navigateTo('relay-timeline');
     const relay = DB.memoryRelay.find(r => r.landmarkId === landmarkId);
@@ -3347,7 +3131,6 @@ const app = {
     content.innerHTML = html;
   },
 
-  // 用户主页
   showUserProfile(userId) {
     this.navigateTo('user-profile');
     const user = DB.users.find(u => u.id === userId);
@@ -3392,7 +3175,6 @@ const app = {
         <div class="user-memory-grid">${memoriesHtml || '<div style="text-align:center;color:var(--muted,#7f8c8d);padding:20px">暂无公开记忆</div>'}</div>
       </div>`;
   },
-  // 关注/取消关注
   toggleFollow(userId) {
     const idx = DB.currentUser.following.indexOf(userId);
     if (idx > -1) {
@@ -3410,7 +3192,6 @@ const app = {
     this.showUserProfile(userId);
   },
 
-  // 附近记忆者
   showNearby() {
     this.navigateTo('nearby');
     const list = document.getElementById('nearby-list');
@@ -3432,7 +3213,6 @@ const app = {
     list.innerHTML = html;
   },
 
-  // 本周最佳记忆投票
   showWeeklyBest() {
     this.navigateTo('weekly-best');
     const content = document.getElementById('weekly-best-content');
@@ -3465,7 +3245,6 @@ const app = {
     this.toast('投票成功！');
   },
 
-  // 等级体系
   showLevel() {
     this.navigateTo('level');
     const user = DB.currentUser;
@@ -3497,7 +3276,6 @@ const app = {
     content.innerHTML = html;
   },
 
-  // 路线排行榜
   showRouteLeaderboard() {
     this.navigateTo('leaderboard');
     const content = document.getElementById('leaderboard-content');
@@ -3522,7 +3300,6 @@ const app = {
       </div>`;
   },
 
-  // 社交化时光邮局 - 寄给好友
   showTimePostSocial() {
     this.showTimePost();
     this._addTimer(setTimeout(() => {
@@ -3561,7 +3338,6 @@ const app = {
     this.toast('已选择：' + user.nickname);
   },
 
-  // 生成分享记忆卡片
   showShareCard(memoryId) {
     const memory = DB.memories.find(m => m.id === memoryId);
     if (!memory) return;
@@ -3592,15 +3368,11 @@ const app = {
     document.body.appendChild(extra);
   },
 
-  // ==================== 记忆碎片收集模块（盲盒收集游戏化） ====================
-
-  // 显示碎片收集页面
   showFragments() {
     this.navigateTo('fragments');
     this.renderFragments();
   },
 
-  // 渲染碎片收集UI（碎片进度条 + 地标打卡列表）
   renderFragments() {
     const container = document.getElementById('fragments-content');
     if (!container) return;
@@ -3610,11 +3382,9 @@ const app = {
     const totalCount = fragments.length;
     const progress = totalCount > 0 ? Math.round((collectedCount / totalCount) * 100) : 0;
 
-    // 碎片进度条（3x3网格，中间空）
     let gridHtml = '<div class="fragments-grid">';
     for (let i = 0; i < 9; i++) {
       if (i === 4) {
-        // 中间空格：显示进度百分比
         gridHtml += `<div class="fragment-cell fragment-center">
           <div class="fragment-progress">${progress}%</div>
           <div class="fragment-count">${collectedCount}/${totalCount}</div>
@@ -3623,7 +3393,6 @@ const app = {
         const frag = fragments[i < 4 ? i : i - 1];
         if (frag) {
           if (frag.collected) {
-            // 已收集：显示地标缩略图 + 金色边框
             const memory = DB.memories.find(m => m.id === frag.memoryId);
             const thumb = memory && memory.oldImages && memory.oldImages[0] ? memory.oldImages[0] : '';
             gridHtml += `<div class="fragment-cell fragment-collected" title="${escHtml(frag.title)}">
@@ -3631,7 +3400,6 @@ const app = {
               <span class="fragment-label">${escHtml(frag.title)}</span>
             </div>`;
           } else {
-            // 未收集：灰色半透明
             gridHtml += `<div class="fragment-cell fragment-locked">
               <i class="fas fa-question"></i>
             </div>`;
@@ -3643,7 +3411,6 @@ const app = {
     }
     gridHtml += '</div>';
 
-    // 地标打卡列表
     let listHtml = '<div class="fragment-landmark-list">';
     fragments.forEach(frag => {
       const memory = DB.memories.find(m => m.id === frag.memoryId);
@@ -3682,7 +3449,6 @@ const app = {
     `;
   },
 
-  // 打卡收集碎片，更新进度
   collectFragment(memoryId) {
     const frag = DB.fragments.find(f => f.memoryId === memoryId);
     if (!frag || frag.collected) return;
@@ -3691,26 +3457,21 @@ const app = {
     frag.collectedAt = new Date().toISOString();
     DB.save(['fragments', 'storyUnlocked', 'storyEndings']);
 
-    // 播放金色粒子动画
     this.showCollectAnimation(memoryId);
 
-    // 重新渲染
     this.renderFragments();
 
     const memory = DB.memories.find(m => m.id === memoryId);
     this.toast(`收集成功！${memory ? memory.title : '碎片'} 已解锁`);
 
-    // 检查是否全部收集
     this.checkAllCollected();
   },
 
-  // 金色粒子动画（CSS动画）
   showCollectAnimation(memoryId) {
     const card = document.querySelector(`.fragment-landmark-card button[onclick="app.collectFragment(${memoryId})"]`);
     if (!card) return;
     const parentCard = card.closest('.fragment-landmark-card');
 
-    // 创建粒子容器
     const particles = document.createElement('div');
     particles.className = 'collect-particles';
     for (let i = 0; i < 12; i++) {
@@ -3723,27 +3484,23 @@ const app = {
     }
     parentCard.appendChild(particles);
 
-    // 动画结束后移除
     this._addTimer(setTimeout(() => {
       if (particles.parentNode) particles.parentNode.removeChild(particles);
     }, 1000));
   },
 
-  // 检查是否全部收集，解锁奖励
   checkAllCollected() {
     const allCollected = DB.fragments.every(f => f.collected);
     if (allCollected && !DB.storyUnlocked) {
       DB.storyUnlocked = true;
       DB.save(['fragments', 'storyUnlocked', 'storyEndings']);
 
-      // 弹出"城市故事"奖励弹窗
       this._addTimer(setTimeout(() => {
         this.showStoryRewardModal();
       }, 800));
     }
   },
 
-  // 城市故事奖励弹窗
   showStoryRewardModal() {
     const overlay = document.createElement('div');
     overlay.className = 'story-reward-overlay';
@@ -3768,30 +3525,22 @@ const app = {
     document.body.appendChild(overlay);
   },
 
-  // ==================== 互动分支叙事模块（城市故事） ====================
-
-  // 叙事打字机定时器
   _storyTypeTimer: null,
 
-  // 显示互动叙事页面
   showStory() {
     this.navigateTo('story');
     this.resetStory();
   },
 
-  // 渲染互动叙事UI
   renderStory() {
     const container = document.getElementById('story-content');
     if (!container) return;
 
-    // 获取当前故事节点
     const currentNode = DB.storyNodes[DB.state.currentStoryNode || 'start'];
     if (!currentNode) return;
 
-    // 判断是否为结局
     const isEnding = currentNode.isEnding;
 
-    // 已到达的结局列表
     const endings = this.getStoryEndings();
     const totalEndings = Object.values(DB.storyNodes).filter(n => n.isEnding).length;
 
@@ -3815,20 +3564,16 @@ const app = {
       </div>
     `;
 
-    // 打字机效果：文字逐字显示
     this.typewriterEffect(currentNode.text, () => {
       if (!isEnding) {
         this.renderStoryChoices(currentNode.choices);
       } else {
-        // 记录结局到 localStorage
         this.recordEnding(currentNode);
       }
     });
   },
 
-  // 打字机效果
   typewriterEffect(text, callback) {
-    // 清除之前的定时器
     if (this._storyTypeTimer) {
       clearTimeout(this._storyTypeTimer);
       this._storyTypeTimer = null;
@@ -3844,7 +3589,6 @@ const app = {
       if (index < text.length) {
         textEl.textContent += text[index];
         index++;
-        // 中文标点稍微停顿
         const delay = /[，。！？、；：]/.test(text[index - 1]) ? 80 : 35;
         this._storyTypeTimer = this._addTimer(setTimeout(typeChar, delay));
       } else {
@@ -3854,7 +3598,6 @@ const app = {
     };
     typeChar();
 
-    // 点击跳过打字效果
     textEl.onclick = () => {
       if (this._storyTypeTimer) {
         clearTimeout(this._storyTypeTimer);
@@ -3866,7 +3609,6 @@ const app = {
     };
   },
 
-  // 渲染故事选择按钮
   renderStoryChoices(choices) {
     const container = document.getElementById('story-choices');
     if (!container) return;
@@ -3879,17 +3621,14 @@ const app = {
       </button>
     `).join('');
 
-    // 显示选择按钮
     container.style.display = 'block';
   },
 
-  // 根据选择导航到下一个节点
   navigateStory(nodeId) {
     DB.state.currentStoryNode = nodeId;
     this.renderStory();
   },
 
-  // 重新开始故事
   resetStory() {
     if (this._storyTypeTimer) {
       clearTimeout(this._storyTypeTimer);
@@ -3899,7 +3638,6 @@ const app = {
     this.renderStory();
   },
 
-  // 记录已达成的结局
   recordEnding(node) {
     if (!DB.storyEndings) DB.storyEndings = [];
     const endingKey = DB.state.currentStoryNode;
@@ -3912,7 +3650,6 @@ const app = {
     }
   },
 
-  // 获取所有已达成的结局
   getStoryEndings() {
     if (!DB.storyEndings) DB.storyEndings = [];
     return DB.storyEndings.map(key => {
@@ -3922,7 +3659,6 @@ const app = {
   }
 };
 
-// ==================== 启动应用 ====================
 document.addEventListener('DOMContentLoaded', () => {
   app.init();
 });
