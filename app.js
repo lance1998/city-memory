@@ -387,7 +387,14 @@ const app = {
         this.map = L.map('map-container', {
           zoomControl: false,
           attributionControl: false
-        }).setView([35.42, 119.531], 13);
+        });
+        // 根据当前城市设置地图中心和缩放
+        {
+          const cityData = DB.chinaCities ? DB.chinaCities.find(c => c.name === DB.state.currentCity) : null;
+          const center = cityData ? cityData.center : [35.42, 119.531];
+          const zoom = cityData ? (cityData.zoom || 12) : 13;
+          this.map.setView(center, zoom);
+        }
 
         // 高德矢量地图（中文标注）
         const amapVector = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
@@ -1514,7 +1521,12 @@ const app = {
     if (!container || container.dataset.initialized) return;
     container.innerHTML = '';
     try {
-      const map = L.map(container).setView([35.42, 119.531], 13);
+      const map = L.map(container);{
+      const cityData = DB.chinaCities ? DB.chinaCities.find(c => c.name === DB.state.currentCity) : null;
+      const center = cityData ? cityData.center : [35.42, 119.531];
+      const zoom = cityData ? (cityData.zoom || 12) : 13;
+      this.map.setView(center, zoom);
+    }
       L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
         subdomains: '1234', maxZoom: 19, attribution: '&copy; 高德地图'
       }).addTo(map);
@@ -2851,7 +2863,42 @@ const app = {
 
   // ==================== 城市选择 ====================
   showCityPicker() {
-    document.getElementById('city-picker').classList.add('show');
+    const picker = document.getElementById('city-picker');
+    const citiesHtml = `
+      <div class="city-picker-regions">
+      <div class='city-tag ${DB.state.currentCity === '日照' ? 'active' : ''}' onclick='app.selectCity("日照")'>日照</div>
+      <div class='city-tag ${DB.state.currentCity === '北京' ? 'active' : ''}' onclick='app.selectCity("北京")'>北京</div>
+      <div class='city-tag ${DB.state.currentCity === '天津' ? 'active' : ''}' onclick='app.selectCity("天津")'>天津</div>
+      <div class='city-tag ${DB.state.currentCity === '上海' ? 'active' : ''}' onclick='app.selectCity("上海")'>上海</div>
+      <div class='city-tag ${DB.state.currentCity === '南京' ? 'active' : ''}' onclick='app.selectCity("南京")'>南京</div>
+      <div class='city-tag ${DB.state.currentCity === '杭州' ? 'active' : ''}' onclick='app.selectCity("杭州")'>杭州</div>
+      <div class='city-tag ${DB.state.currentCity === '苏州' ? 'active' : ''}' onclick='app.selectCity("苏州")'>苏州</div>
+      <div class='city-tag ${DB.state.currentCity === '青岛' ? 'active' : ''}' onclick='app.selectCity("青岛")'>青岛</div>
+      <div class='city-tag ${DB.state.currentCity === '厦门' ? 'active' : ''}' onclick='app.selectCity("厦门")'>厦门</div>
+      <div class='city-tag ${DB.state.currentCity === '广州' ? 'active' : ''}' onclick='app.selectCity("广州")'>广州</div>
+      <div class='city-tag ${DB.state.currentCity === '深圳' ? 'active' : ''}' onclick='app.selectCity("深圳")'>深圳</div>
+      <div class='city-tag ${DB.state.currentCity === '武汉' ? 'active' : ''}' onclick='app.selectCity("武汉")'>武汉</div>
+      <div class='city-tag ${DB.state.currentCity === '长沙' ? 'active' : ''}' onclick='app.selectCity("长沙")'>长沙</div>
+      <div class='city-tag ${DB.state.currentCity === '成都' ? 'active' : ''}' onclick='app.selectCity("成都")'>成都</div>
+      <div class='city-tag ${DB.state.currentCity === '重庆' ? 'active' : ''}' onclick='app.selectCity("重庆")'>重庆</div>
+      <div class='city-tag ${DB.state.currentCity === '昆明' ? 'active' : ''}' onclick='app.selectCity("昆明")'>昆明</div>
+      <div class='city-tag ${DB.state.currentCity === '拉萨' ? 'active' : ''}' onclick='app.selectCity("拉萨")'>拉萨</div>
+      <div class='city-tag ${DB.state.currentCity === '西安' ? 'active' : ''}' onclick='app.selectCity("西安")'>西安</div>
+      <div class='city-tag ${DB.state.currentCity === '哈尔滨' ? 'active' : ''}' onclick='app.selectCity("哈尔滨")'>哈尔滨</div>
+      <div class='city-tag ${DB.state.currentCity === '沈阳' ? 'active' : ''}' onclick='app.selectCity("沈阳")'>沈阳</div>
+      <div class='city-tag ${DB.state.currentCity === '大连' ? 'active' : ''}' onclick='app.selectCity("大连")'>大连</div>
+      </div>
+    `;
+    const existingContent = picker.querySelector('.city-picker-content');
+    if (existingContent) {
+      existingContent.innerHTML = citiesHtml;
+    } else {
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'city-picker-content';
+      contentDiv.innerHTML = citiesHtml;
+      picker.appendChild(contentDiv);
+    }
+    picker.classList.add('show');
   },
 
   hideCityPicker() {
@@ -2862,17 +2909,26 @@ const app = {
     DB.state.currentCity = city;
     document.getElementById('current-city').textContent = city;
     this.hideCityPicker();
-    const cityCoords = {
-      '日照': [35.42, 119.531], '北京': [39.9042, 116.4074], '上海': [31.2304, 121.4737],
-      '广州': [23.1291, 113.2644], '成都': [30.5728, 104.0668], '西安': [34.3416, 108.9398],
-      '杭州': [30.2741, 120.1551], '南京': [32.0603, 118.7969]
-    };
-    const coords = cityCoords[city] || [35.42, 119.531];
-    if (this.map) this.map.flyTo(coords, 12);
+    // 从 DB.chinaCities 获取城市坐标和缩放级别
+    const cityData = DB.chinaCities ? DB.chinaCities.find(c => c.name === city) : null;
+    let coords, zoom;
+    if (cityData) {
+      coords = cityData.center;
+      zoom = cityData.zoom || 12;
+    } else {
+      // 日照使用默认坐标
+      const fallbackCoords = { '日照': [35.42, 119.531] };
+      coords = fallbackCoords[city] || [35.42, 119.531];
+      zoom = 13;
+    }
+    if (this.map) this.map.flyTo(coords, zoom);
+    // 更新城市标签激活状态
     document.querySelectorAll('.city-tag').forEach(t => t.classList.toggle('active', t.textContent === city));
     this.toast(`已切换到 ${city}`);
     this.renderDiscover();
     this.filterMapMarkers();
+    // 保存城市状态
+    DB.save(['state']);
   },
 
   // ==================== 语音播放 ====================
@@ -3251,7 +3307,12 @@ const app = {
     const container = document.getElementById('private-map');
     if (!container || container.dataset.initialized) return;
     try {
-      const map = L.map(container).setView([35.42, 119.531], 13);
+      const map = L.map(container);{
+      const cityData = DB.chinaCities ? DB.chinaCities.find(c => c.name === DB.state.currentCity) : null;
+      const center = cityData ? cityData.center : [35.42, 119.531];
+      const zoom = cityData ? (cityData.zoom || 12) : 13;
+      this.map.setView(center, zoom);
+    }
       L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
         subdomains: '1234', maxZoom: 19, attribution: '&copy; 高德地图'
       }).addTo(map);
