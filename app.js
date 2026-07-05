@@ -349,9 +349,30 @@ const app = {
           });
         });
 
-        this.map.on('click', (e) => {
-          this.showMapUploadHint(e.latlng);
+        let longPressTimer = null;
+        let longPressFired = false;
+        this.map.on('mousedown', (e) => {
+          longPressFired = false;
+          longPressTimer = setTimeout(() => {
+            longPressFired = true;
+            this.showMapUploadHint(e.latlng);
+          }, 600);
         });
+        this.map.on('mouseup', () => { clearTimeout(longPressTimer); });
+        this.map.on('mousemove', () => { clearTimeout(longPressTimer); });
+        this.map.on('touchstart', (e) => {
+          if (e.originalEvent.touches.length === 1) {
+            longPressFired = false;
+            const touch = e.originalEvent.touches[0];
+            longPressTimer = setTimeout(() => {
+              longPressFired = true;
+              const latlng = this.map.containerPointToLatLng(L.point(touch.clientX, touch.clientY));
+              this.showMapUploadHint(latlng);
+            }, 600);
+          }
+        });
+        this.map.on('touchend', () => { clearTimeout(longPressTimer); });
+        this.map.on('touchmove', () => { clearTimeout(longPressTimer); });
       } else {
         this.showMockMap();
       }
