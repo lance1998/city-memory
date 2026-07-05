@@ -17,6 +17,11 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- ECharts 异步加载（首屏不使用，不阻塞渲染） -->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js" async></script>
+  <!-- 模态框默认隐藏兜底样式 -->
+  <style>
+    .modal, .detail-modal { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.25s ease; }
+    .modal.show, .detail-modal.show { opacity: 1; visibility: visible; pointer-events: auto; }
+  </style>
 </head>
 <body>
   <div id="app">
@@ -134,6 +139,14 @@
     <div id="city-picker" class="modal"><div class="modal-backdrop" onclick="app.hideCityPicker()"></div><div class="modal-sheet city-picker-sheet"><div class="modal-header"><h3>选择城市</h3><button onclick="app.hideCityPicker()"><i class="fas fa-times"></i></button></div><div class="city-picker-body" id="city-picker-body"></div></div></div>
     <div id="comparison-modal" class="modal"><div class="modal-backdrop" onclick="app.hideComparison()"></div><div class="modal-sheet" style="max-height:85vh;"><div class="modal-header"><h3>新旧对比</h3><button onclick="app.hideComparison()"><i class="fas fa-times"></i></button></div><div id="comparison-content"></div></div></div>
     <div id="edit-modal" class="modal"><div class="modal-backdrop" onclick="app.hideEdit()"></div><div class="modal-sheet"><div class="modal-header"><h3 id="edit-title">编辑</h3><button onclick="app.hideEdit()"><i class="fas fa-times"></i></button></div><div class="edit-form" style="padding:16px;"><div class="form-group"><input type="text" id="edit-input" placeholder="请输入..."></div><button class="next-btn" onclick="app.saveEdit()">保存</button></div></div></div>
+    <!-- 记忆详情模态框（缺失补全） -->
+    <div id="memory-detail" class="detail-modal">
+      <div class="detail-backdrop" onclick="app.closeDetail()"></div>
+      <div class="detail-sheet">
+        <div class="detail-handle"></div>
+        <div class="detail-content" id="detail-content"></div>
+      </div>
+    </div>
 
     <nav class="bottom-tab-bar" id="bottom-tab">
       <div class="tab-item active" data-page="map"><i class="fas fa-map-marked-alt"></i><span>地图</span></div>
