@@ -1,5 +1,5 @@
-// 城市微记忆 · app.js 运行时补丁 v1
-// 修复 Round 1 发现的函数缺失和类型匹配问题
+// 城市微记忆 · app.js 运行时补丁 v2
+// 修复 Round 1 发现的函数缺失和类型匹配问题 + Round 2 CSS缓存/retro主题
 (function() {
   'use strict';
 
@@ -34,5 +34,18 @@
     if (app.showToast) app.showToast('已定位到长按位置，请完善记忆信息');
   };
 
-  console.log('[AppPatch] v1 已加载 - openDetail类型修复 + showUpload补全 + showMapUploadHint补全');
+  // ===== 4. 修复 setTheme('retro') 无效 =====
+  // 复古怀旧主题对应的 key 是空字符串 ''，不是 'retro'
+  if (app.setTheme) {
+    var _origSetTheme = app.setTheme.bind(app);
+    app.setTheme = function(theme) {
+      // 将 'retro' / 'vintage' 等别名映射到默认空主题
+      if (theme === 'retro' || theme === 'vintage' || theme === 'default') {
+        theme = '';
+      }
+      return _origSetTheme(theme);
+    };
+  }
+
+  console.log('[AppPatch] v2 已加载 - openDetail类型修复 + showUpload补全 + showMapUploadHint补全 + setTheme别名修复');
 })();
