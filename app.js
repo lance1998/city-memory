@@ -288,6 +288,32 @@ const app = {
     setTimeout(() => t.classList.remove('show'), 2000);
   },
 
+  getMarkerColor(year) {
+    const map = { '70年代': '#8B6914', '80年代': '#C75B39', '90年代': '#5B8C5A', '00年代': '#4A7C9B', '10年代': '#7B6B8D', '20年代': '#7B6B8D' };
+    return map[year] || '#C75B39';
+  },
+
+  getThumbSize(zoom) {
+    const size = Math.round(28 * Math.pow(1.35, zoom - 10));
+    return Math.min(size, 180);
+  },
+
+  createPhotoIcon(m, size) {
+    const color = this.getMarkerColor(m.year);
+    const visited = DB.footprints.includes(m.id);
+    const border = visited ? `3px solid ${color}` : '2px solid #fff';
+    const shadow = visited
+      ? '0 0 0 3px rgba(199,91,57,0.25),0 4px 12px rgba(0,0,0,0.35)'
+      : '0 2px 8px rgba(0,0,0,0.25)';
+    const yearLabel = m.year ? m.year.replace('年代','') : '';
+    const html = `<div style="position:relative;cursor:pointer;transition:transform 0.2s;">
+      <img src="${m.oldImages[0]}" alt="${escHtml(m.title)}" style="width:${size}px;height:${Math.round(size*0.75)}px;object-fit:cover;border-radius:8px;border:${border};box-shadow:${shadow};display:block;">
+      ${yearLabel ? `<div style="position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);background:${color};color:#fff;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:500;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.2);">${yearLabel}</div>` : ''}
+      ${visited ? '<div style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:#C75B39;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,0.2);"><i class="fas fa-check" style="color:#fff;font-size:8px;"></i></div>' : ''}
+    </div>`;
+    return L.divIcon({ className: '', html, iconSize: [size, Math.round(size * 0.75) + 10], iconAnchor: [size / 2, Math.round(size * 0.75) + 10] });
+  },
+
   initMap() {
     try {
       const navBar = document.querySelector('.bottom-tab-bar');
@@ -299,39 +325,34 @@ const app = {
       }
 
       if (typeof L !== 'undefined') {
-        this.map = L.map('map-container').setView([35.42, 119.531], 13);
+        this.map = L.map('map-container', {
+          zoomControl: false,
+          attributionControl: false
+        }).setView([35.42, 119.531], 13);
 
-        const amapVector = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
-          subdomains: '1234',
-          maxZoom: 19,
-          attribution: '&copy; 高德地图'
+        L.GridLayer.GridDebug = L.GridLayer.extend({
+          createTile: function(coords) {
+            const tile = document.createElement('div');
+            tile.style.cssText = 'width:100%;height:100%;background:#f5f0eb;box-sizing:border-box;border-right:1px dashed #e0d8d0;border-bottom:1px dashed #e0d8d0;';
+            return tile;
+          }
         });
+        L.gridLayer.gridDebug = function(opts) { return new L.GridLayer.GridDebug(opts); };
+        L.gridLayer.gridDebug().addTo(this.map);
 
-        const amapSatellite = L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', {
-          subdomains: '1234',
-          maxZoom: 19,
-          attribution: '&copy; 高德地图'
-        });
-
-        amapVector.addTo(this.map);
-
-        L.control.layers({
-          '高德矢量': amapVector,
-          '高德卫星': amapSatellite
-        }, null, { position: 'topright', collapsed: true }).addTo(this.map);
+        this.addMapMarkers();
 
         this.map.on('zoomend', () => {
-          const zoomed = this.map.getZoom() >= 15;
+          const size = this.getThumbSize(this.map.getZoom());
           this.markers.forEach(marker => {
-            marker.setIcon(zoomed ? marker.thumbIcon : marker.pinIcon);
+            const mem = DB.memories.find(mm => mm.id === marker.memoryId);
+            if (mem) marker.setIcon(this.createPhotoIcon(mem, size));
           });
         });
 
         this.map.on('click', (e) => {
           this.showMapUploadHint(e.latlng);
         });
-
-        this.addMapMarkers();
       } else {
         this.showMockMap();
       }
@@ -343,44 +364,25 @@ const app = {
   showMockMap() {
     const container = document.getElementById('map-container');
     container.innerHTML = `
-      <div style="width:100%;height:100%;background:linear-gradient(135deg,#e8e0d0 0%,#d5cdc0 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;color:#8c7b6b;">
-        <i class="fas fa-map-marked-alt" style="font-size:48px;margin-bottom:16px;"></i>
-        <p style="font-size:14px;">地图加载中...</p>
-        <p style="font-size:12px;margin-top:8px;">请检查网络连接</p>
-        <div style="margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:300px;">
-          ${DB.memories.map(m => `<div class="mock-marker" data-id="${m.id}" style="background:#C75B39;color:#fff;padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;">${escHtml(m.title)}</div>`).join('')}
+      <div style="width:100%;height:100%;background:#f5f0eb;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#8c7b6b;gap:16px;padding:20px;overflow-y:auto;">
+        <p style="font-size:14px;color:#a09890;">照片地图</p>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+          ${DB.memories.filter(m=>m.status==='已发布').map(m => `<div onclick="app.openDetail(${m.id})" style="cursor:pointer;"><img src="${m.oldImages[0]}" style="width:72px;height:54px;object-fit:cover;border-radius:8px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.15);"><div style="text-align:center;font-size:10px;margin-top:4px;color:#8c7b6b;">${escHtml(m.title)}</div></div>`).join('')}
         </div>
       </div>
     `;
-    container.querySelectorAll('.mock-marker').forEach(marker => {
-      marker.addEventListener('click', () => {
-        this.openDetail(parseInt(marker.dataset.id));
-      });
-    });
-  },
-
-  getMarkerColor(year) {
-    const map = { '70年代': '#8B6914', '80年代': '#C75B39', '90年代': '#5B8C5A', '00年代': '#4A7C9B', '10年代': '#7B6B8D', '20年代': '#7B6B8D' };
-    return map[year] || '#C75B39';
   },
 
   addMapMarkers() {
     if (!this.map) return;
     this.markerLayer = L.layerGroup().addTo(this.map);
     this.markers = [];
+    const size = this.getThumbSize(this.map.getZoom());
     DB.memories.forEach(m => {
       if (m.status !== '已发布') return;
-      const color = this.getMarkerColor(m.year);
-      const visited = DB.footprints.includes(m.id);
-      const glow = visited ? 'box-shadow:0 0 0 4px rgba(199,91,57,0.3),0 2px 6px rgba(0,0,0,0.3);' : 'box-shadow:0 2px 6px rgba(0,0,0,0.3);';
-      const pinHtml = `<div style="width:36px;height:44px;position:relative;cursor:pointer;"><div style="width:36px;height:36px;border-radius:50% 50% 50% 0;background:${color};transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;${glow}"><i class="fas fa-map-pin" style="transform:rotate(45deg);color:#fff;font-size:14px;"></i></div><div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:8px;height:4px;background:rgba(0,0,0,0.2);border-radius:50%;"></div>${visited ? '<div style="position:absolute;top:-4px;right:-4px;width:14px;height:14px;background:#C75B39;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;"><i class="fas fa-check" style="color:#fff;font-size:8px;"></i></div>' : ''}</div>`;
-      const thumbHtml = `<div class="map-thumb-only" style="cursor:pointer;"><img src="${m.oldImages[0]}" alt="${m.title}" style="width:56px;height:46px;object-fit:cover;max-width:64px;max-height:64px;"><div class="map-thumb-year">${m.year ? m.year.replace('年代','') : ''}</div></div>`;
-      const pinIcon = L.divIcon({ className: '', html: pinHtml, iconSize: [36, 44], iconAnchor: [18, 44] });
-      const thumbIcon = L.divIcon({ className: '', html: thumbHtml, iconSize: [56, 46], iconAnchor: [28, 46] });
-      const marker = L.marker([m.lat, m.lng], { icon: this.map.getZoom() >= 15 ? thumbIcon : pinIcon });
+      const icon = this.createPhotoIcon(m, size);
+      const marker = L.marker([m.lat, m.lng], { icon });
       marker.memoryId = m.id;
-      marker.pinIcon = pinIcon;
-      marker.thumbIcon = thumbIcon;
       this.markers.push(marker);
       this.markerLayer.addLayer(marker);
     });
@@ -388,11 +390,7 @@ const app = {
     this.markerLayer.on('click', (e) => {
       const layer = e.layer;
       if (layer.memoryId !== undefined) {
-        if (this.map.getZoom() >= 15) {
-          this.openGallery(layer.memoryId);
-        } else {
-          this.openDetail(layer.memoryId);
-        }
+        this.openDetail(layer.memoryId);
       }
     });
   },
