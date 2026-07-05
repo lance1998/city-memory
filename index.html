@@ -9,8 +9,14 @@
   <link rel="stylesheet" href="css2.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- 预连接：瓦片服务器加速 -->
+  <link rel="preconnect" href="https://webrd01.is.autonavi.com" crossorigin>
+  <link rel="preconnect" href="https://webrd02.is.autonavi.com" crossorigin>
+  <link rel="preconnect" href="https://webrd03.is.autonavi.com" crossorigin>
+  <link rel="preconnect" href="https://webrd04.is.autonavi.com" crossorigin>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <!-- ECharts 异步加载（首屏不使用，不阻塞渲染） -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js" async></script>
 </head>
 <body>
   <div id="app">
@@ -150,6 +156,7 @@
   <script src="data.js"></script>
   <script src="js/china_cities_expanded.js"></script>
   <script src="app.js"></script>
+  <script src="js/perf-patch.js"></script>
   <script src="js/city-picker-fix.js"></script>
 </body>
 </html>
