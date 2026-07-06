@@ -1,14 +1,25 @@
-/* 城市微记忆 · CSS呈现修复补丁 v1 */
-/* 修复：will-change滥用、过时属性、模态框动画、响应式、信息层级 */
+/* 城市微记忆 · CSS呈现修复补丁 v2 */
+/* 修复：will-change滥用、过时属性、模态框动画、响应式、信息层级、页面重叠 */
 
+/* ===== 1. 页面切换：非active页面完全隐藏（修复Leaflet GPU层穿透） ===== */
+.page:not(.active) {
+  visibility: hidden !important;
+}
+.page.active {
+  visibility: visible !important;
+}
+
+/* ===== 2. 移除 .page 的 will-change（20+个合成层太重） ===== */
 .page {
   will-change: auto !important;
 }
 
+/* ===== 3. 移除 -webkit-overflow-scrolling:touch（已过时） ===== */
 .page, .detail-sheet, .discover-content, .time-content, .profile-menu {
   -webkit-overflow-scrolling: auto !important;
 }
 
+/* ===== 4. 模态框动画修复：opacity+visibility过渡 ===== */
 .detail-modal {
   display: flex !important;
   align-items: flex-end;
@@ -31,6 +42,7 @@
   transform: translateY(0);
 }
 
+/* ===== 5. 通用模态框（city-picker等）动画 ===== */
 .modal {
   display: flex !important;
   align-items: flex-end;
@@ -58,6 +70,7 @@
   transform: translateY(0);
 }
 
+/* ===== 6. 响应式适配：关键组件使用相对单位 ===== */
 @media (max-width: 374px) {
   .upload-btn {
     width: 48px;
@@ -98,6 +111,7 @@
   }
 }
 
+/* ===== 7. 信息层级优化：时光页卡片分组 ===== */
 .time-grid {
   display: flex;
   flex-direction: column;
@@ -117,6 +131,7 @@
   gap: 12px;
 }
 
+/* ===== 8. 分享按钮深色模式适配 ===== */
 [data-theme="dark"] .share-btn {
   opacity: 0.9;
 }
