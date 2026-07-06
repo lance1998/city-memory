@@ -1,0 +1,381 @@
+/* 城市微记忆 · 视觉增强补丁 v1 */
+/* 开场动画 + 暗色电影感 + 首屏信息大爆炸 */
+
+/* ===== 全局暗色主题 ===== */
+:root {
+  --cine-bg: #0a0e17;
+  --cine-surface: #131a2a;
+  --cine-surface2: #1a2340;
+  --cine-border: #253054;
+  --cine-text: #e8ecf4;
+  --cine-text-dim: #7a8bb0;
+  --cine-accent: #f0a050;
+  --cine-glow-orange: rgba(240, 160, 80, 0.5);
+  --cine-glow-blue: rgba(80, 140, 255, 0.4);
+  --cine-glow-purple: rgba(160, 100, 255, 0.35);
+  --cine-neon-pink: #ff4c8b;
+  --cine-neon-cyan: #00e5ff;
+  --cine-neon-amber: #ffab40;
+}
+
+/* ===== 开场动画层 ===== */
+#cinematic-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--cine-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#cinematic-splash.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#splash-skyline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s ease 0.3s, transform 1.2s ease 0.3s;
+}
+#cinematic-splash.loaded #splash-skyline {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#splash-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#splash-title-group {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 1s ease 0.8s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
+}
+#cinematic-splash.loaded #splash-title-group {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+#splash-title {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 8px;
+  margin: 0;
+  text-shadow: 0 0 40px var(--cine-glow-orange), 0 0 80px rgba(240, 160, 80, 0.2);
+}
+
+#splash-subtitle {
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--cine-text-dim);
+  letter-spacing: 6px;
+  margin-top: 12px;
+  opacity: 0;
+  transition: opacity 1.2s ease 1.6s;
+}
+#cinematic-splash.loaded #splash-subtitle {
+  opacity: 1;
+}
+
+#splash-scan-line {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cine-neon-cyan), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#cinematic-splash.scanning #splash-scan-line {
+  opacity: 0.6;
+  animation: scanMove 2s ease-in-out forwards;
+}
+@keyframes scanMove {
+  0% { left: -100%; top: 30%; }
+  100% { left: 100%; top: 70%; }
+}
+
+#splash-enter {
+  position: relative;
+  z-index: 2;
+  margin-top: 40px;
+  padding: 10px 36px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.7);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  border-radius: 24px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease 2.2s, transform 0.6s ease 2.2s, 
+              border-color 0.3s, color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+#cinematic-splash.loaded #splash-enter {
+  opacity: 1;
+  transform: translateY(0);
+}
+#splash-enter:hover {
+  border-color: var(--cine-accent);
+  color: #fff;
+  background: rgba(240, 160, 80, 0.1);
+  box-shadow: 0 0 20px rgba(240, 160, 80, 0.15);
+}
+#splash-enter:active {
+  transform: scale(0.97);
+}
+
+/* ===== 暗色地图主题 ===== */
+#page-map {
+  background: var(--cine-bg) !important;
+}
+
+.map-header {
+  background: linear-gradient(180deg, var(--cine-bg) 0%, rgba(10, 14, 23, 0.95) 100%) !important;
+  border-bottom: 1px solid var(--cine-border) !important;
+}
+
+.city-selector {
+  color: var(--cine-text) !important;
+  background: var(--cine-surface) !important;
+  border: 1px solid var(--cine-border) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 0 12px rgba(0,0,0,0.3) !important;
+}
+.city-selector i { color: var(--cine-accent) !important; }
+
+.year-filter .filter-btn {
+  color: var(--cine-text-dim) !important;
+  background: transparent !important;
+  border: 1px solid var(--cine-border) !important;
+  border-radius: 14px !important;
+  transition: all 0.25s ease !important;
+}
+.year-filter .filter-btn.active {
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--cine-accent), #e07830) !important;
+  border-color: transparent !important;
+  box-shadow: 0 2px 12px var(--cine-glow-orange) !important;
+}
+
+.marker-glow {
+  filter: drop-shadow(0 0 6px var(--cine-glow-orange)) drop-shadow(0 0 12px rgba(240, 160, 80, 0.3));
+  transition: transform 0.2s, filter 0.2s;
+}
+.marker-glow:hover {
+  filter: drop-shadow(0 0 10px var(--cine-glow-orange)) drop-shadow(0 0 20px rgba(240, 160, 80, 0.5));
+  transform: scale(1.08) !important;
+}
+
+.map-locate-btn {
+  background: var(--cine-surface) !important;
+  border: 1px solid var(--cine-border) !important;
+  color: var(--cine-accent) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+  transition: all 0.25s ease !important;
+}
+.map-locate-btn:active {
+  background: var(--cine-surface2) !important;
+  transform: scale(0.92);
+}
+
+/* ===== 首屏信息大爆炸 ===== */
+#map-stats-overlay {
+  position: absolute;
+  top: 52px;
+  left: 0;
+  right: 0;
+  z-index: 800;
+  padding: 12px 16px;
+  background: linear-gradient(180deg, rgba(10, 14, 23, 0.92) 0%, rgba(10, 14, 23, 0.6) 80%, transparent 100%);
+  pointer-events: none;
+}
+.stats-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  pointer-events: auto;
+}
+.stats-row::-webkit-scrollbar { display: none; }
+.stat-chip {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 18px;
+  background: var(--cine-surface);
+  border: 1px solid var(--cine-border);
+  border-radius: 14px;
+  min-width: 80px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: chipFadeIn 0.5s ease forwards;
+}
+.stat-chip:nth-child(1) { animation-delay: 0.1s; }
+.stat-chip:nth-child(2) { animation-delay: 0.2s; }
+.stat-chip:nth-child(3) { animation-delay: 0.3s; }
+.stat-chip:nth-child(4) { animation-delay: 0.4s; }
+.stat-chip:nth-child(5) { animation-delay: 0.5s; }
+@keyframes chipFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.stat-chip:hover {
+  border-color: var(--cine-accent);
+  background: var(--cine-surface2);
+  box-shadow: 0 0 16px rgba(240, 160, 80, 0.12);
+}
+.stat-chip .stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'DM Sans', 'SF Pro', sans-serif;
+  color: var(--cine-accent);
+  line-height: 1.2;
+  text-shadow: 0 0 12px var(--cine-glow-orange);
+}
+.stat-chip .stat-label {
+  font-size: 10px;
+  color: var(--cine-text-dim);
+  margin-top: 3px;
+  letter-spacing: 1px;
+}
+
+/* ===== 底部导航栏暗色 ===== */
+.bottom-tab-bar {
+  background: var(--cine-surface) !important;
+  border-top: 1px solid var(--cine-border) !important;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.3) !important;
+}
+.tab-item {
+  color: var(--cine-text-dim) !important;
+  transition: color 0.25s ease !important;
+}
+.tab-item.active {
+  color: var(--cine-accent) !important;
+  text-shadow: 0 0 10px var(--cine-glow-orange);
+}
+.tab-item.active i {
+  filter: drop-shadow(0 0 6px var(--cine-glow-orange));
+}
+
+/* ===== 发现页暗色 ===== */
+#page-discover {
+  background: var(--cine-bg) !important;
+}
+.discover-header {
+  background: linear-gradient(180deg, var(--cine-bg), rgba(10,14,23,0.97)) !important;
+}
+.discover-header h1 {
+  color: var(--cine-text) !important;
+  text-shadow: 0 0 20px rgba(240,160,80,0.15);
+}
+.search-bar {
+  background: var(--cine-surface) !important;
+  border: 1px solid var(--cine-border) !important;
+  border-radius: 12px !important;
+}
+.search-bar input { color: var(--cine-text) !important; }
+.search-bar input::placeholder { color: var(--cine-text-dim) !important; }
+.search-bar i { color: var(--cine-text-dim) !important; }
+#page-discover .filter-btn {
+  color: var(--cine-text-dim) !important;
+  background: var(--cine-surface) !important;
+  border: 1px solid var(--cine-border) !important;
+}
+#page-discover .filter-btn.active {
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--cine-accent), #e07830) !important;
+  border-color: transparent !important;
+}
+.sort-btn { color: var(--cine-text-dim) !important; }
+.sort-btn.active { color: var(--cine-accent) !important; }
+
+/* ===== 时光页暗色 ===== */
+#page-time { background: var(--cine-bg) !important; }
+.time-header h1 { color: var(--cine-text) !important; text-shadow: 0 0 20px rgba(240,160,80,0.15); }
+.time-header p { color: var(--cine-text-dim) !important; }
+
+/* ===== 个人页暗色 ===== */
+#page-profile { background: var(--cine-bg) !important; }
+.profile-header {
+  background: linear-gradient(135deg, var(--cine-surface2) 0%, var(--cine-surface) 100%) !important;
+  border-bottom: 1px solid var(--cine-border) !important;
+}
+.profile-info h2 { color: var(--cine-text) !important; }
+.profile-info p { color: var(--cine-text-dim) !important; }
+.profile-menu { background: var(--cine-bg) !important; }
+
+/* ===== Toast 暗色 ===== */
+.toast {
+  background: var(--cine-surface2) !important;
+  color: var(--cine-text) !important;
+  border: 1px solid var(--cine-border) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+}
+
+/* ===== Leaflet 地图控件暗色 ===== */
+.leaflet-control-layers {
+  background: var(--cine-surface) !important;
+  border: 1px solid var(--cine-border) !important;
+  border-radius: 10px !important;
+  color: var(--cine-text) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+}
+.leaflet-control-layers-toggle {
+  background-color: var(--cine-surface) !important;
+  border: 1px solid var(--cine-border) !important;
+}
+.leaflet-control-layers-selector { accent-color: var(--cine-accent); }
+.leaflet-control-layers-label { color: var(--cine-text) !important; }
+
+/* ===== 水印 ===== */
+#map-watermark {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 700;
+  pointer-events: none;
+  text-align: center;
+  opacity: 0.15;
+}
+#map-watermark .watermark-text {
+  font-size: 11px;
+  color: var(--cine-text-dim);
+  letter-spacing: 4px;
+  font-weight: 300;
+}
+
+/* ===== 地图暗角 ===== */
+#map-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 600;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(10, 14, 23, 0.5) 100%);
+}
