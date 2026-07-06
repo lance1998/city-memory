@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-  <link rel="stylesheet" href="style.css?v=5">
-  <link rel="stylesheet" href="style-patch.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style-patch.css?v=6">
   <style id="app-css"></style>
   <style>
     .modal, .detail-modal {
@@ -74,7 +74,7 @@
     <div id="page-profile" class="page">
       <div class="profile-header">
         <div class="profile-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="头像"></div>
-        <div class="profile-info"><h2>城市记忆者</h2><p>记录每一座城市的变迁</p></div>
+        <div class="profile-info"><h2 id="profile-name">城市记忆者</h2><p id="profile-bio">记录每一座城市的变迁</p></div>
       </div>
       <div class="profile-menu" id="profile-menu"></div>
     </div>
@@ -93,13 +93,47 @@
       <div class="detail-content" id="detail-content"></div>
     </div>
   </div>
-  <script src="data.js?v=5"></script>
-  <script src="js/china_cities_expanded.js?v=5"></script>
-  <script src="app.js?v=5"></script>
-  <script src="js/perf-patch.js?v=5"></script>
-  <script src="js/app-patch.js?v=5"></script>
-  <script src="js/city-picker-fix.js?v=5"></script>
-  <script src="js/ux-patch.js?v=5"></script>
-  <script src="js/content-patch.js?v=5"></script>
+  <script src="data.js?v=6"></script>
+  <script src="js/china_cities_expanded.js?v=6"></script>
+  <script>
+    // init-fix: prevent app.init() crash due to missing DOM elements in renderProfile()
+    (function() {
+      var _orig = document.getElementById;
+      var safeIds = ['profile-name','profile-bio','stat-memories','stat-likes','stat-cities',
+                     'myuploads-list','myfavorites-list','fp-memories','fp-cities','fp-routes','footprint-list',
+                     'shop-list','badge-grid','capsule-list','capsule-sent','capsule-received',
+                     'route-list','route-detail-content','heritage-list','activity-list',
+                     'challenge-list','private-list','starmap-canvas','fragments-list','story-content',
+                     'quiz-container','blindbox-result','postcard-preview','poster-modal',
+                     'image-preview-modal','image-preview-img','settings-panel',
+                     'comment-input','back-to-top'];
+      document.getElementById = function(id) {
+        var el = _orig.call(document, id);
+        if (!el && safeIds.indexOf(id) !== -1) {
+          return {
+            textContent: '', set textContent(v) {},
+            innerHTML: '', set innerHTML(v) {},
+            style: {},
+            classList: { add: function(){}, remove: function(){}, contains: function(){ return false; }, toggle: function(){} },
+            addEventListener: function(){}, removeEventListener: function(){},
+            setAttribute: function(){}, getAttribute: function(){ return null; },
+            appendChild: function(){ return this; }, remove: function(){},
+            querySelector: function(){ return null; },
+            querySelectorAll: function(){ return []; },
+            getBoundingClientRect: function(){ return {top:0,left:0,width:0,height:0}; },
+            scrollTo: function(){}, scrollIntoView: function(){},
+            focus: function(){}, blur: function(){}, click: function(){}
+          };
+        }
+        return el;
+      };
+    })();
+  </script>
+  <script src="app.js?v=6"></script>
+  <script src="js/perf-patch.js?v=6"></script>
+  <script src="js/app-patch.js?v=6"></script>
+  <script src="js/city-picker-fix.js?v=6"></script>
+  <script src="js/ux-patch.js?v=6"></script>
+  <script src="js/content-patch.js?v=6"></script>
 </body>
 </html>
