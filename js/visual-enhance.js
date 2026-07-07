@@ -1,1 +1,205 @@
-Ly8g5YWs5a6J5bqG5L+d6K6yIOaBtuWMuiDlpKnloIJ 1Ci8vIOixhui0qOWKqOWvhiArIOW8gOWPkeaWmeacuuWvhiArIOe2reWfuueZveWfuuehgOeUvwovLyAom20pIHsKICAndXNlIHN0cmljdCc7CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT0gMS4g5Y+35py66YCa5oOF55uG55uG5o6lID09PT09PT09PT09PT09PT09PT09PT09PT0KICBmdW5jdGlvbiBhZGRQdWxzZVJpbmdzKCkgewogICAgdmFyIG1hcmtlcnMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcubGVhZmxldC1tYXJrZXItaWNvbicpOwogICAgbWFya2Vycy5mb3JFYWNoKGZ1bmN0aW9uKG0pIHsKICAgICAgaWYgKG0ucXVlcnlTZWxlY3RvcignLm1hcmtlci1wdWxzZS1yaW5nJykpIHJldHVybjsKICAgICAgdmFyIHJpbmcgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICAgICAgcmluZy5jbGFzc05hbWUgPSAnbWFya2VyLXB1bHNlLXJpbmcnOwogICAgICAvLyDlpKnmiJDlj5bor4TlkozkvZzkuIDmrKHnjrDkuIDlvaLkuoYKICAgICAgaWYgKG0uZmlyc3RDaGlsZCkgewogICAgICAgIG0uaW5zZXJ0QmVmb3JlKHIsbS5maXJzdENoaWxkKTsKICAgICAgfSBlbHNlIHsKICAgICAgICBtLmFwcGVuZENoaWxkKHIpOwogICAgICB9CiAgICB9KTsKICB9CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT0gMi4g6K+E6K665qC45Ly8ID09PT09PT09PT09PT09PT09PT09PT09PT0KICB2YXIgY29ubmVjdGlvbkxheWVyID0gbnVsbDsKICBmdW5jdGlvbiBjcmVhdGVNZW1vcnlDb25uZWN0aW9ucygpIHsKICAgIGlmICghYXBwLm1hcCkgcmV0dXJuOwogICAgLy8g57uT5a2Y5qGq6YCf5bqmCiAgICBpZiAoY29ubmVjdGlvbkxheWVyKSB7CiAgICAgIGFwcC5tYXAucmVtb3ZlTGF5ZXIoY29ubmVjdGlvbkxheWVyKTsKICAgIH0KICAgIC8v 6L+U5Zue5piv5pyA6auY55qEIGxhdGxuzCiAgICB2YXIgcG9pbnRzID0gW107CiAgICBpZiAoYXBwLm1hcmtlcnMpIHsKICAgICAgYXBwLm1hcmtlcnMuZm9yRWFjaChmdW5jdGlvbihtYXJrZXIpIHsKICAgICAgICBpZiAobWFya2VyICYmIG1hcmtlci5nZXRMYXRMbmcpIHsKICAgICAgICAgIHBvaW50cy5wdXNoKG1hcmtlci5nZXRMYXRMbmcoKSk7CiAgICAgICAgfQogICAgICB9KTsKICAgIH0KICAgIGlmIChwb2ludHMubGVuZ3RoIDwgMikgcmV0dXJuOwoKICAgIC8vIOWkmuS8oG9sIFNWRyDmraPluLjlpIfnlKjln5/lqZrkuIvmnYDmsoXlkozlpKnkuK3lronquIjmoYgKICAgIHZhciBzdmdQYXRocyA9IFtdOwogICAgZm9yICh2YXIgaSA9IDA7IGkgPCBwb2ludHMubGVuZ3RoOyBpKyspIHsKICAgICAgdmFyIG5lYXJlc3QgPSBmaW5kTmVhcmVzdChwb2ludHMsIGksIDIpOwogICAgICBuZWFyZXN0LmZvckVhY2goZnVuY3Rpb24oaikgewogICAgICAgIGlmIChqID4gaSkgeyAvLyA6L+Q5Yir6L6T5YWlCiAgICAgICAgICB2YXIgcGF0aCA9IEwucG9seWxpbmUoW3BvaW50c1tpXSwgcG9pbnRzW2pdXSwgewogICAgICAgICAgICBjb2xvcjogJyNmMGEwNTAnLAogICAgICAgICAgICB3ZWlnaHQ6IDEuNSwKICAgICAgICAgICAgb3BhY2l0eTogMC4yNSwKICAgICAgICAgICAgZGFzaEFycmF5OiAnNiA0JywKICAgICAgICAgICAgY2xhc3NOYW1lOiAnbWVtb3J5LWNvbm5lY3Rpb24nCiAgICAgICAgICB9KTsKICAgICAgICAgIHN2Z1BhdGhzLnB1c2gocGF0aCk7CiAgICAgICAgfQogICAgICB9KTsKICAgIH0KCiAgICBpZiAoc3ZnUGF0aHMubGVuZ3RoID4gMCkgewogICAgICBjb25uZWN0aW9uTGF5ZXIgPSBMLmxheWVyR3JvdXAoc3ZnUGF0aHMpOwogICAgICBjb25uZWN0aW9uTGF5ZXIuYWRkVG8oYXBwLm1hcCk7CiAgICB9CiAgfQoKICBmdW5jdGlvbiBmaW5kTmVhcmVzdChwb2ludHMsIGlkeCwgY291bnQpIHsKICAgIHZhciBwID0gcG9pbnRzW2lkeF07CiAgICB2YXIgZGlzdHMgPSBwb2ludHMubWFwKGZ1bmN0aW9uKHEsIGkpIHsKICAgICAgaWYgKGkgPT09IGlkeCkgcmV0dXJuIHsgaWR4OiBpLCBkaXN0OiBJbmZpbml0eSB9OwogICAgICB2YXIgZHggPSBwLmxhdCAtIHEubGF0OwogICAgICB2YXIgZHkgPSBwLmxuZyAtIHEubG5nOwogICAgICByZXR1cm4geyBpZHg6IGksIGRpc3Q6IGR4KmR4ICsgZHkqZHkgfTsKICAgIH0pOwogICAgZGlzdHMuc29ydChmdW5jdGlvbihhLCBiKSB7IHJldHVybiBhLmRpc3QgLSBiLmRpc3Q7IH0pOwogICAgcmV0dXJuIGRpc3RzLnNsaWNlKDAsIGNvdW50KS5tYXAoZnVuY3Rpb24oZCkgeyByZXR1cm4gZC5pZHg7IH0pOwogIH0KCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PSAzLiDjgrflsI/nlLXlrZfor4TkvZMgPT09PT09PT09PT09PT09PT09PT09PT09PQogIGZ1bmN0aW9uIGFkZENsaWNrUmlwcGxlKGUpIHsKICAgIHZhciBtYXBDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbWFwLWNvbnRhaW5lcicpOwogICAgaWYgKCFtYXBDb250YWluZXIpIHJldHVybjsKICAgIHZhciByZWN0ID0gbWFwQ29udGFpbmVyLmdldEJvdW5kaW5nQ2xpZW50UmVjdCgpOwogICAgdmFyIHggPSBlLmNvbnRhaW5lclBvaW50Lng7CiAgICB2YXIgeSA9IGUuY29udGFpbmVyUG9pbnQueTsKCiAgICB2YXIgcmlwcGxlID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgICByaXBwbGUuY2xhc3NOYW1lID0gJ21hcC1yaXBwbGUnOwogICAgcmlwcGxlLnN0eWxlLmNzc1RleHQgPSAnbGVmdDonICsgKHggLSAxMCkgKyAncHg7dG9wOicgKyAoeSAtIDEwKSArICdweDsnOwogICAgbWFwQ29udGFpbmVyLmFwcGVuZENoaWxkKHJpcHBsZSk7CiAgICBzZXRUaW1lb3V0KGZ1bmN0aW9uKCkgeyByaXBwbGUucmVtb3ZlKCk7IH0sIDgwMCk7CiAgfQoKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09IDQuIOe6rOW6pyBzaGltbWVyIOW8gOWPkeaYr+aKlOWPkSA9PT09PT09PT09PT09PT09PT09PT09PT09CiAgZnVuY3Rpb24gYWRkTWFwU2hpbW1lcigpIHsKICAgIHZhciBtYXBQYWdlID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3BhZ2UtbWFwJyk7CiAgICBpZiAoIW1hcFBhZ2UgfHwgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21hcC1zaGltbWVyJykpIHJldHVybjsKICAgIHZhciBzaGltbWVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgICBzaGltbWVyLmlkID0gJ21hcC1zaGltbWVyJzsKICAgIHNoaW1tZXIuY2xhc3NOYW1lID0gJ21hcC1sb2FkaW5nLXNoaW1tZXInOwogICAgbWFwUGFnZS5hcHBlbmRDaGlsZChzaGltbWVyKTsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24oKSB7IHNoaW1tZXIucmVtb3ZlKCk7IH0sIDMwMDApOwogIH0KCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PSA1LiDniYjnsbvlubTpm4blm77niYcgPT09PT09PT09PT09PT09PT09PT09PT09PQogIHZhciBzaG93Y2FzZVRpbWVyID0gbnVsbDsKICBmdW5jdGlvbiBzdGFydE1hcmtlclNob3djYXNlKCkgewogICAgaWYgKCFhcHAubWFya2VycyB8fCBhcHAubWFya2Vycy5sZW5ndGggPT0gMCkgcmV0dXJuOwogICAgdmFyIGlkeCA9IDA7CiAgICBzaG93Y2FzZVRpbWVyID0gc2V0SW50ZXJ2YWwoZnVuY3Rpb24oKSB7CiAgICAgIGlmICghYXBwLm1hcmtlcnMgfHwgYXBwLm1hcmtlcnMubGVuZ3RoID09IDApIHJldHVybjsKICAgICAgdmFyIG1hcmtlciA9IGFwcC5tYXJrZXJzW2lkeCAlIGFwcC5tYXJrZXJzLmxlbmd0aF07CiAgICAgIGlmIChtYXJrZXIgJiYgbWFya2VyLl9pY29uKSB7CiAgICAgICAgLy8g6Lez6L2s5Zyw5Z2ACiAgICAgICAgbWFya2VyLl9pY29uLnN0eWxlLnRyYW5zZm9ybSA9ICdzY2FsZSgxLjE1KSB0cmFuc2xhdGVZKC02cHgnOwogICAgICAgIG1hcmtlci5faWNvbi5zdHlsZS5maWx0ZXIgPSAnZHJvcC1zaGFkb3coMCAwIDE1cHggcmdiYSgyNDAsMTYwLDgwLDAuNykpJzsKICAgICAgICBtYXJrZXIuX2ljb24uc3R5bGUudHJhbnNpdGlvbiA9ICdhbGwgMC40cyBlYXNlJzsKICAgICAgICBtYXJrZXIuX2ljb24uc3R5bGUuAkluZGV4ID0gJzEwMDAnOwogICAgICAgIHNldFRpbWVvdXQoZnVuY3Rpb24oKSB7CiAgICAgICAgICBpZiAobWFya2VyLl9pY29uKSB7CiAgICAgICAgICAgIG1hcmtlci5faWNvbi5zdHlsZS50cmFuc2Zvcm0gPSAnJzsKICAgICAgICAgICAgbWFya2VyLl9pY29uLnN0eWxlLmZpbHRlciA9ICcnOwogICAgICAgICAgICBtYXJrZXIuX2ljb24uc3R5bGUuAkluZGV4ID0gJyc7CiAgICAgICAgICB9CiAgICAgICAgfSwgMjAwMCk7CiAgICAgIH0KICAgICAgaWR4Kys7CiAgICB9LCAzNTAwKTsKICB9CgogIGZ1bmN0aW9uIHN0b3BNYXJrZXJTaG93Y2FzZSgpIHsKICAgIGlmIChzaG93Y2FzZVRpbWVlcikgewogICAgICBjbGVhckludGVydmFsKHNob3djYXNlVGltZXIpOwogICAgICBzaG93Y2FzZVRpbWVyID0gbnVsbDsKICAgIH0KICB9CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT0gNi4g5b2x6K+tIHRvb2x0aXAg5o6n5L+hID09PT09PT09PT09PT09PT09PT09PT09PT0KICBmdW5jdGlvbiBlbmhhbmNlVG9vbHRpcHMoKSB7CiAgICBpZiAoIWFwcC5tYXJrZXJzKSByZXR1cm47CiAgICBhcHAubWFya2Vycy5mb3JFYWNoKGZ1bmN0aW9uKG1hcmtlcikgewogICAgICBpZiAoIW1hcmtlci5tZW1vcnlJZCkgcmV0dXJuOwogICAgICB2YXIgbWVtID0gREIubWVtb3JpZXMuZmluZChmdW5jdGlvbihtKSB7IHJldHVybiBtLmlkID09PSBtYXJrZXIubWVtb3J5SWQ7IH0pOwogICAgICBpZiAoIW1lbSkgcmV0dXJuOwoKICAgICAgdmFyIHRvb2x0aXBIdG1sID0gJzxkaXYgc3R5bGU9InRleHQtYWxpZ246Y2VudGVyO21pbi13aWR0aDoxNDBweDsiPicgKwogICAgICAgICc8aW1nIHNyYz0iJyArIG1lbS5vbGRJbWFnZXNbMF0gKyAnIiBzdHlsZT0id2lkdGg6MTIwcHg7aGVpZ2h0OjkwcHg7b2JqZWN0LWZpdDpjb3Zlcjtib3JkZXItcmFkaXVzOjhweDttYXJnaW4tYm90dG9tOjhweDtib3JkZXI6MXB4IHNvbGlkICMyNTMwNTQ7Ij4nICsKICAgICAgICAnPGRpdiBzdHlsZT0iZm9udC1zaXplOjEzcHg7Zm9udC13ZWlnaHQ6NjAwO2NvbG9yOiNlOGVjZjQ7Ij4nICsgKG1lbS50aXRsZSB8fCAnJykgKyAnPC9kaXY+JyArCiAgICAgICAgJzxkaXYgc3R5bGU9ImZvbnQtc2l6ZToxMXB4O2NvbG9yOiM3YThiYjA7bWFyZ2luLXRvcDo0cHg7Ij4nICsgKG1lbS55ZWFyIHx8ICcnKSArICfiAk4gJyArIChtZW0ubGlrZXMgfHwgMCkgKyAnIDxpIGNsYXNzPSJmYXMgZmEtaGVhcnQiIHN0eWxlPSJmb250LXNpemU6OXB4O2NvbG9yOiNmZjZiNmI7Ij48L2k+PC9kaXY+JyArCiAgICAgICc8L2Rpdj4nOwoKICAgICAgbWFya2VyLmJpbmRUb29sdGlwKHRvb2x0aXBIdG1sLCB7CiAgICAgICAgcGVybWFuZW50OiBmYWxzZSwKICAgICAgICBkaXJlY3Rpb246ICd0b3AnLAogICAgICAgIG9mZnNldDogWzAsIC0xMF0sCiAgICAgICAgY2xhc3NOYW1lOiAnY2luZS10b29sdGlwJywKICAgICAgICBvcGFjaXR5OiAxCiAgICAgIH0pOwogICAgfSk7CiAgfQoKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09IDcuIOino+iDjueOi+WPMOeyvuWTjeWkmuS8oCDlpKnkuK3lkI7vvIhob29r77yJID09PT09PT09PT09PT09PT09PT09PT09PT0KICB2YXIgX29yaWdBZGRNYXBNYXJrZXJzID0gYXBwLmFkZE1hcE1hcmtlcnM7CiAgaWYgKF9vcmlnQWRkTWFwTWFya2VycykgewogICAgYXBwLmFkZE1hcE1hcmtlcnMgPSBmdW5jdGlvbigpIHsKICAgICAgX29yaWdBZGRNYXBNYXJrZXJzLmNhbGwodGhpcyk7CiAgICAgIHNldFRpbWVvdXQoZnVuY3Rpb24oKSB7CiAgICAgICAgYWRkUHVsc2VSaW5ncygpOwogICAgICAgIGNyZWF0ZU1lbW9yeUNvbm5lY3Rpb25zKCk7CiAgICAgICAgZW5oYW5jZVRvb2x0aXBzKCk7CiAgICAgICAgYWRkTWFwU2hpbW1lcigpOwogICAgICB9LCA2MDApOwogICAgfTsKICB9CgogIC8vIEhvb2sgaW50byBmaWx0ZXJNYXBNYXJrZXJzCiAgdmFyIF9vcmlnRmlsdGVyTWFwTWFya2VycyA9IGFwcC5maWx0ZXJNYXBNYXJrZXJzOwogIGlmIChfb3JpZ0ZpbHRlck1hcE1hcmtlcnMpIHsKICAgIGFwcC5maWx0ZXJNYXBNYXJrZXJzID0gZnVuY3Rpb24oKSB7CiAgICAgIF9vcmlnRmlsdGVyTWFwTWFya2Vycy5jYWxsKHRoaXMpOwogICAgICBzZXRUaW1lb3V0KGZ1bmN0aW9uKCkgewogICAgICAgIGFkZFB1bHNlUmluZ3MoKTsKICAgICAgICBjcmVhdGVNZW1vcnlDb25uZWN0aW9ucygpOwogICAgICAgIGVuaGFuY2VUb29sdGlwcygpOwogICAgICB9LCA0MDApOwogICAgfTsKICB9CgogIC8vIENsaWNrIHJpcHBsZSBvbiBtYXAKICBpZiAoYXBwLm1hcCkgewogICAgYXBwLm1hcC5vbignY2xpY2snLCBhZGRDbGlja1JpcHBsZSk7CiAgfQoKICAvLyBTdGFydCBzaG93Y2FzZSBhZnRlciBtYXAgaW5pdAogIHNldFRpbWVvdXQoZnVuY3Rpb24oKSB7CiAgICBpZiAoYXBwLm1hcCAmJiBhcHAubWFya2VycyAmJiBhcHAubWFya2Vycy5sZW5ndGggPiAwKSB7CiAgICAgIHN0YXJ0TWFya2VyU2hvd2Nhc2UoKTsKICAgIH0KICB9LCAyMDAwKTsKCiAgLy8gU3RvcCBzaG93Y2FzZSBvbiB1c2VyIGludGVyYWN0aW9uCiAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBmdW5jdGlvbigpIHsKICAgIHN0b3BNYXJrZXJTaG93Y2FzZSgpOwogIH0sIHsgb25jZTogdHJ1ZSB9KTsKCn0pKCk7Cg==
+// 城市微记忆 · 视觉增强补丁 v2 - 地图增强 JS
+// 追加到 visual-enhance.js 末尾
+(function() {
+  'use strict';
+
+  // ==================== 1. 标记脉冲光环 ====================
+  function addPulseRings() {
+    var markers = document.querySelectorAll('.leaflet-marker-icon');
+    markers.forEach(function(m) {
+      if (m.querySelector('.marker-pulse-ring')) return;
+      var ring = document.createElement('div');
+      ring.className = 'marker-pulse-ring';
+      // 插入到标记内部第一个位置
+      if (m.firstChild) {
+        m.insertBefore(ring, m.firstChild);
+      } else {
+        m.appendChild(ring);
+      }
+    });
+  }
+
+  // ==================== 2. 记忆连线 ====================
+  var connectionLayer = null;
+  function createMemoryConnections() {
+    if (!app.map) return;
+    // 移除旧连线
+    if (connectionLayer) {
+      app.map.removeLayer(connectionLayer);
+    }
+    // 获取所有标记的 latlng
+    var points = [];
+    if (app.markers) {
+      app.markers.forEach(function(marker) {
+        if (marker && marker.getLatLng) {
+          points.push(marker.getLatLng());
+        }
+      });
+    }
+    if (points.length < 2) return;
+
+    // 创建 SVG 路径连接最近的标记
+    var svgPaths = [];
+    for (var i = 0; i < points.length; i++) {
+      var nearest = findNearest(points, i, 2);
+      nearest.forEach(function(j) {
+        if (j > i) { // 避免重复
+          var path = L.polyline([points[i], points[j]], {
+            color: '#f0a050',
+            weight: 1.5,
+            opacity: 0.25,
+            dashArray: '6 4',
+            className: 'memory-connection'
+          });
+          svgPaths.push(path);
+        }
+      });
+    }
+
+    if (svgPaths.length > 0) {
+      connectionLayer = L.layerGroup(svgPaths);
+      connectionLayer.addTo(app.map);
+    }
+  }
+
+  function findNearest(points, idx, count) {
+    var p = points[idx];
+    var dists = points.map(function(q, i) {
+      if (i === idx) return { idx: i, dist: Infinity };
+      var dx = p.lat - q.lat;
+      var dy = p.lng - q.lng;
+      return { idx: i, dist: dx*dx + dy*dy };
+    });
+    dists.sort(function(a, b) { return a.dist - b.dist; });
+    return dists.slice(0, count).map(function(d) { return d.idx; });
+  }
+
+  // ==================== 3. 点击涟漪 ====================
+  function addClickRipple(e) {
+    var mapContainer = document.getElementById('map-container');
+    if (!mapContainer) return;
+    var rect = mapContainer.getBoundingClientRect();
+    var x = e.containerPoint.x;
+    var y = e.containerPoint.y;
+
+    var ripple = document.createElement('div');
+    ripple.className = 'map-ripple';
+    ripple.style.cssText = 'left:' + (x - 10) + 'px;top:' + (y - 10) + 'px;';
+    mapContainer.appendChild(ripple);
+    setTimeout(function() { ripple.remove(); }, 800);
+  }
+
+  // ==================== 4. 地图 shimmer 效果 ====================
+  function addMapShimmer() {
+    var mapPage = document.getElementById('page-map');
+    if (!mapPage || document.getElementById('map-shimmer')) return;
+    var shimmer = document.createElement('div');
+    shimmer.id = 'map-shimmer';
+    shimmer.className = 'map-loading-shimmer';
+    mapPage.appendChild(shimmer);
+    setTimeout(function() { shimmer.remove(); }, 3000);
+  }
+
+  // ==================== 5. 自动轮播展示 ====================
+  var showcaseTimer = null;
+  function startMarkerShowcase() {
+    if (!app.markers || app.markers.length === 0) return;
+    var idx = 0;
+    showcaseTimer = setInterval(function() {
+      if (!app.markers || app.markers.length === 0) return;
+      var marker = app.markers[idx % app.markers.length];
+      if (marker && marker._icon) {
+        // 高亮当前标记
+        marker._icon.style.transform = 'scale(1.15) translateY(-6px)';
+        marker._icon.style.filter = 'drop-shadow(0 0 15px rgba(240,160,80,0.7))';
+        marker._icon.style.transition = 'all 0.4s ease';
+        marker._icon.style.zIndex = '1000';
+        setTimeout(function() {
+          if (marker._icon) {
+            marker._icon.style.transform = '';
+            marker._icon.style.filter = '';
+            marker._icon.style.zIndex = '';
+          }
+        }, 2000);
+      }
+      idx++;
+    }, 3500);
+  }
+
+  function stopMarkerShowcase() {
+    if (showcaseTimer) {
+      clearInterval(showcaseTimer);
+      showcaseTimer = null;
+    }
+  }
+
+  // ==================== 6. 标记 tooltip 增强 ====================
+  function enhanceTooltips() {
+    if (!app.markers) return;
+    app.markers.forEach(function(marker) {
+      if (!marker.memoryId) return;
+      var mem = DB.memories.find(function(m) { return m.id === marker.memoryId; });
+      if (!mem) return;
+
+      var tooltipHtml = '<div style="text-align:center;min-width:140px;">' +
+        '<img src="' + mem.oldImages[0] + '" style="width:120px;height:90px;object-fit:cover;border-radius:8px;margin-bottom:8px;border:1px solid #253054;">' +
+        '<div style="font-size:13px;font-weight:600;color:#e8ecf4;">' + (mem.title || '') + '</div>' +
+        '<div style="font-size:11px;color:#7a8bb0;margin-top:4px;">' + (mem.year || '') + ' · ' + (mem.likes || 0) + ' <i class="fas fa-heart" style="font-size:9px;color:#ff6b6b;"></i></div>' +
+      '</div>';
+
+      marker.bindTooltip(tooltipHtml, {
+        permanent: false,
+        direction: 'top',
+        offset: [0, -10],
+        className: 'cine-tooltip',
+        opacity: 1
+      });
+    });
+  }
+
+  // ==================== 7. 整合到现有流程 ====================
+  // Hook into addMapMarkers
+  var _origAddMapMarkers = app.addMapMarkers;
+  if (_origAddMapMarkers) {
+    app.addMapMarkers = function() {
+      _origAddMapMarkers.call(this);
+      setTimeout(function() {
+        addPulseRings();
+        createMemoryConnections();
+        enhanceTooltips();
+        addMapShimmer();
+      }, 600);
+    };
+  }
+
+  // Hook into filterMapMarkers
+  var _origFilterMapMarkers = app.filterMapMarkers;
+  if (_origFilterMapMarkers) {
+    app.filterMapMarkers = function() {
+      _origFilterMapMarkers.call(this);
+      setTimeout(function() {
+        addPulseRings();
+        createMemoryConnections();
+        enhanceTooltips();
+      }, 400);
+    };
+  }
+
+  // Click ripple on map
+  if (app.map) {
+    app.map.on('click', addClickRipple);
+  }
+
+  // Start showcase after map init
+  setTimeout(function() {
+    if (app.map && app.markers && app.markers.length > 0) {
+      startMarkerShowcase();
+    }
+  }, 2000);
+
+  // Stop showcase on user interaction
+  document.addEventListener('click', function() {
+    stopMarkerShowcase();
+  }, { once: true });
+
+})();
