@@ -597,14 +597,36 @@
     }
   }
 
-  // 立即注入
-  injectData();
+  // 刷新地图标记
+  function refreshMapMarkers() {
+    if (typeof app !== 'undefined' && app.map) {
+      // 清除旧标记层（避免叠加）
+      if (app.markerLayer) {
+        app.map.removeLayer(app.markerLayer);
+        app.markerLayer = null;
+      }
+      app.markers = [];
+      // 重新添加标记
+      if (app.addMapMarkers) {
+        app.addMapMarkers();
+        console.log('[NationwideData] 地图标记已刷新，当前共 ' + DB.memories.length + ' 条数据');
+      }
+    }
+  }
+
+  // 立即注入并刷新地图
+  var addedCount = injectData();
+  if (addedCount) {
+    refreshMapMarkers();
+  }
 
   // 延迟再次检查注入（防止其他脚本重置 DB.memories）
   setTimeout(function() {
     if (typeof DB !== 'undefined' && DB.memories && DB.memories.length < 20) {
       console.log('[NationwideData] 检测到数据被重置，重新注入...');
-      injectData();
+      if (injectData()) {
+        refreshMapMarkers();
+      }
     }
   }, 800);
 
@@ -614,7 +636,9 @@
       setTimeout(function() {
         if (typeof DB !== 'undefined' && DB.memories && DB.memories.length < 20) {
           console.log('[NationwideData] DOMReady 时重新注入...');
-          injectData();
+          if (injectData()) {
+            refreshMapMarkers();
+          }
         }
       }, 200);
     });
@@ -623,7 +647,9 @@
     setTimeout(function() {
       if (typeof DB !== 'undefined' && DB.memories && DB.memories.length < 20) {
         console.log('[NationwideData] DOM 已就绪，重新注入...');
-        injectData();
+        if (injectData()) {
+          refreshMapMarkers();
+        }
       }
     }, 200);
   }
