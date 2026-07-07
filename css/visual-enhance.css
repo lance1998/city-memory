@@ -418,27 +418,13 @@
   100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
 }
 
-/* 3. 标记悬浮动画 */
-.leaflet-marker-icon {
-  animation: markerFloat 3s ease-in-out infinite;
-}
-.leaflet-marker-icon:nth-child(2n) { animation-delay: 0.5s; }
-.leaflet-marker-icon:nth-child(3n) { animation-delay: 1s; }
-.leaflet-marker-icon:nth-child(4n) { animation-delay: 1.5s; }
-@keyframes markerFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-/* 4. 标记 hover 增强 */
+/* 3. 标记 hover 增强（不使用 transform 避免与 Leaflet 定位冲突） */
 .leaflet-marker-icon:hover {
-  animation: none !important;
-  transform: scale(1.12) translateY(-6px) !important;
   filter: drop-shadow(0 0 12px var(--cine-glow-orange)) drop-shadow(0 0 24px rgba(240, 160, 80, 0.6)) !important;
   z-index: 1000 !important;
 }
 
-/* 5. 记忆连线 */
+/* 4. 记忆连线 */
 .memory-connection {
   stroke: var(--cine-accent);
   stroke-width: 1.5;
@@ -451,7 +437,7 @@
   to { stroke-dashoffset: -20; }
 }
 
-/* 6. 点击涟漪 */
+/* 5. 点击涟漪 */
 .map-ripple {
   position: absolute;
   border-radius: 50%;
@@ -466,7 +452,7 @@
   100% { width: 120px; height: 120px; opacity: 0; }
 }
 
-/* 7. 标记 tooltip 增强 */
+/* 6. 标记 tooltip 增强 */
 .leaflet-popup-content-wrapper {
   background: var(--cine-surface) !important;
   border: 1px solid var(--cine-border) !important;
@@ -482,7 +468,7 @@
   color: var(--cine-text-dim) !important;
 }
 
-/* 8. 地图加载 shimmer */
+/* 7. 地图加载 shimmer */
 .map-loading-shimmer {
   position: absolute;
   inset: 0;
@@ -497,7 +483,7 @@
   100% { background-position: 200% 0; }
 }
 
-/* 9. 标记过渡 */
+/* 8. 标记透明度过渡 */
 .leaflet-marker-icon {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease;
 }
