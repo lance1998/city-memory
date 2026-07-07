@@ -190,6 +190,16 @@
     app.map.on('click', addClickRipple);
   }
 
+  // 立即对已有标记执行增强
+  setTimeout(function() {
+    if (app.map && app.markers && app.markers.length > 0) {
+      addPulseRings();
+      createMemoryConnections();
+      enhanceTooltips();
+      addMapShimmer();
+    }
+  }, 300);
+
   // Start showcase after map init
   setTimeout(function() {
     if (app.map && app.markers && app.markers.length > 0) {
