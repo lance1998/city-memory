@@ -619,38 +619,4 @@
   if (addedCount) {
     refreshMapMarkers();
   }
-
-  // 延迟再次检查注入（防止其他脚本重置 DB.memories）
-  setTimeout(function() {
-    if (typeof DB !== 'undefined' && DB.memories && DB.memories.length < 20) {
-      console.log('[NationwideData] 检测到数据被重置，重新注入...');
-      if (injectData()) {
-        refreshMapMarkers();
-      }
-    }
-  }, 800);
-
-  // DOM 就绪后再检查一次
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(function() {
-        if (typeof DB !== 'undefined' && DB.memories && DB.memories.length < 20) {
-          console.log('[NationwideData] DOMReady 时重新注入...');
-          if (injectData()) {
-            refreshMapMarkers();
-          }
-        }
-      }, 200);
-    });
-  } else {
-    // DOM 已就绪，延迟检查
-    setTimeout(function() {
-      if (typeof DB !== 'undefined' && DB.memories && DB.memories.length < 20) {
-        console.log('[NationwideData] DOM 已就绪，重新注入...');
-        if (injectData()) {
-          refreshMapMarkers();
-        }
-      }
-    }, 200);
-  }
 })();
