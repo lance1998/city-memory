@@ -58,7 +58,6 @@
   mergeNationwideData();
 
   // Also run after nationwide-data.js loads
-  var _origInjectData = null;
   var _injectCheckTimer = setInterval(function() {
     if (DB.memories && DB.memories.length >= 20) {
       clearInterval(_injectCheckTimer);
