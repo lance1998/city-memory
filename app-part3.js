@@ -5,16 +5,16 @@
     container.innerHTML = DB.badges.map(b => `
       <div class="badge-item ${b.unlocked ? '' : 'locked'}">
         <div class="badge-icon"><i class="fas ${b.icon}"></i></div>
-        <div class="badge-name">${escHtml(b.name)}</div>
-        <div class="badge-desc">${escHtml(b.desc)}</div>
+        <div class="badge-name">${Utils.escHtml(b.name)}</div>
+        <div class="badge-desc">${Utils.escHtml(b.desc)}</div>
       </div>
     `).join('');
   },
 
   showSettings() {
     this.navigateTo('settings');
-    document.getElementById('setting-nickname').innerHTML = `${escHtml(DB.currentUser.nickname)} <i class="fas fa-chevron-right"></i>`;
-    document.getElementById('setting-bio').innerHTML = `${escHtml(DB.currentUser.bio)} <i class="fas fa-chevron-right"></i>`;
+    document.getElementById('setting-nickname').innerHTML = `${Utils.escHtml(DB.currentUser.nickname)} <i class="fas fa-chevron-right"></i>`;
+    document.getElementById('setting-bio').innerHTML = `${Utils.escHtml(DB.currentUser.bio)} <i class="fas fa-chevron-right"></i>`;
     const themeNames = { '': '复古怀旧', 'dark': '深色模式', 'modern': '现代简约' };
     const currentTheme = document.documentElement.dataset.theme || '';
     document.getElementById('setting-theme').innerHTML = `${themeNames[currentTheme]} <i class="fas fa-chevron-right"></i>`;
@@ -459,10 +459,10 @@
       <div class="private-card">
         <img src="${p.oldImages[0]}" alt="${p.title}">
         <div class="private-info">
-          <div class="private-title">${escHtml(p.title)}</div>
-          <div class="private-address"><i class="fas fa-map-marker-alt"></i> ${escHtml(p.address || p.city)}</div>
-          <div class="private-story">${escHtml(p.story.substring(0, 60))}...</div>
-          <div class="private-tags">${p.tags.map(t => `<span class="private-tag">${escHtml(t)}</span>`).join('')}</div>
+          <div class="private-title">${Utils.escHtml(p.title)}</div>
+          <div class="private-address"><i class="fas fa-map-marker-alt"></i> ${Utils.escHtml(p.address || p.city)}</div>
+          <div class="private-story">${Utils.escHtml(p.story.substring(0, 60))}...</div>
+          <div class="private-tags">${p.tags.map(t => `<span class="private-tag">${Utils.escHtml(t)}</span>`).join('')}</div>
           <div class="private-meta">
             <span><i class="fas fa-lock"></i> ${p.privacy === 'private' ? '私密' : '已公开'}</span>
             <span>${p.familyMembers.length > 0 ? '<i class="fas fa-users"></i> ' + p.familyMembers.length + '位家人' : ''}</span>
@@ -577,8 +577,8 @@
       html += `<div class="notif-item ${n.read ? '' : 'unread'}">
         <div class="notif-icon ${n.type}"><i class="fas ${iconMap[n.type] || 'fa-bell'}"></i></div>
         <div class="notif-body">
-          <div class="notif-title">${escHtml(n.title)}</div>
-          <div class="notif-desc">${escHtml(n.content)}</div>
+          <div class="notif-title">${Utils.escHtml(n.title)}</div>
+          <div class="notif-desc">${Utils.escHtml(n.content)}</div>
           <div class="notif-time">${n.time}</div>
         </div>
       </div>`;
@@ -605,8 +605,8 @@
         <div class="circle-card-header">
           <div class="circle-card-icon" style="background:${colors[i]}"><i class="fas fa-hashtag"></i></div>
           <div class="circle-card-info">
-            <div class="circle-card-title">${escHtml(c.title)}</div>
-            <div class="circle-card-desc">${escHtml(c.desc)}</div>
+            <div class="circle-card-title">${Utils.escHtml(c.title)}</div>
+            <div class="circle-card-desc">${Utils.escHtml(c.desc)}</div>
           </div>
           <button class="circle-card-join-btn joined">已加入</button>
         </div>
@@ -636,8 +636,8 @@
     }
     content.innerHTML = `
       <div class="circle-detail-header-info">
-        <h3>${escHtml(circle.title)}</h3>
-        <p>${escHtml(circle.desc)}</p>
+        <h3>${Utils.escHtml(circle.title)}</h3>
+        <p>${Utils.escHtml(circle.desc)}</p>
       </div>
       <div class="circle-detail-stats">
         <span><div class="num">${circle.members}</div><div class="label">成员</div></span>
@@ -662,7 +662,7 @@
     let html = '<h3 style="padding:0 4px;margin-bottom:12px;font-size:15px;color:var(--ink,#2c3e50)">这些地标正在接力中</h3>';
     DB.memoryRelay.forEach(r => {
       html += `<div class="relay-card" onclick="app.showRelayTimeline(${r.landmarkId})">
-        <div class="relay-card-title">${escHtml(r.landmarkTitle)}</div>
+        <div class="relay-card-title">${Utils.escHtml(r.landmarkTitle)}</div>
         <div class="relay-card-meta">
           <span><i class="fas fa-users"></i> ${r.timeline.length} 人接力</span>
           <span><i class="fas fa-calendar"></i> ${r.timeline[0].year} - ${r.timeline[r.timeline.length-1].year}</span>
@@ -688,9 +688,9 @@
         <div class="timeline-year">${t.year}</div>
         <div class="timeline-card">
           <img src="${t.image}" alt="">
-          <div class="timeline-card-story">${escHtml(t.story)}</div>
+          <div class="timeline-card-story">${Utils.escHtml(t.story)}</div>
           <div class="timeline-card-author">
-            <span>${escHtml(t.authorName)}</span>
+            <span>${Utils.escHtml(t.authorName)}</span>
             <div class="timeline-card-stats">
               <span><i class="fas fa-heart"></i> ${t.likes}</span>
               <span><i class="fas fa-comment"></i></span>
@@ -730,7 +730,7 @@
       </div>
       <div class="user-profile-info">
         <div class="user-profile-name">${user.nickname} ${user.isExpert ? '<i class="fas fa-check-circle" style="color:#3498db;font-size:14px"></i>' : ''}</div>
-        <div class="user-profile-bio">${escHtml(user.bio)}</div>
+        <div class="user-profile-bio">${Utils.escHtml(user.bio)}</div>
         <div class="user-profile-stats-row">
           <div class="stat-item"><span class="stat-num">${user.memoryCount}</span><span class="stat-label">记忆</span></div>
           <div class="stat-item"><span class="stat-num">${user.followerCount}</span><span class="stat-label">粉丝</span></div>
@@ -776,8 +776,8 @@
       html += `<div class="nearby-user-card">
         <img src="${u.avatar}" alt="">
         <div class="nearby-user-info">
-          <div class="nearby-user-name">${escHtml(u.nickname)}</div>
-          <div class="nearby-user-status">${escHtml(u.status)}</div>
+          <div class="nearby-user-name">${Utils.escHtml(u.nickname)}</div>
+          <div class="nearby-user-status">${Utils.escHtml(u.status)}</div>
           <div class="nearby-user-meta">
             <span class="distance"><i class="fas fa-map-marker-alt"></i> ${u.distance}</span>
             <span><i class="fas fa-star"></i> ${u.levelName}</span>
@@ -801,8 +801,8 @@
       html += `<div class="weekly-candidate">
         <img src="${c.image}" alt="">
         <div class="weekly-candidate-info">
-          <div class="weekly-candidate-title">${i + 1}. ${escHtml(c.title)}</div>
-          <div class="weekly-candidate-author">by ${escHtml(c.authorName)}</div>
+          <div class="weekly-candidate-title">${i + 1}. ${Utils.escHtml(c.title)}</div>
+          <div class="weekly-candidate-author">by ${Utils.escHtml(c.authorName)}</div>
           <div class="vote-count"><i class="fas fa-fire"></i> ${c.votes} 票</div>
         </div>
         <button class="vote-btn ${DB.weeklyBest.userVoted ? 'voted' : ''}" onclick="app.voteWeekly(${c.memoryId})">
@@ -894,7 +894,7 @@
         <div class="friend-suggest-list" id="friend-suggest-list">
           ${DB.users.filter(u => DB.currentUser.following.includes(u.id)).map(u => `
             <div class="friend-suggest-item" onclick="app.selectPostcardRecipient('${u.id}')">
-              <img src="${u.avatar}" alt=""> ${escHtml(u.nickname)}
+              <img src="${u.avatar}" alt=""> ${Utils.escHtml(u.nickname)}
             </div>
           `).join('')}
         </div>
@@ -907,7 +907,7 @@
     if (!list) return;
     const friends = DB.users.filter(u => DB.currentUser.following.includes(u.id));
     const filtered = keyword ? friends.filter(u => u.nickname.includes(keyword)) : friends;
-    list.innerHTML = filtered.map(u => `<div class="friend-suggest-item" onclick="app.selectPostcardRecipient('${u.id}')"><img src="${u.avatar}" alt=""> ${escHtml(u.nickname)}</div>`).join('');
+    list.innerHTML = filtered.map(u => `<div class="friend-suggest-item" onclick="app.selectPostcardRecipient('${u.id}')"><img src="${u.avatar}" alt=""> ${Utils.escHtml(u.nickname)}</div>`).join('');
   },
   selectPostcardRecipient(userId) {
     const user = DB.users.find(u => u.id === userId);
@@ -930,8 +930,8 @@
       <div class="share-card-preview" style="margin:0;border-radius:0">
         <img src="${memory.oldImages[0]}" alt="">
         <div class="card-body">
-          <h4>${escHtml(memory.title)}</h4>
-          <p>${escHtml(memory.story.substring(0, 60))}...</p>
+          <h4>${Utils.escHtml(memory.title)}</h4>
+          <p>${Utils.escHtml(memory.story.substring(0, 60))}...</p>
         </div>
         <div class="card-footer">城市微记忆 · ${memory.year} · 扫码查看更多</div>
       </div>
@@ -983,9 +983,9 @@
             // 已收集：显示地标缩略图 + 金色边框
             const memory = DB.memories.find(m => m.id === frag.memoryId);
             const thumb = memory && memory.oldImages && memory.oldImages[0] ? memory.oldImages[0] : '';
-            gridHtml += `<div class="fragment-cell fragment-collected" title="${escHtml(frag.title)}">
+            gridHtml += `<div class="fragment-cell fragment-collected" title="${Utils.escHtml(frag.title)}">
               ${thumb ? `<img src="${thumb}" alt="${frag.title}" class="fragment-thumb">` : `<i class="fas ${frag.icon}"></i>`}
-              <span class="fragment-label">${escHtml(frag.title)}</span>
+              <span class="fragment-label">${Utils.escHtml(frag.title)}</span>
             </div>`;
           } else {
             // 未收集：灰色半透明
@@ -1011,8 +1011,8 @@
           ${thumb ? `<img src="${thumb}" alt="${memory.title}">` : '<i class="fas fa-image"></i>'}
         </div>
         <div class="fragment-landmark-info">
-          <h4>${escHtml(memory.title)}</h4>
-          <p>${escHtml(memory.year)} · ${escHtml(memory.address || '')}</p>
+          <h4>${Utils.escHtml(memory.title)}</h4>
+          <p>${Utils.escHtml(memory.year)} · ${Utils.escHtml(memory.address || '')}</p>
           ${frag.collected ? `<span class="fragment-collected-badge"><i class="fas fa-check-circle"></i> 已收集</span>` : ''}
         </div>
         <button class="fragment-checkin-btn ${frag.collected ? 'checked' : ''}" onclick="app.collectFragment(${frag.memoryId})" ${frag.collected ? 'disabled' : ''}>

@@ -1,8 +1,8 @@
-          <div class="waterfall-desc">${escHtml(m.story.substring(0, 40))}${m.story.length > 40 ? '...' : ''}</div>
+          <div class="waterfall-desc">${Utils.escHtml(m.story.substring(0, 40))}${m.story.length > 40 ? '...' : ''}</div>
           <div class="waterfall-footer">
             <div class="waterfall-author">
               <img src="${m.authorName === DB.currentUser.nickname ? DB.currentUser.avatar : 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + (m.userId || m.authorName)}" alt="">
-              <span>${escHtml(m.authorName)}</span>
+              <span>${Utils.escHtml(m.authorName)}</span>
             </div>
             <div class="waterfall-actions">
               <span><i class="fas fa-heart"></i> ${m.likes}</span>
@@ -47,7 +47,7 @@
       html += `<div class="discover-feed-item" ${item.memoryId ? `onclick="app.openDetail(${item.memoryId})"` : ''}>
         <img class="discover-feed-avatar" src="${item.userAvatar}" alt="">
         <div class="discover-feed-body">
-          <div class="discover-feed-name">${escHtml(item.userName)} <span class="discover-feed-action">${escHtml(item.action)}</span></div>
+          <div class="discover-feed-name">${Utils.escHtml(item.userName)} <span class="discover-feed-action">${Utils.escHtml(item.action)}</span></div>
           ${item.type === 'memory' ? `<div class="discover-feed-memory"><img src="${item.memoryImage}" alt=""><span>${item.memoryTitle}</span></div>` : ''}
           <div class="discover-feed-time">${item.time}</div>
         </div>
@@ -97,14 +97,14 @@
     const related = DB.memories.filter(m => m.tags.some(t => t.includes(topic.title.slice(0, 2))));
     document.getElementById('topic-content').innerHTML = `
       <div class="topic-banner"><i class="fas fa-hashtag" style="font-size:48px;color:var(--text-muted);"></i></div>
-      <div class="topic-desc">${escHtml(topic.desc)}</div>
+      <div class="topic-desc">${Utils.escHtml(topic.desc)}</div>
       <div style="font-size:14px;color:var(--text-light);margin-bottom:12px;">共 ${topic.count} 条记忆</div>
       <div class="discover-content" style="column-count:2;column-gap:10px;">
         ${related.map(m => `
           <div class="waterfall-card" onclick="app.openDetail(${m.id})">
             <img src="${m.oldImages[0]}" alt="${m.title}">
             <div class="waterfall-info">
-              <div class="waterfall-title">${escHtml(m.title)}</div>
+              <div class="waterfall-title">${Utils.escHtml(m.title)}</div>
               <div class="waterfall-meta">
                 <span class="waterfall-year">${m.year}</span>
                 <span><i class="fas fa-heart"></i> ${m.likes}</span>
@@ -918,12 +918,12 @@
       return `
       <div class="capsule-item ${isUnlocked ? 'unlocked' : ''}">
         <div class="capsule-item-header">
-          <span class="capsule-item-title">给${escHtml(c.recipientName)}的胶囊</span>
+          <span class="capsule-item-title">给${Utils.escHtml(c.recipientName)}的胶囊</span>
           <span class="capsule-item-date">${Utils.formatDate(c.createdAt)}</span>
         </div>
-        <div style="font-size:13px;color:var(--text-light);margin-bottom:8px;">${escHtml(c.content.substring(0, 50))}...</div>
+        <div style="font-size:13px;color:var(--text-light);margin-bottom:8px;">${Utils.escHtml(c.content.substring(0, 50))}...</div>
         <div class="capsule-countdown"><i class="fas ${isUnlocked ? 'fa-unlock' : 'fa-hourglass-half'}"></i> ${isUnlocked ? '已解锁' : Utils.formatCountdown(c.unlockTime)}</div>
-        ${isUnlocked ? `<div class="capsule-unlocked-content">${escHtml(c.content)}</div>` : ''}
+        ${isUnlocked ? `<div class="capsule-unlocked-content">${Utils.escHtml(c.content)}</div>` : ''}
       </div>
     `}).join('');
   },
@@ -977,8 +977,8 @@
           <div class="route-stop" id="stop-${i}">
             <div class="stop-number">${i + 1}</div>
             <div class="stop-info">
-              <div class="stop-name">${escHtml(s.name)}</div>
-              <div class="stop-desc">${escHtml(s.desc)}</div>
+              <div class="stop-name">${Utils.escHtml(s.name)}</div>
+              <div class="stop-desc">${Utils.escHtml(s.desc)}</div>
             </div>
           </div>
         `).join('')}
@@ -1007,7 +1007,7 @@
       document.getElementById('route-detail-content').innerHTML += `
         <div class="route-complete">
           <div class="route-complete-icon"><i class="fas fa-medal"></i></div>
-          <h3>恭喜完成「${escHtml(route.title)}」</h3>
+          <h3>恭喜完成「${Utils.escHtml(route.title)}」</h3>
           <p style="color:var(--text-light);margin-top:8px;">获得路线征服者勋章</p>
         </div>
       `;
@@ -1033,7 +1033,7 @@
     this.navigateTo('post');
     const select = document.getElementById('pc-memory-select');
     select.innerHTML = '<option value="">请选择一张记忆...</option>' +
-      DB.memories.map(m => `<option value="${m.id}">${escHtml(m.title)}</option>`).join('');
+      DB.memories.map(m => `<option value="${m.id}">${Utils.escHtml(m.title)}</option>`).join('');
     document.getElementById('pc-from').textContent = DB.currentUser.nickname;
     this.renderPostLists();
   },
@@ -1081,9 +1081,9 @@
       <div class="post-item">
         <img src="${pc.image}" alt="${pc.title}">
         <div class="post-item-info">
-          <div class="post-item-title">${escHtml(pc.title)}</div>
-          <div class="post-item-desc">寄给：${escHtml(pc.to)} · ${pc.date}</div>
-          ${pc.message ? `<div style="font-size:12px;color:var(--text-light);margin-top:4px;">${escHtml(pc.message)}</div>` : ''}
+          <div class="post-item-title">${Utils.escHtml(pc.title)}</div>
+          <div class="post-item-desc">寄给：${Utils.escHtml(pc.to)} · ${pc.date}</div>
+          ${pc.message ? `<div style="font-size:12px;color:var(--text-light);margin-top:4px;">${Utils.escHtml(pc.message)}</div>` : ''}
         </div>
       </div>
     `;
@@ -1175,9 +1175,9 @@
         <div class="float-up">
           <div style="background:var(--bg-card);border-radius:12px;padding:16px;box-shadow:0 4px 12px var(--shadow);margin-top:16px;">
             <img src="${randomMemory.oldImages[0]}" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
-            <div style="font-weight:600;margin-bottom:4px;">${escHtml(randomMemory.title)}</div>
-            <span style="background:var(--primary-light);color:var(--primary-dark);padding:2px 8px;border-radius:4px;font-size:12px;">${escHtml(randomMemory.year)}</span>
-            <p style="font-size:13px;color:var(--text-light);margin-top:8px;line-height:1.5;">${escHtml(randomMemory.story.substring(0, 60))}...</p>
+            <div style="font-weight:600;margin-bottom:4px;">${Utils.escHtml(randomMemory.title)}</div>
+            <span style="background:var(--primary-light);color:var(--primary-dark);padding:2px 8px;border-radius:4px;font-size:12px;">${Utils.escHtml(randomMemory.year)}</span>
+            <p style="font-size:13px;color:var(--text-light);margin-top:8px;line-height:1.5;">${Utils.escHtml(randomMemory.story.substring(0, 60))}...</p>
             <button class="next-btn" style="margin-top:12px;" onclick="app.openDetail(${randomMemory.id})">查看详情</button>
           </div>
         </div>
@@ -1200,9 +1200,9 @@
       <div class="calendar-card" onclick="app.openDetail(${m.id})">
         <img src="${m.oldImages[0]}" alt="${m.title}">
         <div class="calendar-card-body">
-          <div class="calendar-card-title">${escHtml(m.title)}</div>
-          <span class="calendar-card-year">${escHtml(m.year)}</span>
-          <p style="font-size:13px;color:var(--text-light);margin-top:6px;line-height:1.5;">${escHtml(m.story.substring(0, 60))}...</p>
+          <div class="calendar-card-title">${Utils.escHtml(m.title)}</div>
+          <span class="calendar-card-year">${Utils.escHtml(m.year)}</span>
+          <p style="font-size:13px;color:var(--text-light);margin-top:6px;line-height:1.5;">${Utils.escHtml(m.story.substring(0, 60))}...</p>
         </div>
       </div>
     `).join('') || '<div style="text-align:center;padding:40px;color:var(--text-light);">历史上的今天暂无记忆</div>';
@@ -1224,7 +1224,7 @@
       <div class="myupload-card">
         <img src="${m.oldImages[0]}" alt="${m.title}">
         <div class="myupload-info">
-          <div class="myupload-title">${escHtml(m.title)}</div>
+          <div class="myupload-title">${Utils.escHtml(m.title)}</div>
           <span class="myupload-status status-${m.status === '已发布' ? 'approved' : m.status === '待审核' ? 'pending' : 'rejected'}">${m.status}</span>
           <div class="myupload-stats"><i class="fas fa-heart"></i> ${m.likes} · <i class="fas fa-comment"></i> ${m.comments}</div>
         </div>
@@ -1240,8 +1240,8 @@
       <div class="myfav-card" onclick="app.openDetail(${m.id})">
         <img src="${m.oldImages[0]}" alt="${m.title}">
         <div class="myfav-info">
-          <div class="myfav-title">${escHtml(m.title)}</div>
-          <span style="background:var(--primary-light);color:var(--primary-dark);padding:2px 8px;border-radius:4px;font-size:12px;">${escHtml(m.year)}</span>
+          <div class="myfav-title">${Utils.escHtml(m.title)}</div>
+          <span style="background:var(--primary-light);color:var(--primary-dark);padding:2px 8px;border-radius:4px;font-size:12px;">${Utils.escHtml(m.year)}</span>
           <div class="myfav-stats"><i class="fas fa-heart"></i> ${m.likes}</div>
         </div>
       </div>
@@ -1260,9 +1260,9 @@
         <div class="footprint-card" onclick="app.openDetail(${m.id})">
           <img src="${m.oldImages[0]}" alt="${m.title}">
           <div class="footprint-card-info">
-            <div class="footprint-card-title">${escHtml(m.title)}</div>
-            <span class="footprint-card-year">${escHtml(m.year)}</span>
-            <div class="footprint-card-meta">${escHtml(m.city)} · ${escHtml(m.address || '')}</div>
+            <div class="footprint-card-title">${Utils.escHtml(m.title)}</div>
+            <span class="footprint-card-year">${Utils.escHtml(m.year)}</span>
+            <div class="footprint-card-meta">${Utils.escHtml(m.city)} · ${Utils.escHtml(m.address || '')}</div>
           </div>
         </div>
       `).join('') || '<div style="text-align:center;padding:40px;color:var(--text-light);">还没有足迹，快去探索吧</div>';

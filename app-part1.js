@@ -3,9 +3,6 @@
  * 包含所有模块的交互实现
  ***********************************/
 
-// HTML 安全转义工具函数
-function escHtml(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
 // 魔法数字命名常量
 const NAV_HEIGHT = 52;
 const HEADER_HEIGHT = 48;
@@ -394,7 +391,7 @@ const app = {
         <p style="font-size:14px;">地图加载中...</p>
         <p style="font-size:12px;margin-top:8px;">请检查网络连接</p>
         <div style="margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:300px;">
-          ${DB.memories.map(m => `<div class="mock-marker" data-id="${m.id}" style="background:#C75B39;color:#fff;padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;">${escHtml(m.title)}</div>`).join('')}
+          ${DB.memories.map(m => `<div class="mock-marker" data-id="${m.id}" style="background:#C75B39;color:#fff;padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;">${Utils.escHtml(m.title)}</div>`).join('')}
         </div>
       </div>
     `;
@@ -563,7 +560,7 @@ const app = {
     // 为每条路线创建选择 chip
     let html = '<span class="route-chip active" data-route="0" onclick="app.toggleMapRoute(0)"><i class="fas fa-eye-slash"></i> 隐藏路线</span>';
     DB.routes.forEach(r => {
-      html += `<span class="route-chip" data-route="${r.id}" onclick="app.toggleMapRoute(${r.id})" style="--route-color:${r.color}">${escHtml(r.title)}</span>`;
+      html += `<span class="route-chip" data-route="${r.id}" onclick="app.toggleMapRoute(${r.id})" style="--route-color:${r.color}">${Utils.escHtml(r.title)}</span>`;
     });
     scroll.innerHTML = html;
   },
@@ -640,9 +637,9 @@ const app = {
       const iconMarker = L.marker([stop.lat, stop.lng], { icon }).addTo(this.map);
       iconMarker.bindPopup(`
         <div style="min-width:180px;font-family:system-ui;">
-          <div style="font-size:14px;font-weight:700;margin-bottom:4px;">${escHtml(stop.name)}</div>
-          <div style="font-size:12px;color:#666;margin-bottom:6px;">${escHtml(stop.desc)}</div>
-          <div style="font-size:11px;color:#999;">${escHtml(route.title)} · 第${i+1}站/${route.stops.length}站</div>
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px;">${Utils.escHtml(stop.name)}</div>
+          <div style="font-size:12px;color:#666;margin-bottom:6px;">${Utils.escHtml(stop.desc)}</div>
+          <div style="font-size:11px;color:#999;">${Utils.escHtml(route.title)} · 第${i+1}站/${route.stops.length}站</div>
           <button onclick="app.checkinRouteStop(${route.id}, ${i})" style="margin-top:8px;width:100%;padding:6px;border:none;border-radius:6px;background:${route.color};color:#fff;font-size:12px;cursor:pointer;">${isChecked ? '已打卡' : '打卡此站'}</button>
         </div>
       `);
@@ -772,16 +769,16 @@ const app = {
 
     content.innerHTML = `
       <div id="compare-placeholder"></div>
-      <div class="detail-title">${escHtml(m.title)}</div>
+      <div class="detail-title">${Utils.escHtml(m.title)}</div>
       <div class="detail-meta">
-        <span class="detail-year">${escHtml(m.year)}</span>
-        <span><i class="fas fa-map-marker-alt"></i> ${escHtml(m.address || m.city)}</span>
+        <span class="detail-year">${Utils.escHtml(m.year)}</span>
+        <span><i class="fas fa-map-marker-alt"></i> ${Utils.escHtml(m.address || m.city)}</span>
         <span><i class="fas fa-eye"></i> ${m.views}</span>
       </div>
       ${m.useStreetview ? `<div class="streetview-hint"><i class="fas fa-street-view"></i> 新照片使用街景，实际效果请在地图中查看</div>` : ''}
-      <div class="detail-story">${escHtml(m.story)}</div>
+      <div class="detail-story">${Utils.escHtml(m.story)}</div>
       ${m.voiceUrl ? `<div class="detail-voice" onclick="app.playVoice('${m.voiceUrl}')"><i class="fas fa-play-circle"></i><span>语音回忆 (${m.voiceDuration}秒)</span></div>` : ''}
-      <div class="detail-tags">${m.tags.map(t => `<span class="detail-tag">${escHtml(t)}</span>`).join('')}</div>
+      <div class="detail-tags">${m.tags.map(t => `<span class="detail-tag">${Utils.escHtml(t)}</span>`).join('')}</div>
       <div class="detail-actions">
         <div class="detail-action ${m.liked ? 'active' : ''}" onclick="app.toggleLike(${m.id})"><i class="${m.liked ? 'fas' : 'far'} fa-heart"></i><span>${m.likes}</span></div>
         <div class="detail-action" onclick="app.openComments(${m.id})"><i class="far fa-comment"></i><span>${m.comments}</span></div>
@@ -790,7 +787,7 @@ const app = {
         <div class="detail-action" onclick="app.showTimeTravel()"><i class="fas fa-images"></i><span>同框</span></div>
       </div>
       <div style="padding:10px 0;font-size:13px;color:var(--text-light);">
-        <i class="fas fa-user"></i> ${m.isAnonymous ? '匿名' : `<span style="color:var(--accent);cursor:pointer" onclick="app.showUserProfile('${m.userId}')">${escHtml(m.authorName)}</span>`} · ${Utils.formatDate(m.createdAt)}
+        <i class="fas fa-user"></i> ${m.isAnonymous ? '匿名' : `<span style="color:var(--accent);cursor:pointer" onclick="app.showUserProfile('${m.userId}')">${Utils.escHtml(m.authorName)}</span>`} · ${Utils.formatDate(m.createdAt)}
       </div>
       <!-- 记忆DNA标签页区域 -->
       <div class="detail-dna-section">
@@ -1194,8 +1191,8 @@ const app = {
       <div class="comment-item">
         <img class="comment-avatar" src="${c.avatar}" alt="">
         <div class="comment-body">
-          <div class="comment-author">${escHtml(c.authorName)}</div>
-          <div class="comment-text">${escHtml(c.content)}</div>
+          <div class="comment-author">${Utils.escHtml(c.authorName)}</div>
+          <div class="comment-text">${Utils.escHtml(c.content)}</div>
           <div class="comment-time">${Utils.formatDate(c.createdAt)}</div>
           <div class="comment-like ${c.liked ? 'active' : ''}" onclick="app.toggleCommentLike(${c.id})">
             <i class="${c.liked ? 'fas' : 'far'} fa-thumbs-up"></i> ${c.likes || 0}
@@ -1312,7 +1309,7 @@ const app = {
             <div class="hot-card" onclick="app.openDetail(${m.id})">
               <div class="hot-card-img"><img src="${m.oldImages[0]}" alt="${m.title}" loading="lazy"><div class="hot-card-badge">${i + 1}</div></div>
               <div class="hot-card-info">
-                <div class="hot-card-title">${escHtml(m.title)}</div>
+                <div class="hot-card-title">${Utils.escHtml(m.title)}</div>
                 <div class="hot-card-stats"><i class="fas fa-eye"></i> ${m.views} <i class="fas fa-heart" style="margin-left:6px"></i> ${m.likes}</div>
               </div>
             </div>
@@ -1327,8 +1324,8 @@ const app = {
       <div class="waterfall-card" onclick="app.openDetail(${m.id})">
         <div class="waterfall-img-wrap">
           <img src="${m.oldImages[0]}" alt="${m.title}" loading="lazy" onload="this.classList.add('loaded')">
-          <div class="waterfall-year-tag">${escHtml(m.year)}</div>
+          <div class="waterfall-year-tag">${Utils.escHtml(m.year)}</div>
           ${m.isFeatured ? '<div class="waterfall-featured"><i class="fas fa-star"></i> 编辑推荐</div>' : ''}
         </div>
         <div class="waterfall-info">
-          <div class="waterfall-title">${escHtml(m.title)}</div>
+          <div class="waterfall-title">${Utils.escHtml(m.title)}</div>
