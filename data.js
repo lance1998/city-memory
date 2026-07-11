@@ -2056,7 +2056,7 @@ const DB = {
   ],
 
   // 收藏数据
-  favorites: [1, 3, 6],
+  favorites: new Set([1, 3, 6]),
 
   // 浏览足迹
   footprints: [1, 2, 3, 4, 6],
@@ -4242,6 +4242,9 @@ const Storage = {
   },
   set(key, value) {
     try {
+      if (value instanceof Set) {
+        value = Array.from(value);
+      }
       localStorage.setItem('citymemory_' + key, JSON.stringify(value));
     } catch(e) {
       console.error('Storage save failed:', e);
@@ -4279,7 +4282,7 @@ function initStorage() {
     const chinaCities = Storage.get('chinaCities');
     if (chinaCities && Array.isArray(chinaCities)) DB.chinaCities = chinaCities;
     const favorites = Storage.get('favorites');
-    if (favorites && Array.isArray(favorites)) DB.favorites = favorites;
+    if (favorites && Array.isArray(favorites)) DB.favorites = new Set(favorites);
     const footprints = Storage.get('footprints');
     if (footprints && Array.isArray(footprints)) DB.footprints = footprints;
     const capsules = Storage.get('capsules');

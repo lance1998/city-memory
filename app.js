@@ -836,7 +836,7 @@ const app = {
       <div class="detail-actions">
         <div class="detail-action ${m.liked ? 'active' : ''}" onclick="app.toggleLike(${m.id})"><i class="${m.liked ? 'fas' : 'far'} fa-heart"></i><span>${m.likes}</span></div>
         <div class="detail-action" onclick="app.openComments(${m.id})"><i class="far fa-comment"></i><span>${m.comments}</span></div>
-        <div class="detail-action ${DB.favorites.includes(m.id) ? 'active' : ''}" onclick="app.toggleFavorite(${m.id})"><i class="${DB.favorites.includes(m.id) ? 'fas' : 'far'} fa-star"></i><span>收藏</span></div>
+        <div class="detail-action ${DB.favorites.has(m.id) ? 'active' : ''}" onclick="app.toggleFavorite(${m.id})"><i class="${DB.favorites.has(m.id) ? 'fas' : 'far'} fa-star"></i><span>收藏</span></div>
         <div class="detail-action" onclick="app.showShareCard(${m.id})"><i class="fas fa-share-alt"></i><span>分享</span></div>
         <div class="detail-action" onclick="app.showTimeTravel()"><i class="fas fa-images"></i><span>同框</span></div>
       </div>
@@ -1233,12 +1233,11 @@ const app = {
   },
 
   toggleFavorite(id) {
-    const idx = DB.favorites.indexOf(id);
-    if (idx > -1) {
-      DB.favorites.splice(idx, 1);
+    if (DB.favorites.has(id)) {
+      DB.favorites.delete(id);
       this.toast('已取消收藏');
     } else {
-      DB.favorites.push(id);
+      DB.favorites.add(id);
       this.toast('已收藏');
     }
     DB.save(['favorites']);
@@ -2674,7 +2673,7 @@ const app = {
 
   showMyFavorites() {
     const container = document.getElementById('myfavorites-list');
-    const favMemories = DB.memories.filter(m => DB.favorites.includes(m.id));
+    const favMemories = DB.memories.filter(m => DB.favorites.has(m.id));
     container.innerHTML = favMemories.map(m => `
       <div class="myfav-card" onclick="app.openDetail(${m.id})">
         <img src="${m.oldImages[0]}" alt="${m.title}">

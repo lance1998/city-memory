@@ -1235,7 +1235,7 @@
 
   showMyFavorites() {
     const container = document.getElementById('myfavorites-list');
-    const favMemories = DB.memories.filter(m => DB.favorites.includes(m.id));
+    const favMemories = DB.memories.filter(m => DB.favorites.has(m.id));
     container.innerHTML = favMemories.map(m => `
       <div class="myfav-card" onclick="app.openDetail(${m.id})">
         <img src="${m.oldImages[0]}" alt="${m.title}">
