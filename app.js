@@ -8,7 +8,6 @@ function escHtml(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').
 
 // 魔法数字命名常量
 const NAV_HEIGHT = 52;
-const HEADER_HEIGHT = 48;
 const ANIMATION_DURATION = 300;
 const MAX_UPLOAD_SIZE = 10;
 
