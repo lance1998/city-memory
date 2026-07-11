@@ -121,9 +121,15 @@
     if (app.markers && app.map) {
       var visibleCount = 0;
       var totalInCity = 0;
+      var memMap = new Map();
+      if (DB.memories) {
+        for (var i = 0; i < DB.memories.length; i++) {
+          memMap.set(DB.memories[i].id, DB.memories[i]);
+        }
+      }
       app.markers.forEach(function(marker) {
         if (!marker.memoryId) return;
-        var mem = DB.memories ? DB.memories.find(function(m) { return m.id === marker.memoryId; }) : null;
+        var mem = memMap.get(marker.memoryId);
         if (!mem) return;
 
         if (cityName === '__ALL__') {

@@ -527,8 +527,14 @@ const app = {
     const filter = DB.state.yearFilter;
     if (!this.markerLayer) return;
     this.markerLayer.clearLayers();
+    const memMap = new Map();
+    if (DB.memories) {
+      for (let i = 0; i < DB.memories.length; i++) {
+        memMap.set(DB.memories[i].id, DB.memories[i]);
+      }
+    }
     this.markers.forEach(marker => {
-      const memory = DB.memories.find(m => m.id === marker.memoryId);
+      const memory = memMap.get(marker.memoryId);
       if (!memory) return;
       const showYear = filter === 'all' || Utils.getYearClass(memory.year) === filter;
       const showCity = memory.city === DB.state.currentCity;

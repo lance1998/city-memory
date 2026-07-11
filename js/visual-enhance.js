@@ -317,9 +317,15 @@
   // ==================== 9. 标记 tooltip 增强 ====================
   function enhanceTooltips() {
     if (!app.markers) return;
+    var memMap = new Map();
+    if (DB.memories) {
+      for (var i = 0; i < DB.memories.length; i++) {
+        memMap.set(DB.memories[i].id, DB.memories[i]);
+      }
+    }
     app.markers.forEach(function(marker) {
       if (!marker.memoryId) return;
-      var mem = DB.memories.find(function(m) { return m.id === marker.memoryId; });
+      var mem = memMap.get(marker.memoryId);
       if (!mem) return;
 
       var tooltipHtml = '<div style="text-align:center;min-width:140px;">' +
