@@ -3,6 +3,8 @@
 (function() {
   'use strict';
 
+  function escHtml(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
   // ==================== 时光页内容 ====================
   var timeCards = [
     {
@@ -56,7 +58,7 @@
 
     var html = timeCards.map(function(card, i) {
       return '<div class="time-card" data-index="' + i + '" style="' +
-        'background: ' + card.color + ';' +
+        'background: ' + escHtml(card.color) + ';' +
         'border-radius: 16px;' +
         'padding: 20px;' +
         'color: #fff;' +
@@ -65,10 +67,10 @@
         'box-shadow: 0 4px 12px rgba(0,0,0,0.1);' +
         '">' +
         '<div style="font-size: 28px; margin-bottom: 12px; opacity: 0.95;">' +
-          '<i class="fas ' + card.icon + '"></i>' +
+          '<i class="fas ' + escHtml(card.icon) + '"></i>' +
         '</div>' +
-        '<h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">' + card.title + '</h3>' +
-        '<p style="margin: 0; font-size: 13px; opacity: 0.9; line-height: 1.5;">' + card.desc + '</p>' +
+        '<h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">' + escHtml(card.title) + '</h3>' +
+        '<p style="margin: 0; font-size: 13px; opacity: 0.9; line-height: 1.5;">' + escHtml(card.desc) + '</p>' +
       '</div>';
     }).join('');
 
@@ -112,7 +114,7 @@
     var html = menuItems.map(function(item) {
       var badgeHtml = item.badge ?
         '<span style="' +
-          'background: ' + item.color + ';' +
+          'background: ' + escHtml(item.color) + ';' +
           'color: #fff;' +
           'font-size: 11px;' +
           'padding: 2px 8px;' +
@@ -121,7 +123,7 @@
           'min-width: 18px;' +
           'text-align: center;' +
           'display: inline-block;' +
-        '">' + item.badge + '</span>' : '';
+        '">' + escHtml(item.badge) + '</span>' : '';
 
       return '<div class="profile-menu-item" style="' +
         'display: flex;' +
@@ -135,18 +137,18 @@
           'width: 36px;' +
           'height: 36px;' +
           'border-radius: 10px;' +
-          'background: ' + item.color + '15;' +
-          'color: ' + item.color + ';' +
+          'background: ' + escHtml(item.color) + '15;' +
+          'color: ' + escHtml(item.color) + ';' +
           'display: flex;' +
           'align-items: center;' +
           'justify-content: center;' +
           'font-size: 16px;' +
           'margin-right: 14px;' +
         '">' +
-          '<i class="fas ' + item.icon + '"></i>' +
+          '<i class="fas ' + escHtml(item.icon) + '"></i>' +
         '</div>' +
         '<div style="flex: 1; font-size: 15px; color: #333; font-weight: 500;">' +
-          item.title + badgeHtml +
+          escHtml(item.title) + badgeHtml +
         '</div>' +
         '<div style="color: #bbb; font-size: 14px;">' +
           '<i class="fas fa-chevron-right"></i>' +
