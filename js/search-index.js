@@ -37,7 +37,14 @@
         author: m.authorName || '',
         story: (m.story || '').substring(0, 100),
         likes: m.likes || 0,
-        _matchStr: (m.title + ' ' + m.city + ' ' + py + ' ' + (m.tags || []).join(' ') + ' ' + m.year + ' ' + m.authorName).toLowerCase()
+        _matchStr: (m.title + ' ' + m.city + ' ' + py + ' ' + (m.tags || []).join(' ') + ' ' + m.year + ' ' + m.authorName + ' ' + (m.story || '').substring(0, 100)).toLowerCase(),
+        titleLow: (m.title || '').toLowerCase(),
+        cityLow: (m.city || '').toLowerCase(),
+        cityPinyinLow: (py || '').toLowerCase(),
+        tagsLow: ((m.tags || []).join(' ')).toLowerCase(),
+        yearLow: (m.year || '').toLowerCase(),
+        authorLow: (m.authorName || '').toLowerCase(),
+        storyLow: ((m.story || '').substring(0, 100)).toLowerCase()
       };
     });
     console.log('[SearchIndex] 已建立索引，共 ' + _searchIndex.length + ' 条');
@@ -51,27 +58,35 @@
     if (!q) return null;
 
     // Score-based search
-    var scored = _searchIndex.map(function(item) {
-      var score = 0;
+    var scored = [];
+    for (var i = 0; i < _searchIndex.length; i++) {
+      var item = _searchIndex[i];
       var str = item._matchStr;
 
-      // Exact title match
-      if (item.title.toLowerCase().indexOf(q) !== -1) score += 100;
-      // City match
-      if (item.city.toLowerCase().indexOf(q) !== -1) score += 80;
-      // Pinyin match
-      if (item.cityPinyin.toLowerCase().indexOf(q) !== -1) score += 70;
-      // Tag match
-      if (item.tags.toLowerCase().indexOf(q) !== -1) score += 60;
-      // Year match
-      if (item.year.toLowerCase().indexOf(q) !== -1) score += 50;
-      // Author match
-      if (item.author.toLowerCase().indexOf(q) !== -1) score += 40;
-      // Story partial match
-      if (item.story.toLowerCase().indexOf(q) !== -1) score += 20;
+      // Fast exit if query does not exist anywhere in the text
+      if (str.indexOf(q) === -1) continue;
 
-      return { id: item.id, score: score };
-    }).filter(function(item) { return item.score > 0; });
+      var score = 0;
+
+      // Exact title match
+      if (item.titleLow.indexOf(q) !== -1) score += 100;
+      // City match
+      if (item.cityLow.indexOf(q) !== -1) score += 80;
+      // Pinyin match
+      if (item.cityPinyinLow.indexOf(q) !== -1) score += 70;
+      // Tag match
+      if (item.tagsLow.indexOf(q) !== -1) score += 60;
+      // Year match
+      if (item.yearLow.indexOf(q) !== -1) score += 50;
+      // Author match
+      if (item.authorLow.indexOf(q) !== -1) score += 40;
+      // Story partial match
+      if (item.storyLow.indexOf(q) !== -1) score += 20;
+
+      if (score > 0) {
+        scored.push({ id: item.id, score: score });
+      }
+    }
 
     // Sort by score descending
     scored.sort(function(a, b) { return b.score - a.score; });
