@@ -94,8 +94,10 @@
           if (zoomTimer) clearTimeout(zoomTimer);
           zoomTimer = setTimeout(function() {
             var size = app.getThumbSize(app.map.getZoom());
+            var memoryMap = {};
+            DB.memories.forEach(function(mm) { memoryMap[mm.id] = mm; });
             app.markers.forEach(function(marker) {
-              var mem = DB.memories.find(function(mm) { return mm.id === marker.memoryId; });
+              var mem = memoryMap[marker.memoryId];
               if (mem) marker.setIcon(app.createPhotoIcon(mem, size));
             });
           }, 100);
