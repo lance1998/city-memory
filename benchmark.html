@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+const DB = {
+  state: { yearFilter: 'all', currentCity: 'CityA' },
+  memories: []
+};
+
+for (let i = 0; i < 5000; i++) {
+  DB.memories.push({ id: i, year: 2020 + (i % 5), city: i % 2 === 0 ? 'CityA' : 'CityB' });
+}
+
+const Utils = {
+  getYearClass: (y) => 'class' + y
+};
+
+const markers = [];
+for (let i = 0; i < 5000; i++) {
+  markers.push({ memoryId: i });
+}
+
+const markerLayer = {
+  clearLayers: () => {},
+  addLayer: () => {}
+};
+
+function filterMapMarkersSlow() {
+  const filter = DB.state.yearFilter;
+  if (!markerLayer) return;
+  markerLayer.clearLayers();
+  markers.forEach(marker => {
+    const memory = DB.memories.find(m => m.id === marker.memoryId);
+    if (!memory) return;
+    const showYear = filter === 'all' || Utils.getYearClass(memory.year) === filter;
+    const showCity = memory.city === DB.state.currentCity;
+    if (showYear && showCity) markerLayer.addLayer(marker);
+  });
+}
+
+function filterMapMarkersFast() {
+  const filter = DB.state.yearFilter;
+  if (!markerLayer) return;
+  markerLayer.clearLayers();
+
+  // OPTIMIZATION: Create memory lookup map
+  const memoryMap = new Map();
+  for (let i = 0; i < DB.memories.length; i++) {
+    memoryMap.set(DB.memories[i].id, DB.memories[i]);
+  }
+
+  markers.forEach(marker => {
+    const memory = memoryMap.get(marker.memoryId);
+    if (!memory) return;
+    const showYear = filter === 'all' || Utils.getYearClass(memory.year) === filter;
+    const showCity = memory.city === DB.state.currentCity;
+    if (showYear && showCity) markerLayer.addLayer(marker);
+  });
+}
+
+function measure(fn, iterations = 100) {
+  const start = performance.now();
+  for (let i = 0; i < iterations; i++) {
+    fn();
+  }
+  return performance.now() - start;
+}
+
+window.onload = () => {
+  const slowTime = measure(filterMapMarkersSlow);
+  const fastTime = measure(filterMapMarkersFast);
+  document.getElementById('res').innerText = `Slow: ${slowTime.toFixed(2)}ms, Fast: ${fastTime.toFixed(2)}ms`;
+};
+</script>
+</head>
+<body>
+  <div id="res">Loading...</div>
+</body>
+</html>
