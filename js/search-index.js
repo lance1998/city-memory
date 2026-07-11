@@ -47,7 +47,7 @@
     if (!_searchIndex) buildIndex();
     if (!_searchIndex || !query) return null;
 
-    var q = query.toLowerCase().trim();
+    var q = (query || '').toString().toLowerCase().trim();
     if (!q) return null;
 
     // Score-based search
