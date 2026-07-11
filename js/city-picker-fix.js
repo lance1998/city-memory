@@ -78,7 +78,8 @@
         var isCurrent = city.name === currentCity && currentCity !== '__ALL__';
         item.style.cssText = 'padding:12px 16px;border-radius:10px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;' +
           (isCurrent ? 'background:rgba(240,160,80,0.15);border:1px solid rgba(240,160,80,0.3);' : 'background:#1a2340;border:1px solid #253054;');
-        item.innerHTML = '<span style="font-size:15px;color:#e8ecf4;">' + city.name + '</span>' +
+        var escapedCityName = city.name ? String(city.name).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;') : '';
+        item.innerHTML = '<span style="font-size:15px;color:#e8ecf4;">' + escapedCityName + '</span>' +
           '<span style="font-size:12px;color:' + (count > 0 ? '#00e5ff' : '#7a8bb0') + ';">' +
           (isCurrent ? '&#10003; 当前 · ' : '') + (count > 0 ? count + ' 条' : '暂无') + '</span>';
         item.addEventListener('click', function() { app.selectCity(city.name); });
