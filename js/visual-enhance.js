@@ -247,14 +247,25 @@
 
   function findNearest(points, idx, count) {
     var p = points[idx];
-    var dists = points.map(function(q, i) {
-      if (i === idx) return { idx: i, dist: Infinity };
+    var closest = [];
+
+    for (var i = 0; i < points.length; i++) {
+      if (i === idx) continue;
+      var q = points[i];
       var dx = p.lat - q.lat;
       var dy = p.lng - q.lng;
-      return { idx: i, dist: dx*dx + dy*dy };
-    });
-    dists.sort(function(a, b) { return a.dist - b.dist; });
-    return dists.slice(0, count).map(function(d) { return d.idx; });
+      var dist = dx*dx + dy*dy;
+
+      if (closest.length < count) {
+        closest.push({idx: i, dist: dist});
+        closest.sort(function(a, b) { return a.dist - b.dist; });
+      } else if (dist < closest[closest.length - 1].dist) {
+        closest[closest.length - 1] = {idx: i, dist: dist};
+        closest.sort(function(a, b) { return a.dist - b.dist; });
+      }
+    }
+
+    return closest.map(function(d) { return d.idx; });
   }
 
   // ==================== 6. 点击涟漪 ====================
