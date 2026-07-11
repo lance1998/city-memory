@@ -1,0 +1,34 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lance1998/city-memory.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lance1998/city-memory/issues"
+  },
+  "homepage": "https://github.com/lance1998/city-memory#readme",
+  "devDependencies": {
+    "eslint": "^10.7.0",
+    "prettier": "^3.9.5",
+    "terser": "^5.49.0",
+    "vite": "^8.1.4"
+  }
+}
