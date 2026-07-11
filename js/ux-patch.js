@@ -57,6 +57,7 @@
   }
   var observer = new MutationObserver(adaptShareColors);
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  adaptShareColors();
 
   function addA11yAttrs() {
     document.querySelectorAll('.tab-item').forEach(function(tab) {
