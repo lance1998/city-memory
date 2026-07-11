@@ -10,6 +10,7 @@
 
   // Simple pinyin first-char extraction (no library needed)
   function getPinyin(str) {
+    if (str == null) return '';
     if (_pinyinCache[str]) return _pinyinCache[str];
     // Use built-in city data pinyin if available
     if (DB.chinaCities) {
@@ -123,6 +124,6 @@
   }
   tryBuildIndex();
 
-  app._searchIndex = { count: function() { return _searchIndex ? _searchIndex.length : 0; } };
+  app._searchIndex = { count: function() { return _searchIndex ? _searchIndex.length : 0; }, getPinyin: getPinyin };
   console.log('[SearchIndex] 搜索索引模块已加载');
 })();
