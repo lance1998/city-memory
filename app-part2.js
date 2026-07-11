@@ -1250,12 +1250,12 @@
   },
 
   showMyFootprint() {
-    document.getElementById('fp-memories').textContent = DB.footprints.length;
+    document.getElementById('fp-memories').textContent = DB.footprints.size;
     document.getElementById('fp-cities').textContent = DB.currentUser.exploredCities;
     document.getElementById('fp-routes').textContent = Storage.get('routeCompletions')?.length || 0;
     const listContainer = document.getElementById('footprint-list');
     if (listContainer) {
-      const footprintMemories = DB.memories.filter(m => DB.footprints.includes(m.id));
+      const footprintMemories = DB.memories.filter(m => DB.footprints.has(m.id));
       listContainer.innerHTML = footprintMemories.map(m => `
         <div class="footprint-card" onclick="app.openDetail(${m.id})">
           <img src="${m.oldImages[0]}" alt="${m.title}">

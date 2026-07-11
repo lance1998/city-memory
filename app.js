@@ -357,7 +357,7 @@ const app = {
 
   createPhotoIcon(m, size) {
     const color = this.getMarkerColor(m.year);
-    const visited = DB.footprints.includes(m.id);
+    const visited = DB.footprints.has(m.id);
     const border = visited ? `3px solid ${color}` : '2px solid #fff';
     const shadow = visited
       ? '0 0 0 3px rgba(199,91,57,0.25),0 4px 12px rgba(0,0,0,0.35)'
@@ -808,12 +808,12 @@ const app = {
     DB.state.currentMemoryId = id;
 
     // 添加足迹
-    if (!DB.footprints.includes(id)) {
-      DB.footprints.push(id);
+    if (!DB.footprints.has(id)) {
+      DB.footprints.add(id);
       DB.save(['footprints']);
       this.updateMarkerVisited(id);
     }
-    if (DB.footprints.length >= 10) this.checkBadge(2);
+    if (DB.footprints.size >= 10) this.checkBadge(2);
 
     const content = document.getElementById('detail-content');
     const oldImg = m.oldImages[0];
@@ -2697,12 +2697,12 @@ const app = {
   },
 
   showMyFootprint() {
-    document.getElementById('fp-memories').textContent = DB.footprints.length;
+    document.getElementById('fp-memories').textContent = DB.footprints.size;
     document.getElementById('fp-cities').textContent = DB.currentUser.exploredCities;
     document.getElementById('fp-routes').textContent = Storage.get('routeCompletions')?.length || 0;
     const listContainer = document.getElementById('footprint-list');
     if (listContainer) {
-      const footprintMemories = DB.memories.filter(m => DB.footprints.includes(m.id));
+      const footprintMemories = DB.memories.filter(m => DB.footprints.has(m.id));
       listContainer.innerHTML = footprintMemories.map(m => `
         <div class="footprint-card" onclick="app.openDetail(${m.id})">
           <img src="${m.oldImages[0]}" alt="${m.title}">

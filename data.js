@@ -2059,7 +2059,7 @@ const DB = {
   favorites: [1, 3, 6],
 
   // 浏览足迹
-  footprints: [1, 2, 3, 4, 6],
+  footprints: new Set([1, 2, 3, 4, 6]),
 
   // 记忆路线
   routes: [
@@ -4294,7 +4294,7 @@ function initStorage() {
     const favorites = Storage.get('favorites');
     if (favorites && Array.isArray(favorites)) DB.favorites = favorites;
     const footprints = Storage.get('footprints');
-    if (footprints && Array.isArray(footprints)) DB.footprints = footprints;
+    if (footprints && Array.isArray(footprints)) DB.footprints = new Set(footprints);
     const capsules = Storage.get('capsules');
     if (capsules && Array.isArray(capsules)) DB.capsules = capsules;
     const badges = Storage.get('badges');
@@ -4325,7 +4325,7 @@ function initStorage() {
 DB.save = function(keys) {
   if (!keys) keys = ['memories', 'favorites', 'footprints', 'capsules', 'badges', 'comments', 'currentUser', 'state', 'privateMemories', 'weeklyBest', 'fragments', 'storyUnlocked', 'storyEndings', 'postcards', 'chinaCities'];
   keys.forEach(key => {
-    if (this[key] !== undefined) Storage.set(key, this[key]);
+    if (this[key] !== undefined) Storage.set(key, this[key] instanceof Set ? Array.from(this[key]) : this[key]);
   });
 };
 
