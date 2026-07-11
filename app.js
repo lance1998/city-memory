@@ -1889,19 +1889,7 @@ const app = {
     this.switchTab('time');
   },
 
-  // 初始化并渲染星空Canvas
-  renderStarMap() {
-    let self = this;
-    let canvas = document.getElementById(starCanvasId);
-    if (!canvas) return;
-    let ctx = canvas.getContext('2d');
-    let dpr = window.devicePixelRatio || 1;
-    let W = canvas.clientWidth;
-    let H = canvas.clientHeight;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    ctx.scale(dpr, dpr);
-
+  _generateStarsLayout(W, H, cx, cy, angleOffsets, radiusFactors) {
     // 取记忆数据（取前8个地标）
     let memories = DB.memories.slice(0, 8);
     // 计算热度范围，用于归一化
@@ -1911,15 +1899,8 @@ const app = {
       if (heat > maxHeat) maxHeat = heat;
     });
 
-    // 生成星星布局：以不规则间距分布在Canvas中心周围
-    let cx = W / 2;
-    let cy = H / 2;
-    // 使用预设的不规则角度和半径偏移，形成星座般效果
-    let angleOffsets = [0, 45, 95, 155, 200, 260, 310, 350];
-    let radiusFactors = [0.28, 0.22, 0.35, 0.18, 0.32, 0.25, 0.38, 0.15];
     let baseRadius = Math.min(W, H) * 0.38;
-
-    let stars = memories.map(function(m, i) {
+    return memories.map(function(m, i) {
       let heat = ((m.likes || 0) + (m.views || 0) * 0.1) / maxHeat;
       let angle = (angleOffsets[i] || 0) * Math.PI / 180;
       let dist = (radiusFactors[i] || 0.25) * baseRadius;
@@ -1953,11 +1934,12 @@ const app = {
         glowRadius: radius * 3 + heat * 15
       };
     });
+  },
 
-    // 初始化200个背景闪烁小星星
-    if (self._bgStars.length === 0) {
+  _initBackgroundStars(W, H) {
+    if (this._bgStars.length === 0) {
       for (let i = 0; i < 200; i++) {
-        self._bgStars.push({
+        this._bgStars.push({
           x: Math.random() * W,
           y: Math.random() * H,
           size: Math.random() * 1.8 + 0.3,
@@ -1968,14 +1950,15 @@ const app = {
       }
     } else {
       // resize时重新分布
-      self._bgStars.forEach(function(s) {
+      this._bgStars.forEach(function(s) {
         s.x = Math.random() * W;
         s.y = Math.random() * H;
       });
     }
+  },
 
-    // 初始化星云（径向渐变雾气）
-    if (self._nebulae.length === 0) {
+  _initNebulae(W, H) {
+    if (this._nebulae.length === 0) {
       let nebulaColors = [
         { r: 60, g: 80, b: 180 },
         { r: 120, g: 50, b: 150 },
@@ -1983,7 +1966,7 @@ const app = {
         { r: 80, g: 40, b: 120 }
       ];
       for (let i = 0; i < 4; i++) {
-        self._nebulae.push({
+        this._nebulae.push({
           x: Math.random() * W,
           y: Math.random() * H,
           rx: 100 + Math.random() * 150,
@@ -1995,10 +1978,10 @@ const app = {
         });
       }
     }
+  },
 
-    // 保存数据到缓存
-    self._starMapData = { canvas: canvas, ctx: ctx, W: W, H: H, dpr: dpr, stars: stars, cx: cx, cy: cy, time: 0 };
-
+  _setupStarMapListeners(canvas, angleOffsets, radiusFactors) {
+    let self = this;
     // 窗口resize自适应
     self._starMapResizeHandler = function() {
       let c = document.getElementById(starCanvasId);
@@ -2052,6 +2035,35 @@ const app = {
         }
       }
     });
+  },
+
+  // 初始化并渲染星空Canvas
+  renderStarMap() {
+    let canvas = document.getElementById(starCanvasId);
+    if (!canvas) return;
+    let ctx = canvas.getContext('2d');
+    let dpr = window.devicePixelRatio || 1;
+    let W = canvas.clientWidth;
+    let H = canvas.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.scale(dpr, dpr);
+
+    let cx = W / 2;
+    let cy = H / 2;
+
+    // 使用预设的不规则角度和半径偏移，形成星座般效果
+    let angleOffsets = [0, 45, 95, 155, 200, 260, 310, 350];
+    let radiusFactors = [0.28, 0.22, 0.35, 0.18, 0.32, 0.25, 0.38, 0.15];
+
+    let stars = this._generateStarsLayout(W, H, cx, cy, angleOffsets, radiusFactors);
+    this._initBackgroundStars(W, H);
+    this._initNebulae(W, H);
+
+    // 保存数据到缓存
+    this._starMapData = { canvas: canvas, ctx: ctx, W: W, H: H, dpr: dpr, stars: stars, cx: cx, cy: cy, time: 0 };
+
+    this._setupStarMapListeners(canvas, angleOffsets, radiusFactors);
 
     // 启动动画循环
     this.animateStarMap();
