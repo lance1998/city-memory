@@ -192,8 +192,10 @@
 
   // ==================== 4. 标记脉冲光环 ====================
   function addPulseRings() {
-    var markers = document.querySelectorAll('.leaflet-marker-icon');
-    markers.forEach(function(m) {
+    if (!app.markers) return;
+    app.markers.forEach(function(marker) {
+      var m = marker._icon;
+      if (!m) return;
       if (m.querySelector('.marker-pulse-ring')) return;
       var ring = document.createElement('div');
       ring.className = 'marker-pulse-ring';
@@ -344,9 +346,12 @@
     app.addMapMarkers = function() {
       _origAddMapMarkers.call(this);
       setTimeout(function() {
-        document.querySelectorAll('.leaflet-marker-icon').forEach(function(m) {
-          if (!m.classList.contains('marker-glow')) m.classList.add('marker-glow');
-        });
+        if (app.markers) {
+          app.markers.forEach(function(marker) {
+            var m = marker._icon;
+            if (m && !m.classList.contains('marker-glow')) m.classList.add('marker-glow');
+          });
+        }
         addPulseRings();
         createMemoryConnections();
         enhanceTooltips();
@@ -360,9 +365,12 @@
     app.filterMapMarkers = function() {
       _origFilterMapMarkers.call(this);
       setTimeout(function() {
-        document.querySelectorAll('.leaflet-marker-icon').forEach(function(m) {
-          if (!m.classList.contains('marker-glow')) m.classList.add('marker-glow');
-        });
+        if (app.markers) {
+          app.markers.forEach(function(marker) {
+            var m = marker._icon;
+            if (m && !m.classList.contains('marker-glow')) m.classList.add('marker-glow');
+          });
+        }
         addPulseRings();
         createMemoryConnections();
         enhanceTooltips();
@@ -382,8 +390,9 @@
   // 立即对已有标记执行增强
   setTimeout(function() {
     if (app.map && app.markers && app.markers.length > 0) {
-      document.querySelectorAll('.leaflet-marker-icon').forEach(function(m) {
-        if (!m.classList.contains('marker-glow')) m.classList.add('marker-glow');
+      app.markers.forEach(function(marker) {
+        var m = marker._icon;
+        if (m && !m.classList.contains('marker-glow')) m.classList.add('marker-glow');
       });
       addPulseRings();
       createMemoryConnections();
