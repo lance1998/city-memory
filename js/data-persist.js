@@ -13,11 +13,25 @@
   var _dataMerged = false;
 
   function mergeNationwideData() {
+    if (!window.NATIONWIDE_DATA || !window.DB) return false;
+
+    var addedCount = 0;
+    window.NATIONWIDE_DATA.forEach(function(mem) {
+      var exists = window.DB.memories.some(function(m) { return m.id === mem.id; });
+      if (!exists) {
+        window.DB.memories.push(mem);
+        addedCount++;
+      }
+    });
+    return addedCount;
+  }
+
+  function watchNationwideData() {
     if (_dataMerged) return;
-    if (typeof DB === 'undefined' || !DB.memories) return;
+    if (typeof window.DB === 'undefined' || !window.DB.memories) return;
 
     // Check if nationwide data has already been injected
-    if (DB.memories.length >= 20) {
+    if (window.DB.memories.length >= 20) {
       _dataMerged = true;
       return;
     }
@@ -25,10 +39,15 @@
     // The actual nationwide data is defined in nationwide-data.js
     // which runs after this script. We set up a watcher.
     var checkInterval = setInterval(function() {
-      if (DB.memories.length >= 20) {
+      if (window.NATIONWIDE_DATA) {
+        clearInterval(checkInterval);
+        mergeNationwideData();
+        _dataMerged = true;
+        console.log('[DataPersist] 数据合并完成，共 ' + window.DB.memories.length + ' 条');
+      } else if (window.DB.memories.length >= 20) {
         clearInterval(checkInterval);
         _dataMerged = true;
-        console.log('[DataPersist] 数据合并完成，共 ' + DB.memories.length + ' 条');
+        console.log('[DataPersist] 数据合并完成，共 ' + window.DB.memories.length + ' 条');
       }
     }, 100);
 
@@ -37,39 +56,41 @@
   }
 
   // Patch app.addMapMarkers to be data-persistent aware
-  var _origAddMapMarkers = app.addMapMarkers;
-  if (_origAddMapMarkers) {
-    app.addMapMarkers = function() {
-      // Ensure all data is available before rendering
-      if (DB.memories && DB.memories.length < 20) {
-        // Wait for nationwide data to merge
-        var self = this;
-        setTimeout(function() {
-          _origAddMapMarkers.call(self);
-          console.log('[DataPersist] 延迟渲染标记，共 ' + DB.memories.length + ' 条');
-        }, 500);
-      } else {
-        _origAddMapMarkers.call(this);
-      }
-    };
+  if (typeof window.app !== 'undefined') {
+    var _origAddMapMarkers = window.app.addMapMarkers;
+    if (_origAddMapMarkers) {
+      window.app.addMapMarkers = function() {
+        // Ensure all data is available before rendering
+        if (window.DB && window.DB.memories && window.DB.memories.length < 20) {
+          // Wait for nationwide data to merge
+          var self = this;
+          setTimeout(function() {
+            _origAddMapMarkers.call(self);
+            console.log('[DataPersist] 延迟渲染标记，共 ' + window.DB.memories.length + ' 条');
+          }, 500);
+        } else {
+          _origAddMapMarkers.call(this);
+        }
+      };
+    }
   }
 
   // Start checking
-  mergeNationwideData();
+  watchNationwideData();
 
   // Also run after nationwide-data.js loads
   var _origInjectData = null;
   var _injectCheckTimer = setInterval(function() {
-    if (DB.memories && DB.memories.length >= 20) {
+    if (window.DB && window.DB.memories && window.DB.memories.length >= 20) {
       clearInterval(_injectCheckTimer);
       // Now trigger a full map refresh if markers haven't been updated
-      if (app.markers && app.markers.length < DB.memories.length * 0.5) {
-        if (app.markerLayer) {
-          app.map.removeLayer(app.markerLayer);
-          app.markerLayer = null;
+      if (typeof window.app !== 'undefined' && window.app.markers && window.app.markers.length < window.DB.memories.length * 0.5) {
+        if (window.app.markerLayer) {
+          window.app.map.removeLayer(window.app.markerLayer);
+          window.app.markerLayer = null;
         }
-        app.markers = [];
-        app._addMarkersAsync && app._addMarkersAsync();
+        window.app.markers = [];
+        window.app._addMarkersAsync && window.app._addMarkersAsync();
         console.log('[DataPersist] 触发标记刷新');
       }
     }
@@ -78,4 +99,11 @@
   setTimeout(function() { clearInterval(_injectCheckTimer); }, 5000);
 
   console.log('[DataPersist] v1 已加载 - 数据持久化监听');
+
+  // Export for testing
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      mergeNationwideData: mergeNationwideData
+    };
+  }
 })();
