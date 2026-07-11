@@ -9,7 +9,6 @@
   // 2. Ensure app.addMapMarkers() picks up all data on first render
   // 3. No need for setTimeout re-checks or DOMContentLoaded re-injection
 
-  var _origNationwideInject = null;
   var _dataMerged = false;
 
   function mergeNationwideData() {
