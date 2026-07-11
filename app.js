@@ -987,17 +987,6 @@ const app = {
     const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#C75B39';
     const primaryLight = getComputedStyle(document.documentElement).getPropertyValue('--primary-light').trim() || '#E8A88A';
 
-    // 解析颜色为 RGB
-    function hexToRgb(hex) {
-      hex = hex.replace('#', '');
-      if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-      return {
-        r: parseInt(hex.substring(0, 2), 16),
-        g: parseInt(hex.substring(2, 4), 16),
-        b: parseInt(hex.substring(4, 6), 16)
-      };
-    }
-
     const rgbPrimary = hexToRgb(primaryColor);
     const rgbLight = hexToRgb(primaryLight);
 
