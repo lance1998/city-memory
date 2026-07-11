@@ -155,7 +155,16 @@
     this.markerLayer = L.layerGroup().addTo(this.map);
     this.markers = [];
 
-    var publishedMemories = DB.memories.filter(function(m) { return m.status === '已发布'; });
+    // We only invalidate the cache if the overall memory length changes (indicating additions/deletions)
+    // or if a forced invalidation signal is given (this._forceMemoriesCacheInvalidation)
+    if (!this._cachedPublishedMemories || !this._cachedMemoriesLength || this._cachedMemoriesLength !== DB.memories.length || this._forceMemoriesCacheInvalidation) {
+      this._cachedPublishedMemories = DB.memories.filter(function(m) { return m.status === '已发布'; });
+      this._cachedMemoriesLength = DB.memories.length;
+      this._forceMemoriesCacheInvalidation = false;
+    }
+
+    var publishedMemories = this._cachedPublishedMemories;
+
     var size = this.getThumbSize(this.map.getZoom());
     var self = this;
     var idx = 0;
