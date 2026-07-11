@@ -2057,28 +2057,18 @@ const app = {
     this.animateStarMap();
   },
 
-  // requestAnimationFrame 动画循环
-  animateStarMap() {
-    let self = this;
-    let sd = this._starMapData;
-    if (!sd) return;
+  _drawStarMapBackground(sd, W, H) {
     let ctx = sd.ctx;
-    let W = sd.W;
-    let H = sd.H;
-    sd.time += 0.016; // 约每帧16ms
-
-    // 清空画布
-    ctx.clearRect(0, 0, W, H);
-
-    // ---- 绘制深色背景渐变 ----
     let bgGrad = ctx.createRadialGradient(sd.cx, sd.cy, 0, sd.cx, sd.cy, Math.max(W, H) * 0.7);
     bgGrad.addColorStop(0, '#0d1025');
     bgGrad.addColorStop(0.5, '#080b18');
     bgGrad.addColorStop(1, '#030510');
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, W, H);
+  },
 
-    // ---- 绘制星云雾气（径向渐变） ----
+  _drawStarMapNebulae(sd, W, H) {
+    let ctx = sd.ctx;
     this._nebulae.forEach(function(neb) {
       // 缓慢漂移
       neb.x += neb.driftX;
@@ -2096,8 +2086,10 @@ const app = {
       ctx.fillStyle = grad;
       ctx.fillRect(neb.x - neb.rx, neb.y - neb.ry, neb.rx * 2, neb.ry * 2);
     });
+  },
 
-    // ---- 绘制背景200颗闪烁小星星 ----
+  _drawStarMapBgStars(sd, W, H) {
+    let ctx = sd.ctx;
     this._bgStars.forEach(function(s) {
       // 闪烁效果
       let flicker = Math.sin(sd.time * s.speed * 60 + s.phase) * 0.5 + 0.5;
@@ -2107,8 +2099,10 @@ const app = {
       ctx.fillStyle = 'rgba(220,230,255,' + alpha.toFixed(3) + ')';
       ctx.fill();
     });
+  },
 
-    // ---- 绘制流星 ----
+  _drawStarMapShootingStars(sd, W, H) {
+    let ctx = sd.ctx;
     this._spawnShootingStar(W, H);
     this._shootingStars = this._shootingStars.filter(function(m) {
       m.x += m.vx;
@@ -2135,8 +2129,10 @@ const app = {
       ctx.fill();
       return true;
     });
+  },
 
-    // ---- 绘制星座连线（暗淡虚线连接相邻星星） ----
+  _drawStarMapConstellations(sd, W, H) {
+    let ctx = sd.ctx;
     if (sd.stars.length > 1) {
       ctx.strokeStyle = 'rgba(100,140,220,0.08)';
       ctx.lineWidth = 0.8;
@@ -2154,8 +2150,10 @@ const app = {
       ctx.stroke();
       ctx.setLineDash([]);
     }
+  },
 
-    // ---- 绘制每颗地标星星及其光点 ----
+  _drawStarMapLandmarkStars(sd, W, H) {
+    let ctx = sd.ctx;
     sd.stars.forEach(function(star) {
       // 脉冲效果
       let pulse = Math.sin(sd.time * 1.5 + star.pulsePhase) * 0.15 + 1;
@@ -2226,8 +2224,9 @@ const app = {
         ctx.fill();
       });
     });
+  },
 
-    // 缓慢旋转效果 — 通过微调背景星星位置模拟
+  _updateStarMapBgStarsRotation(sd, W, H) {
     this._bgStars.forEach(function(s) {
       // 绕画布中心缓慢旋转
       let dx = s.x - sd.cx;
@@ -2243,6 +2242,29 @@ const app = {
       if (s.y < -10) s.y = H + 10;
       if (s.y > H + 10) s.y = -10;
     });
+  },
+
+  // requestAnimationFrame 动画循环
+  animateStarMap() {
+    let self = this;
+    let sd = this._starMapData;
+    if (!sd) return;
+    let W = sd.W;
+    let H = sd.H;
+    let ctx = sd.ctx;
+
+    sd.time += 0.016; // 约每帧16ms
+
+    // 清空画布
+    ctx.clearRect(0, 0, W, H);
+
+    this._drawStarMapBackground(sd, W, H);
+    this._drawStarMapNebulae(sd, W, H);
+    this._drawStarMapBgStars(sd, W, H);
+    this._drawStarMapShootingStars(sd, W, H);
+    this._drawStarMapConstellations(sd, W, H);
+    this._drawStarMapLandmarkStars(sd, W, H);
+    this._updateStarMapBgStarsRotation(sd, W, H);
 
     // 继续动画循环
     this._starMapAnimId = requestAnimationFrame(function() {
