@@ -16,14 +16,24 @@
 
   // ===== 2. 覆盖非首屏渲染：延迟执行不阻塞地图 =====
   function makeDeferred(origFn) {
+    if (!origFn) return null;
     return function() {
-      var self = this;
+      var args = arguments;
+      var ctx = this;
       if (window.requestIdleCallback) {
-        requestIdleCallback(function() { origFn.call(self); });
+        window.requestIdleCallback(function() {
+          origFn.apply(ctx, args);
+        });
       } else {
-        setTimeout(function() { origFn.call(self); }, 300);
+        setTimeout(function() {
+          origFn.apply(ctx, args);
+        }, 300);
       }
     };
+  }
+
+  if (typeof window !== 'undefined') {
+    window.__makeDeferred = makeDeferred;
   }
   if (app.renderDiscover) app.renderDiscover = makeDeferred(app.renderDiscover);
   if (app.renderProfile) app.renderProfile = makeDeferred(app.renderProfile);
