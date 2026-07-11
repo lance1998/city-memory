@@ -69,11 +69,21 @@
     });
     var searchInput = document.getElementById('discover-search');
     if (searchInput) searchInput.setAttribute('aria-label', '搜索地标、回忆、标签');
+    var searchClearBtn = document.querySelector('.search-clear-btn');
+    if (searchClearBtn) {
+      searchClearBtn.setAttribute('aria-label', '清空搜索内容');
+    }
     document.querySelectorAll('.filter-btn').forEach(function(btn) {
       btn.setAttribute('role', 'button');
       btn.setAttribute('tabindex', '0');
     });
     var citySelector = document.querySelector('.city-selector');
+    var mapLocateBtn = document.querySelector('.map-locate-btn');
+    if (mapLocateBtn) {
+      mapLocateBtn.setAttribute('role', 'button');
+      mapLocateBtn.setAttribute('tabindex', '0');
+      mapLocateBtn.setAttribute('aria-label', '定位到当前位置');
+    }
     if (citySelector) {
       citySelector.setAttribute('role', 'button');
       citySelector.setAttribute('tabindex', '0');
