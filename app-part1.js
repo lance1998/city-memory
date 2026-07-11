@@ -417,7 +417,7 @@ const app = {
     DB.memories.forEach(m => {
       if (m.status !== '已发布') return;
       const color = this.getMarkerColor(m.year);
-      const visited = DB.footprints.includes(m.id);
+      const visited = DB.footprints.has(m.id);
       const glow = visited ? 'box-shadow:0 0 0 4px rgba(199,91,57,0.3),0 2px 6px rgba(0,0,0,0.3);' : 'box-shadow:0 2px 6px rgba(0,0,0,0.3);';
       // 两种标记样式：pin（缩小）和 thumb（放大）
       const pinHtml = `<div style="width:36px;height:44px;position:relative;cursor:pointer;"><div style="width:36px;height:36px;border-radius:50% 50% 50% 0;background:${color};transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;${glow}"><i class="fas fa-map-pin" style="transform:rotate(45deg);color:#fff;font-size:14px;"></i></div><div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:8px;height:4px;background:rgba(0,0,0,0.2);border-radius:50%;"></div>${visited ? '<div style="position:absolute;top:-4px;right:-4px;width:14px;height:14px;background:#C75B39;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;"><i class="fas fa-check" style="color:#fff;font-size:8px;"></i></div>' : ''}</div>`;
@@ -759,12 +759,12 @@ const app = {
     DB.state.currentMemoryId = id;
 
     // 添加足迹
-    if (!DB.footprints.includes(id)) {
-      DB.footprints.push(id);
+    if (!DB.footprints.has(id)) {
+      DB.footprints.add(id);
       DB.save(['footprints']);
       this.updateMarkerVisited(id);
     }
-    if (DB.footprints.length >= 10) this.checkBadge(2);
+    if (DB.footprints.size >= 10) this.checkBadge(2);
 
     const content = document.getElementById('detail-content');
     const oldImg = m.oldImages[0];
