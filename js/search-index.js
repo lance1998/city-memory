@@ -86,9 +86,13 @@
     var resultIds = search(query);
     if (resultIds === null) return _origSearch ? _origSearch.call(this, query) : [];
 
-    // Convert IDs to memory objects
+    // Convert IDs to memory objects using a map for O(1) lookups
+    var memMap = {};
+    for (var i = 0, len = DB.memories.length; i < len; i++) {
+      memMap[DB.memories[i].id] = DB.memories[i];
+    }
     return resultIds.map(function(id) {
-      return DB.memories.find(function(m) { return m.id === id; });
+      return memMap[id];
     }).filter(Boolean);
   };
 
