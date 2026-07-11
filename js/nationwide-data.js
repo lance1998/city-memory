@@ -124,6 +124,13 @@
     return {
       id: id,
       title: title,
+      location: {
+        city: city,
+        district: district,
+        lng: lng,
+        lat: lat,
+        address: address
+      },
       city: city,
       district: district,
       lng: lng,
@@ -618,5 +625,14 @@
   var addedCount = injectData();
   if (addedCount) {
     refreshMapMarkers();
+  }
+
+  // Export for testing
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      makeMemory,
+      injectData,
+      refreshMapMarkers
+    };
   }
 })();
