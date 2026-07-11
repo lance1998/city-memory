@@ -709,7 +709,6 @@
     this.navigateTo('user-profile');
     const user = DB.users.find(u => u.id === userId);
     if (!user) return;
-    const levelInfo = DB.levelSystem.find(l => l.level === user.level);
     const isFollowing = DB.currentUser.following.includes(userId);
     const userMemories = DB.memories.filter(m => m.userId === userId);
     const content = document.getElementById('user-profile-content');
