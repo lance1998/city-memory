@@ -987,7 +987,6 @@ const app = {
     const primaryLight = getComputedStyle(document.documentElement).getPropertyValue('--primary-light').trim() || '#E8A88A';
 
     const rgbPrimary = hexToRgb(primaryColor);
-    const rgbLight = hexToRgb(primaryLight);
 
     // 绘制背景装饰圈
     ctx.beginPath();
