@@ -10,6 +10,7 @@
 
   // Simple pinyin first-char extraction (no library needed)
   function getPinyin(str) {
+    if (typeof str !== 'string' || !str.trim()) return '';
     if (_pinyinCache[str]) return _pinyinCache[str];
     // Use built-in city data pinyin if available
     if (DB.chinaCities) {
