@@ -904,7 +904,8 @@
   filterFriendSuggest(keyword) {
     const list = document.getElementById('friend-suggest-list');
     if (!list) return;
-    const friends = DB.users.filter(u => DB.currentUser.following.includes(u.id));
+    const followingSet = new Set(DB.currentUser.following);
+    const friends = DB.users.filter(u => followingSet.has(u.id));
     const filtered = keyword ? friends.filter(u => u.nickname.includes(keyword)) : friends;
     list.innerHTML = filtered.map(u => `<div class="friend-suggest-item" onclick="app.selectPostcardRecipient('${u.id}')"><img src="${u.avatar}" alt=""> ${escHtml(u.nickname)}</div>`).join('');
   },
