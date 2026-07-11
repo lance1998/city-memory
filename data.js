@@ -4254,6 +4254,19 @@ const Storage = {
 
 // 初始化本地数据
 function initStorage() {
+  try {
+    if (!localStorage.getItem('city_memory_db')) {
+      localStorage.setItem('city_memory_db', JSON.stringify(DB));
+    } else {
+      var localDB = JSON.parse(localStorage.getItem('city_memory_db'));
+      if (localDB && localDB.memories) {
+        DB = localDB;
+      }
+    }
+  } catch (e) {
+    console.error('Storage initialization failed', e);
+  }
+
   if (!Storage.get('initialized')) {
     // 首次访问：保存所有 mock 数据到 LocalStorage
     Storage.set('chinaCities', DB.chinaCities);
