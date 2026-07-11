@@ -939,7 +939,6 @@ const app = {
     }
 
     const rgbPrimary = hexToRgb(primaryColor);
-    const rgbLight = hexToRgb(primaryLight);
 
     // 绘制背景装饰圈
     ctx.beginPath();
