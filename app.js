@@ -1724,9 +1724,9 @@ const app = {
     preview.innerHTML = `
       <img src="${oldImg}" style="width:100%;height:180px;object-fit:cover;">
       <div style="padding:12px;">
-        <div style="font-weight:600;font-size:16px;margin-bottom:4px;">${title}</div>
-        <span style="background:var(--primary-light);color:var(--primary-dark);padding:2px 8px;border-radius:4px;font-size:12px;">${year}</span>
-        <div style="margin-top:8px;font-size:13px;color:var(--text-light);">${document.getElementById('upload-story').value || '暂无回忆文字'}</div>
+        <div style="font-weight:600;font-size:16px;margin-bottom:4px;">${escHtml(title)}</div>
+        <span style="background:var(--primary-light);color:var(--primary-dark);padding:2px 8px;border-radius:4px;font-size:12px;">${escHtml(year)}</span>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-light);">${escHtml(document.getElementById('upload-story').value || '暂无回忆文字')}</div>
       </div>
     `;
   },
