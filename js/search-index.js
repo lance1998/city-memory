@@ -23,23 +23,29 @@
 
   function buildIndex() {
     if (!DB.memories) return;
-    _searchIndex = DB.memories.filter(function(m) { return m.status === '已发布'; }).map(function(m) {
-      var py = getPinyin(m.city || '');
-      var titlePy = py;
-      return {
-        id: m.id,
-        title: m.title || '',
-        city: m.city || '',
-        cityPinyin: py,
-        titlePinyin: titlePy,
-        tags: (m.tags || []).join(' '),
-        year: m.year || '',
-        author: m.authorName || '',
-        story: (m.story || '').substring(0, 100),
-        likes: m.likes || 0,
-        _matchStr: (m.title + ' ' + m.city + ' ' + py + ' ' + (m.tags || []).join(' ') + ' ' + m.year + ' ' + m.authorName).toLowerCase()
-      };
-    });
+    var memories = DB.memories;
+    var index = [];
+    for (var i = 0, len = memories.length; i < len; i++) {
+      var m = memories[i];
+      if (m.status === '已发布') {
+        var py = getPinyin(m.city || '');
+        var titlePy = py;
+        index.push({
+          id: m.id,
+          title: m.title || '',
+          city: m.city || '',
+          cityPinyin: py,
+          titlePinyin: titlePy,
+          tags: (m.tags || []).join(' '),
+          year: m.year || '',
+          author: m.authorName || '',
+          story: (m.story || '').substring(0, 100),
+          likes: m.likes || 0,
+          _matchStr: (m.title + ' ' + m.city + ' ' + py + ' ' + (m.tags || []).join(' ') + ' ' + m.year + ' ' + m.authorName).toLowerCase()
+        });
+      }
+    }
+    _searchIndex = index;
     console.log('[SearchIndex] 已建立索引，共 ' + _searchIndex.length + ' 条');
   }
 
