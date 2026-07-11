@@ -1225,7 +1225,7 @@
         <img src="${m.oldImages[0]}" alt="${m.title}">
         <div class="myupload-info">
           <div class="myupload-title">${escHtml(m.title)}</div>
-          <span class="myupload-status status-${m.status === '已发布' ? 'approved' : m.status === '待审核' ? 'pending' : 'rejected'}">${m.status}</span>
+          <span class="myupload-status status-${m.status === '已发布' ? 'approved' : m.status === '待审核' ? 'pending' : 'rejected'}">${escHtml(m.status)}</span>
           <div class="myupload-stats"><i class="fas fa-heart"></i> ${m.likes} · <i class="fas fa-comment"></i> ${m.comments}</div>
         </div>
       </div>
