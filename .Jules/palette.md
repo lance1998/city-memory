@@ -1,0 +1,3 @@
+## 2024-07-12 - Missing Semantics on Icon-Only Buttons
+**Learning:** Icon-only interactive elements implemented using `div` or `span` often lack proper screen-reader descriptions and keyboard navigational semantics (like `role="button"` and `tabindex="0"`) within the application codebase.
+**Action:** When adding or maintaining interactive elements, especially those styled as buttons but lacking the `<button>` tag or textual content, ensure they receive `aria-label`, `role="button"`, and `tabindex="0"` attributes. For this project, existing instances can be fixed dynamically via `js/ux-patch.js`.
