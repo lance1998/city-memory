@@ -69,6 +69,16 @@
     });
     var searchInput = document.getElementById('discover-search');
     if (searchInput) searchInput.setAttribute('aria-label', '搜索地标、回忆、标签');
+    var searchClearBtn = document.querySelector('.search-clear-btn');
+    if (searchClearBtn) searchClearBtn.setAttribute('aria-label', '清除搜索');
+
+    var locateBtn = document.querySelector('.map-locate-btn');
+    if (locateBtn) {
+      locateBtn.setAttribute('role', 'button');
+      locateBtn.setAttribute('tabindex', '0');
+      locateBtn.setAttribute('aria-label', '定位当前位置');
+    }
+
     document.querySelectorAll('.filter-btn').forEach(function(btn) {
       btn.setAttribute('role', 'button');
       btn.setAttribute('tabindex', '0');
