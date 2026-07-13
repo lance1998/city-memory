@@ -3,9 +3,7 @@ const assert = require('node:assert');
 const vm = require('vm');
 const fs = require('fs');
 
-let code = fs.readFileSync('data.js', 'utf8');
-    // Ensure DB is defined globally in the sandbox
-    code = code.replace('window.DB = {', 'const DB = { ');
+const code = fs.readFileSync('data.js', 'utf8');
 
 function setupEnvironment(localStorageMock) {
   const context = {

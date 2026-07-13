@@ -1,3 +1,132 @@
+/*
+  Corporate UI Theme Override
+  This patch updates the visual design language to a modern, corporate aesthetic
+  by overriding the root CSS variables and neutralizing flashy animations.
+*/
+
+:root {
+  /* Modern Corporate Palette */
+  --primary: #1677FF; /* Tech Blue */
+  --secondary: #00B96B; /* Green */
+  --accent: #FAAD14; /* Orange/Warning */
+  --bg: #F7F8FA; /* Crisp Light Gray */
+  --bg-dark: #FFFFFF; /* White */
+  --text: #1D2129; /* Dark Gray for better contrast */
+  --text-light: #4E5969; /* Medium Gray */
+  --border: #E5E6EB; /* Subtle Border */
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Modern, soft shadow */
+}
+
+/* Dark Mode Support (if app uses it, otherwise provides a sane fallback) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111111;
+    --bg-dark: #1E1E1E;
+    --text: #F2F3F5;
+    --text-light: #C9CDD4;
+    --border: #333333;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Typography Reset */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Structural Components Overrides */
+
+/* Flatten Tabs & Nav Bar */
+.bottom-nav {
+  background: var(--bg-dark);
+  backdrop-filter: blur(10px); /* Clean blur instead of heavy opacity */
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.tab-item.active {
+  color: var(--primary);
+}
+
+.tab-item.active i {
+  color: var(--primary);
+  text-shadow: none; /* Remove flashy glow */
+}
+
+/* Buttons and Inputs */
+button, .btn {
+  background: var(--primary);
+  color: white;
+  border-radius: 6px;
+  border: none;
+  box-shadow: none; /* Remove gradient/glow shadows */
+}
+
+input, .search-bar {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  box-shadow: none;
+}
+
+input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2); /* Corporate focus ring */
+}
+
+/* Cards and Modals */
+.memory-card, .detail-modal .modal-content, .card {
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+/* Map specific structural fixes (retaining old structural fixes) */
+.leaflet-container .leaflet-marker-pane img {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+#map-view {
+  will-change: transform;
+}
+
+/* Stop Flashy Animations */
+.collect-particles,
+.story-reward-sparkles,
+.glow-effect {
+  display: none !important; /* Force hide over-the-top animations */
+}
+
+/* Modal Animations (Smooth & Professional) */
+.modal.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+
+.detail-modal.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+
+.detail-modal .modal-content {
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); /* Professional easing */
+}
+
+.detail-modal.visible .modal-content {
+  transform: translateY(0);
+}
+
+
 /* 城市微记忆 · CSS呈现修复补丁 v2 */
 /* 修复：will-change滥用、过时属性、模态框动画、响应式、信息层级、页面重叠 */
 
