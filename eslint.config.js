@@ -1,46 +1,26 @@
-import js from "@eslint/js";
-
-export default [
-    js.configs.recommended,
-    {
-        languageOptions: {
-            globals: {
-                window: "readonly",
-                document: "readonly",
-                app: "readonly",
-                DB: "readonly",
-                L: "readonly",
-                Storage: "readonly",
-                console: "readonly",
-                setTimeout: "readonly",
-                clearTimeout: "readonly",
-                setInterval: "readonly",
-                clearInterval: "readonly",
-                requestAnimationFrame: "readonly",
-                cancelAnimationFrame: "readonly",
-                Math: "readonly",
-                Date: "readonly",
-                JSON: "readonly",
-                Array: "readonly",
-                String: "readonly",
-                Number: "readonly",
-                Object: "readonly",
-                Boolean: "readonly",
-                alert: "readonly",
-                navigator: "readonly",
-                location: "readonly",
-                history: "readonly",
-                fetch: "readonly",
-                Promise: "readonly",
-                localStorage: "readonly",
-                sessionStorage: "readonly",
-                module: "readonly",
-                require: "readonly",
-                echarts: "readonly"
-            }
-        },
-        rules: {
-            "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
-        }
+module.exports = [
+  {
+    ignores: ["node_modules/**", "dist/**", "app-part*.js", "tests/**", "*.test.js"]
+  },
+  {
+    languageOptions: {
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        console: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+        DB: "writable",
+        AppStore: "readonly",
+        DiscoverView: "readonly",
+        MapView: "readonly",
+        Router: "readonly",
+        L: "readonly",
+        echarts: "readonly",
+        Utils: "readonly"
+      }
     }
+  }
 ];
