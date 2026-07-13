@@ -481,8 +481,10 @@ const app = {
         // 缩放时更新所有缩略图大小
         this.map.on('zoomend', () => {
           const size = this.getThumbSize(this.map.getZoom());
+          // 性能优化: 预先建立Map，避免O(N*M)的find查找
+          const memMap = new Map(DB.memories.map(m => [m.id, m]));
           this.markers.forEach(marker => {
-            const mem = DB.memories.find(mm => mm.id === marker.memoryId);
+            const mem = memMap.get(marker.memoryId);
             if (mem) marker.setIcon(this.createPhotoIcon(mem, size));
           });
         });
@@ -3883,6 +3885,8 @@ const app = {
     const totalCount = fragments.length;
     const progress = totalCount > 0 ? Math.round((collectedCount / totalCount) * 100) : 0;
 
+    const memoryMap = new Map(DB.memories.map(m => [m.id, m]));
+
     // 碎片进度条（3x3网格，中间空）
     let gridHtml = '<div class="fragments-grid">';
     for (let i = 0; i < 9; i++) {
@@ -3897,7 +3901,7 @@ const app = {
         if (frag) {
           if (frag.collected) {
             // 已收集：显示地标缩略图 + 金色边框
-            const memory = DB.memories.find(m => m.id === frag.memoryId);
+            const memory = memoryMap.get(frag.memoryId);
             const thumb = memory && memory.oldImages && memory.oldImages[0] ? memory.oldImages[0] : '';
             gridHtml += `<div class="fragment-cell fragment-collected" title="${escHtml(frag.title)}">
               ${thumb ? `<img src="${thumb}" alt="${frag.title}" class="fragment-thumb">` : `<i class="fas ${frag.icon}"></i>`}
@@ -3919,7 +3923,7 @@ const app = {
     // 地标打卡列表
     let listHtml = '<div class="fragment-landmark-list">';
     fragments.forEach(frag => {
-      const memory = DB.memories.find(m => m.id === frag.memoryId);
+      const memory = memoryMap.get(frag.memoryId);
       if (!memory) return;
       const thumb = memory.oldImages && memory.oldImages[0] ? memory.oldImages[0] : '';
       listHtml += `<div class="fragment-landmark-card ${frag.collected ? 'collected' : ''}">
