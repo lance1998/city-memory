@@ -79,7 +79,31 @@
       citySelector.setAttribute('tabindex', '0');
       citySelector.setAttribute('aria-label', '选择城市');
     }
+
+    var locateBtn = document.querySelector('.map-locate-btn');
+    if (locateBtn) {
+      locateBtn.setAttribute('role', 'button');
+      locateBtn.setAttribute('tabindex', '0');
+      locateBtn.setAttribute('aria-label', '定位到当前位置');
+    }
+
+    var clearSearchBtn = document.querySelector('.search-clear-btn');
+    if (clearSearchBtn) {
+      clearSearchBtn.setAttribute('role', 'button');
+      clearSearchBtn.setAttribute('tabindex', '0');
+      clearSearchBtn.setAttribute('aria-label', '清除搜索');
+    }
   }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      var el = document.activeElement;
+      if (el && (el.getAttribute('role') === 'button' || el.getAttribute('role') === 'tab' || el.classList.contains('filter-btn') || el.classList.contains('map-locate-btn') || el.classList.contains('search-clear-btn'))) {
+        e.preventDefault();
+        el.click();
+      }
+    }
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
