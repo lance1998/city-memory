@@ -328,13 +328,84 @@ const app = {
   },
 
   showComingSoon(feature) {
+    const isPost = feature.includes('发帖');
+    const isRelay = feature.includes('接力');
+    const isDM = feature.includes('私信');
+
+    if (isPost || isRelay || isDM) {
+      let title = isPost ? '发布记忆' : (isRelay ? '接力上传' : '发送私信');
+      let inputPlaceholder = isPost ? '分享你的记忆...' : (isRelay ? '描述你的接力...' : '输入私信内容...');
+      let url = isPost || isRelay ? 'http://localhost:3000/api/posts' : 'http://localhost:3000/api/messages';
+
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:flex-end;justify-content:center;z-index:9999;transition: opacity 0.3s;';
+
+      modal.innerHTML = `
+        <div style="background:var(--card-bg,#fff);width:100%;max-width:500px;border-radius:16px 16px 0 0;padding:20px;box-shadow:0 -4px 16px rgba(0,0,0,0.1);animation: slideUp 0.3s ease-out;">
+          <style>@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }</style>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <h3 style="margin:0;font-size:18px;color:var(--ink,#2c3e50);">${title}</h3>
+            <i class="fas fa-times" style="font-size:20px;color:#999;cursor:pointer;" onclick="this.closest('div[style*=\'position:fixed\']').remove()"></i>
+          </div>
+          <textarea id="feature-input-text" rows="4" placeholder="${inputPlaceholder}" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;margin-bottom:16px;outline:none;resize:none;box-sizing:border-box;"></textarea>
+          ${(isPost || isRelay) ? '<input type="file" id="feature-input-file" accept="image/*" style="margin-bottom:16px;display:block;" />' : ''}
+          <button id="feature-submit-btn" style="width:100%;background:var(--primary,#C75B39);color:#fff;border:none;border-radius:8px;padding:12px;font-size:16px;font-weight:600;cursor:pointer;">提交</button>
+        </div>
+      `;
+
+      const submitBtn = modal.querySelector('#feature-submit-btn');
+      submitBtn.addEventListener('click', () => {
+        const text = modal.querySelector('#feature-input-text').value;
+        if (!text) {
+          app.toast('请输入内容');
+          return;
+        }
+
+        const formData = new FormData();
+        if (isPost || isRelay) {
+          formData.append('userId', 'current_user');
+          formData.append('content', text);
+          formData.append('type', isPost ? 'post' : 'relay');
+
+          const fileInput = modal.querySelector('#feature-input-file');
+          if (fileInput && fileInput.files.length > 0) {
+            formData.append('file', fileInput.files[0]);
+          }
+        } else {
+          formData.append('from', 'current_user');
+          formData.append('to', 'target_user');
+          formData.append('message', text);
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = '提交中...';
+
+        fetch(url, {
+          method: 'POST',
+          body: formData
+        }).then(res => res.json()).then(data => {
+          app.toast(data.message || '操作成功');
+          modal.remove();
+        }).catch(err => {
+          console.error(err);
+          app.toast('网络请求失败');
+          submitBtn.disabled = false;
+          submitBtn.textContent = '提交';
+        });
+      });
+
+      modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+      document.body.appendChild(modal);
+      return;
+    }
+
     const modal = document.createElement('div');
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;';
     modal.innerHTML = `
       <div style="background:var(--card-bg,#fff);border-radius:12px;padding:24px;max-width:280px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
         <i class="fas fa-rocket" style="font-size:32px;color:var(--primary,#C75B39);margin-bottom:12px;display:block;"></i>
         <h3 style="margin:0 0 8px;font-size:16px;color:var(--ink,#2c3e50);">${feature}即将上线</h3>
-        <p style="margin:0 0 16px;font-size:13px;color:var(--text-light);">该功能正在加紧开发中，敬请期待！</p>
+        <p style="margin:0 0 16px;font-size:13px;color:var(--text-light);">工程师正在快马加鞭开发中，敬请期待！</p>
         <button style="background:var(--primary,#C75B39);color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:14px;cursor:pointer;">知道了</button>
       </div>
     `;
