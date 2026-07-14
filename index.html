@@ -71,6 +71,97 @@
       <div class="time-header"><h1>时光玩法</h1><p>穿越城市的光影，邂逅被遗忘的记忆</p></div>
       <div class="time-content"><div class="time-grid" id="time-grid-container"></div></div>
     </div>
+
+    <div id="page-upload" class="page">
+      <div class="upload-header">
+        <div class="upload-back" onclick="app.goBack()"><i class="fas fa-arrow-left"></i></div>
+        <h2>发布记忆</h2>
+        <div style="width:24px;"></div>
+      </div>
+      <div class="upload-progress">
+        <div class="upload-step active" id="upload-step-1">1. 定位</div>
+        <div class="upload-step" id="upload-step-2">2. 照片</div>
+        <div class="upload-step" id="upload-step-3">3. 故事</div>
+      </div>
+      <div class="upload-content">
+        <!-- Step 1: Location -->
+        <div id="upload-step1" style="display:block;">
+          <div class="upload-form-group">
+            <label>地标位置</label>
+            <div style="display:flex;gap:10px;">
+              <input type="text" id="upload-lat" placeholder="纬度" readonly style="flex:1;">
+              <input type="text" id="upload-lng" placeholder="经度" readonly style="flex:1;">
+            </div>
+            <div id="upload-map" style="height:200px;margin-top:10px;border-radius:8px;background:#eee;"></div>
+          </div>
+          <button class="upload-btn primary" onclick="app.nextUploadStep()">下一步</button>
+        </div>
+
+        <!-- Step 2: Photo -->
+        <div id="upload-step2" style="display:none;">
+          <div class="upload-form-group">
+            <label>老照片</label>
+            <div id="old-photo-upload" class="upload-area"></div>
+          </div>
+          <div class="upload-form-group">
+            <label>新照片（可选）</label>
+            <div id="new-photo-upload" class="upload-area"></div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button class="upload-btn" onclick="app.prevUploadStep()" style="background:#eee;color:#333;">上一步</button>
+            <button class="upload-btn primary" onclick="app.nextUploadStep()">下一步</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Story -->
+        <div id="upload-step3" style="display:none;">
+          <div class="upload-form-group">
+            <label>地标名称</label>
+            <input type="text" id="upload-title" placeholder="例如：老火车站">
+          </div>
+          <div class="upload-form-group">
+            <label>年代</label>
+            <select id="upload-year">
+              <option value="">请选择年代</option>
+              <option value="70s">70年代</option>
+              <option value="80s">80年代</option>
+              <option value="90s">90年代</option>
+              <option value="00s">00年代</option>
+              <option value="10s">10年代</option>
+            </select>
+          </div>
+          <div class="upload-form-group">
+            <label>回忆故事</label>
+            <textarea id="upload-story" placeholder="写下你的回忆..." rows="4"></textarea>
+          </div>
+          <div class="upload-form-group">
+            <label>标签</label>
+            <input type="text" id="upload-tags" placeholder="空格分隔">
+          </div>
+          <div class="upload-form-group" style="display:flex;align-items:center;gap:10px;">
+            <input type="checkbox" id="upload-anonymous"> <label for="upload-anonymous" style="margin:0;">匿名发布</label>
+          </div>
+          <div class="upload-form-group" style="display:none;">
+            <input type="checkbox" id="use-streetview">
+          </div>
+          <div class="upload-form-group">
+            <label>隐私设置</label>
+            <div style="display:flex;gap:10px;">
+              <div class="privacy-option active" id="privacy-private" onclick="app.selectPrivacy('private')">私密</div>
+              <div class="privacy-option" id="privacy-public" onclick="app.selectPrivacy('public')">公开</div>
+            </div>
+            <div id="privacy-notice" style="font-size:12px;color:#888;margin-top:5px;"></div>
+          </div>
+          <div id="upload-preview" style="margin-top:20px;"></div>
+          <div style="display:flex;gap:10px;margin-top:20px;">
+            <button class="upload-btn" onclick="app.prevUploadStep()" style="background:#eee;color:#333;">上一步</button>
+            <button class="upload-btn primary" onclick="app.publishMemory()">发布</button>
+          </div>
+          <div id="ai-preview" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+
     <div id="page-profile" class="page">
       <div class="profile-header">
         <div class="profile-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="头像"></div>
