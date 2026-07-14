@@ -98,7 +98,7 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' || e.key === ' ') {
       var el = document.activeElement;
-      if (el && (el.getAttribute('role') === 'button' || el.getAttribute('role') === 'tab' || el.classList.contains('filter-btn') || el.classList.contains('map-locate-btn') || el.classList.contains('search-clear-btn'))) {
+      if (el && (el.getAttribute('role') === 'button' || el.getAttribute('role') === 'tab' || el.classList.contains('filter-btn') || el.classList.contains('map-locate-btn') || el.classList.contains('search-clear-btn') || el.classList.contains('detail-action') || el.classList.contains('detail-voice'))) {
         e.preventDefault();
         el.click();
       }
@@ -120,6 +120,25 @@
       content.setAttribute('aria-label', '记忆详情');
       var backdrop = content.closest('.detail-modal');
       if (backdrop) backdrop.setAttribute('aria-modal', 'true');
+
+      content.querySelectorAll('.detail-action, .detail-voice').forEach(function(btn) {
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('tabindex', '0');
+
+        if (btn.classList.contains('detail-action')) {
+          var icon = btn.querySelector('i');
+          var span = btn.querySelector('span');
+          if (icon && span) {
+            var count = span.textContent;
+            if (icon.classList.contains('fa-heart')) {
+              var isLiked = btn.classList.contains('active');
+              btn.setAttribute('aria-label', (isLiked ? '取消点赞, ' : '点赞, ') + count);
+            } else if (icon.classList.contains('fa-comment')) {
+              btn.setAttribute('aria-label', '评论, ' + count);
+            }
+          }
+        }
+      });
     }
   });
   var detailContent = document.getElementById('detail-content');
