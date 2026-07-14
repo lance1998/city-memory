@@ -19,21 +19,6 @@
     app.navigateTo('upload');
     if (app.resetUpload) app.resetUpload();
   };
-
-  // ===== 3. 补充 showMapUploadHint（长按地图添加记忆） =====
-  // perf-patch.js 中的长按事件依赖此函数
-  app.showMapUploadHint = function(latlng) {
-    app.navigateTo('upload');
-    if (app.resetUpload) app.resetUpload();
-    // 如果存在地图位置字段，自动填入坐标
-    var latInput = document.getElementById('upload-lat');
-    var lngInput = document.getElementById('upload-lng');
-    if (latInput && latlng && latlng.lat !== undefined) latInput.value = latlng.lat.toFixed(6);
-    if (lngInput && latlng && latlng.lng !== undefined) lngInput.value = latlng.lng.toFixed(6);
-    // 显示提示
-    if (app.showToast) app.showToast('已定位到长按位置，请完善记忆信息');
-  };
-
   // ===== 4. 修复 setTheme('retro') 无效 =====
   // 复古怀旧主题对应的 key 是空字符串 ''，不是 'retro'
   if (app.setTheme) {
