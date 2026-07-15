@@ -1,0 +1,378 @@
+/**
+ * 城市微记忆 V2.1 差异化功能样式
+ * 变迁预览卡片、城市记忆浓度、年代氛围色、点击涟漪、城市年谱
+ */
+
+/* ===== 1. 变迁预览卡片 ===== */
+
+.v21-preview-popup .leaflet-popup-content-wrapper {
+  background: transparent !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.v21-preview-popup .leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+}
+.v21-preview-popup .leaflet-popup-tip {
+  background: rgba(30,30,30,0.9) !important;
+  box-shadow: none !important;
+}
+
+.v21-preview-card {
+  background: var(--card, #1e293b);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  animation: v21-previewIn 0.25s ease-out;
+}
+
+@keyframes v21-previewIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.v21-preview-compare {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 2/1;
+  position: relative;
+}
+
+.v21-preview-side {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.v21-preview-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.v21-preview-side::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(255,255,255,0.3);
+}
+.v21-preview-old::after {
+  right: 0;
+}
+.v21-preview-new::after {
+  left: 0;
+}
+
+.v21-preview-label {
+  position: absolute;
+  top: 6px;
+  padding: 1px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+.v21-preview-old .v21-preview-label {
+  left: 6px;
+  background: rgba(139,105,20,0.8);
+  color: #fff;
+}
+.v21-preview-new .v21-preview-label {
+  right: 6px;
+  background: rgba(74,124,155,0.8);
+  color: #fff;
+}
+
+.v21-preview-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-dark, #f1f5f9);
+  color: var(--text-muted, #94a3b8);
+  font-size: 11px;
+}
+
+.v21-preview-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  gap: 8px;
+}
+
+.v21-preview-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text, #f1f5f9);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.v21-preview-meta {
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+
+/* ===== 2. 城市记忆浓度 ===== */
+
+.v21-density-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.v21-density-ring {
+  position: relative;
+  border-radius: 50%;
+  border: 2px solid rgba(199,91,57,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: v21-densityPulse 2s ease-in-out infinite;
+}
+
+.v21-density-ring-inner {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  border: 1.5px solid;
+  opacity: 0.5;
+  animation: v21-densityPulse 2s ease-in-out infinite reverse;
+}
+
+.v21-density-count {
+  font-size: 12px;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+@keyframes v21-densityPulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50%      { transform: scale(1.15); opacity: 1; }
+}
+
+
+/* ===== 3. 点击涟漪 ===== */
+
+.v21-ripple-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.v21-ripple {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  margin-top: -30px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--ripple-color, #c75b39);
+  animation: v21-rippleExpand 1s ease-out forwards;
+  pointer-events: none;
+}
+
+.v21-ripple::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ripple-color, #c75b39);
+  animation: v21-rippleExpand 1s 0.15s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes v21-rippleExpand {
+  0%   { transform: scale(0.3); opacity: 0.9; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+
+/* ===== 4. 地图功能按钮 ===== */
+
+.v21-map-btn {
+  position: fixed;
+  right: 20px;
+  bottom: calc(160px + env(safe-area-inset-bottom));
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--card, #fff);
+  box-shadow: var(--shadow-md, 0 4px 12px rgba(0,0,0,0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  color: var(--text-light, #475569);
+  font-size: 18px;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border, #e2e8f0);
+}
+
+.v21-map-btn:hover {
+  transform: scale(1.08);
+  box-shadow: var(--shadow-lg, 0 8px 24px rgba(0,0,0,0.2));
+}
+
+.v21-map-btn:active {
+  transform: scale(0.95);
+}
+
+.v21-map-btn.active {
+  background: var(--primary, #4F46E5);
+  color: #fff;
+  border-color: var(--primary, #4F46E5);
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .v21-map-btn {
+  background: var(--card, #1e293b);
+  border-color: var(--border, #334155);
+  color: var(--text-light, #94a3b8);
+}
+[data-theme="dark"] .v21-map-btn:hover {
+  background: var(--bg-elevated, #334155);
+}
+
+
+/* ===== 5. 城市年谱 ===== */
+
+.v21-chronicle {
+  padding: 4px 0;
+}
+
+.v21-chronicle-city {
+  margin-bottom: 20px;
+}
+
+.v21-chronicle-city-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-left: 3px solid;
+  background: var(--bg-dark, #f1f5f9);
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 10px;
+}
+
+.v21-chronicle-city-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text, #0f172a);
+}
+
+.v21-chronicle-city-count {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  background: var(--bg, #f8fafc);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.v21-chronicle-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 8px;
+}
+
+.v21-chronicle-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.v21-chronicle-item:hover {
+  background: var(--bg-dark, #f1f5f9);
+}
+
+.v21-chronicle-item:active {
+  background: var(--primary-light, #e0e7ff);
+}
+
+.v21-chronicle-item img {
+  width: 48px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.v21-chronicle-noimg {
+  width: 48px;
+  height: 36px;
+  border-radius: 6px;
+  background: var(--bg-dark, #f1f5f9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted, #94a3b8);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.v21-chronicle-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.v21-chronicle-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text, #0f172a);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v21-chronicle-item-year {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+
+/* ===== 深色模式适配 ===== */
+
+[data-theme="dark"] .v21-preview-card {
+  background: var(--card, #1e293b);
+}
+
+[data-theme="dark"] .v21-preview-title {
+  color: var(--text, #f1f5f9);
+}
+
+[data-theme="dark"] .v21-chronicle-city-header {
+  background: var(--bg-elevated, #1e293b);
+}
+
+[data-theme="dark"] .v21-chronicle-city-name {
+  color: var(--text, #f1f5f9);
+}
+
+[data-theme="dark"] .v21-chronicle-item:hover {
+  background: var(--bg-elevated, #1e293b);
+}
+
+[data-theme="dark"] .v21-chronicle-item-title {
+  color: var(--text, #f1f5f9);
+}
+
+[data-theme="dark"] .v21-chronicle-city-count {
+  background: var(--bg-dark, #0f172a);
+}

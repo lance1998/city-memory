@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <link rel="stylesheet" href="style.css?v=20250707l">
   <link rel="stylesheet" href="style-patch.css?v=20250707l">
+  <link rel="stylesheet" href="css/v2.1-features.css?v=20250715">
   <style id="app-css"></style>
   <style>
     .modal, .detail-modal {
@@ -106,7 +107,8 @@
                      'challenge-list','private-list','starmap-canvas','fragments-list','story-content',
                      'quiz-container','blindbox-result','postcard-preview','poster-modal',
                      'image-preview-modal','image-preview-img','settings-panel',
-                     'comment-input','back-to-top'];
+                     'comment-input','back-to-top',
+                     'v21-density-btn','v21-chronicle-btn','v21-chronicle-modal'];
       document.getElementById = function(id) {
         var el = _orig.call(document, id);
         if (!el && safeIds.indexOf(id) !== -1) {
@@ -139,5 +141,6 @@
   <script src="js/nationwide-data.js?v=20250707m"></script>
   <script src="js/search-index.js?v=20250707l"></script>
   <script src="js/mobile-adapt.js?v=20250707l"></script>
+  <script src="js/v2.1-features.js?v=20250715"></script>
 </body>
 </html>
