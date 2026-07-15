@@ -391,27 +391,19 @@
     },
 
     /* ========== 挂载密度按钮到地图页面 ========== */
-    _injectDensityButton() {
-      const mapPage = document.getElementById('page-map');
-      if (!mapPage || document.getElementById('v21-density-btn')) return;
-
-      const btn = document.createElement('div');
-      btn.id = 'v21-density-btn';
-      btn.className = 'v21-map-btn';
-      btn.title = '城市记忆浓度';
-      btn.innerHTML = '<i class="fas fa-braille"></i>';
-      btn.onclick = () => this.showCityDensity();
-      mapPage.appendChild(btn);
-
-      // 城市年谱按钮
-      const btn2 = document.createElement('div');
-      btn2.id = 'v21-chronicle-btn';
-      btn2.className = 'v21-map-btn';
-      btn2.title = '城市年谱';
-      btn2.innerHTML = '<i class="fas fa-book-open"></i>';
-      btn2.style.bottom = 'calc(80px + env(safe-area-inset-bottom))';
-      btn2.onclick = () => this.showChronicle();
-      mapPage.appendChild(btn2);
+    _bindButtonEvents() {
+      // 绑定城市记忆浓度按钮事件（按钮已硬编码在HTML中）
+      const btn = document.getElementById('v21-density-btn');
+      if (btn && !btn._v21_bound) {
+        btn.onclick = () => this.showCityDensity();
+        btn._v21_bound = true;
+      }
+      // 绑定城市年谱按钮事件
+      const btn2 = document.getElementById('v21-chronicle-btn');
+      if (btn2 && !btn2._v21_bound) {
+        btn2.onclick = () => this.showChronicle();
+        btn2._v21_bound = true;
+      }
     },
 
     /* ========== 事件拦截与增强 ========== */
@@ -472,7 +464,7 @@
       this._enhanceFilterMapMarkers();
 
       // 注入按钮（无需等待地图）
-      this._injectDensityButton();
+      this._bindButtonEvents();
 
       // 如果地图已初始化，立即绑定事件
       if (typeof app !== 'undefined' && app.map && app.markerLayer) {
