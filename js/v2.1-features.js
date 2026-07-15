@@ -459,34 +459,57 @@
     },
 
     /* ========== 初始化入口 ========== */
-    init() {
-      // 注入地图按钮
-      this._injectDensityButton();
+    _inited: false,
 
-      // 增强 marker 样式
+    init() {
+      if (this._inited) return;
+
+      // 增强 marker 样式（无需等待地图）
       this.enhanceMarkerStyles();
 
-      // 如果地图已初始化，增强现有 markers
-      if (app.map && app.markers && app.markers.length > 0) {
-        this._bindMarkerHover();
-        this.applyYearAtmosphere(DB.state.yearFilter);
-      }
-
-      // 如果地图尚未初始化，Hook addMapMarkers
+      // Hook addMapMarkers 和 filterMapMarkers（无论地图是否已就绪）
       this._enhanceAddMapMarkers();
       this._enhanceFilterMapMarkers();
 
+      // 注入按钮（无需等待地图）
+      this._injectDensityButton();
+
+      // 如果地图已初始化，立即绑定事件
+      if (typeof app !== 'undefined' && app.map && app.markerLayer) {
+        this._bindMarkerHover();
+        this.applyYearAtmosphere(DB.state && DB.state.yearFilter);
+      }
+
+      this._inited = true;
       console.log('[V2.1] 差异化功能补丁已加载：变迁预览、记忆浓度、年代氛围色、点击涟漪、标记增强、城市年谱');
+    },
+
+    // 等待 app 就绪后绑定地图事件
+    _waitForApp() {
+      if (typeof app !== 'undefined' && app.map && app.markerLayer) {
+        this._bindMarkerHover();
+        return;
+      }
+      // 轮询等待，最多 5 秒
+      if (this._waitCount === undefined) this._waitCount = 0;
+      if (this._waitCount++ < 50) {
+        setTimeout(() => this._waitForApp(), 100);
+      }
     }
   };
 
   // 暴露到全局
   window.V21 = V21;
 
-  // DOM Ready 后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => V21.init());
-  } else {
+  // DOM Ready 后初始化，然后等待 app 就绪
+  const boot = () => {
     V21.init();
+    V21._waitForApp();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
   }
 })();
