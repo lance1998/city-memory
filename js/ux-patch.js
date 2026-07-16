@@ -120,6 +120,29 @@
       content.setAttribute('aria-label', '记忆详情');
       var backdrop = content.closest('.detail-modal');
       if (backdrop) backdrop.setAttribute('aria-modal', 'true');
+
+      content.querySelectorAll('.detail-action').forEach(function(btn) {
+        if (!btn.hasAttribute('role')) {
+          btn.setAttribute('role', 'button');
+          btn.setAttribute('tabindex', '0');
+        }
+        var iconEl = btn.querySelector('i');
+        var spanEl = btn.querySelector('span');
+        if (iconEl && spanEl) {
+          var iconClass = iconEl.className;
+          var countText = spanEl.textContent.trim();
+          var actionIntent = '';
+          if (iconClass.indexOf('fa-heart') !== -1) actionIntent = '点赞';
+          else if (iconClass.indexOf('fa-comment') !== -1) actionIntent = '评论';
+          else if (iconClass.indexOf('fa-star') !== -1) actionIntent = '收藏';
+          else if (iconClass.indexOf('fa-share-alt') !== -1) actionIntent = '分享';
+          else if (iconClass.indexOf('fa-images') !== -1) actionIntent = '同框';
+
+          if (actionIntent) {
+            btn.setAttribute('aria-label', countText ? (actionIntent + ', ' + countText) : actionIntent);
+          }
+        }
+      });
     }
   });
   var detailContent = document.getElementById('detail-content');
