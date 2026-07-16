@@ -301,5 +301,8 @@
     });
   });
 
+  // 初始化时立即构建一次聚合
+  setTimeout(buildAlbumCluster, 500);
+
   console.log('[P3] 地图照片图集聚合已初始化');
 })();
