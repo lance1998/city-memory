@@ -7,8 +7,10 @@
  */
 (function() {
   'use strict';
-  if (typeof app === 'undefined' || typeof DB === 'undefined') return;
-  if (!app.map || !app.markerLayer) return;
+
+  function initP3() {
+    if (typeof app === 'undefined' || typeof DB === 'undefined') return false;
+    if (!app.map || !app.markerLayer) return false;
 
   var esc = function(s) {
     if (!s) return '';
@@ -305,4 +307,18 @@
   setTimeout(buildAlbumCluster, 500);
 
   console.log('[P3] 地图照片图集聚合已初始化');
+  return true;
+  }
+
+  // 延迟初始化（app.init 可能在 DOMContentLoaded 中才执行）
+  function tryInit(retries) {
+    if (initP3()) return;
+    if (retries <= 0) return;
+    setTimeout(function() { tryInit(retries - 1); }, 300);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { tryInit(10); });
+  } else {
+    tryInit(10);
+  }
 })();
