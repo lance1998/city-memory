@@ -168,8 +168,8 @@
   });
 
   // ==================== 升级聚合标记为照片图集 ====================
-  var ALBUM_THRESHOLD_ZOOM = 13;
-  var ALBUM_PIXEL_THRESHOLD = 40;
+  var ALBUM_THRESHOLD_ZOOM = 14;
+  var ALBUM_PIXEL_THRESHOLD = 60;
   var albumLayer = L.layerGroup().addTo(app.map);
 
   function buildAlbumCluster() {
