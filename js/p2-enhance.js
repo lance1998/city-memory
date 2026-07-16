@@ -55,6 +55,7 @@
     }
 
     function setTheme(key) {
+      document.documentElement.classList.add('p2-theme-transitioning');
       if (key === 'auto') {
         localStorage.setItem('city-memory-theme', 'auto');
         var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -66,6 +67,9 @@
       }
       updateActive(key);
       app.toast && app.toast('主题已切换');
+      setTimeout(function() {
+        document.documentElement.classList.remove('p2-theme-transitioning');
+      }, 400);
     }
 
     function updateActive(key) {
@@ -103,7 +107,11 @@
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
       var saved = localStorage.getItem('city-memory-theme');
       if (saved === 'auto') {
+        document.documentElement.classList.add('p2-theme-transitioning');
         document.documentElement.setAttribute('data-theme', this.matches ? 'dark' : 'modern');
+        setTimeout(function() {
+          document.documentElement.classList.remove('p2-theme-transitioning');
+        }, 400);
       }
     });
 
@@ -121,6 +129,7 @@
     if (!app.map || !app.markerLayer) return;
     var clusterLayer = L.layerGroup().addTo(app.map);
     var _clusterMarkers = [];
+    var _origMarkers = [];
     var THRESHOLD_ZOOM = 13;
     var PIXEL_THRESHOLD = 40;
 
@@ -177,7 +186,7 @@
             var mem = getMemById(layer._memId);
             if (!mem) return;
             var latlng = layer.getLatLng();
-            L.popup({ closeButton: false, className: '', maxWidth: 230, offset: [0, -10] })
+            var popup = L.popup({ closeButton: false, className: '', maxWidth: 230, offset: [0, -10] })
               .setLatLng(latlng)
               .setContent(buildPopup(mem))
               .openOn(app.map);
@@ -406,44 +415,48 @@
     }
 
     var PAGE_SIZE = 20;
+    var _currentPage = 0;
+    var _allFiltered = [];
 
     var origRender = app.renderDiscover ? app.renderDiscover.bind(app) : null;
     if (origRender) {
       app.renderDiscover = function(query) {
+        _currentPage = 0;
         origRender(query);
-
         var waterfall = document.getElementById('discover-waterfall');
         if (!waterfall) return;
 
         setTimeout(function() {
           var cards = waterfall.querySelectorAll('.waterfall-card');
-          if (cards.length > PAGE_SIZE) {
-            for (var i = PAGE_SIZE; i < cards.length; i++) {
-              cards[i].style.display = 'none';
-            }
-            if (!waterfall.querySelector('.p2-load-more')) {
-              var loadMoreDiv = document.createElement('div');
-              loadMoreDiv.className = 'p2-load-more';
-              loadMoreDiv.innerHTML = '<button class="p2-load-more-btn"><i class="fas fa-chevron-down"></i> 加载更多</button>';
-              loadMoreDiv.querySelector('.p2-load-more-btn').addEventListener('click', function() {
-                var hidden = waterfall.querySelectorAll('.waterfall-card[style*="display: none"]');
-                var showCount = 0;
-                hidden.forEach(function(card) {
-                  if (showCount < PAGE_SIZE) {
-                    card.style.display = '';
-                    card.classList.add('card-visible');
-                    showCount++;
-                  }
-                });
-                var remaining = waterfall.querySelectorAll('.waterfall-card[style*="display: none"]');
-                if (remaining.length === 0) {
-                  loadMoreDiv.remove();
+          if (cards.length <= PAGE_SIZE) return;
+
+          for (var i = PAGE_SIZE; i < cards.length; i++) {
+            cards[i].style.display = 'none';
+            cards[i].classList.remove('card-visible');
+          }
+
+          if (!waterfall.querySelector('.p2-load-more')) {
+            var loadMoreDiv = document.createElement('div');
+            loadMoreDiv.className = 'p2-load-more';
+            loadMoreDiv.innerHTML = '<button class="p2-load-more-btn"><i class="fas fa-chevron-down"></i> 加载更多</button>';
+            loadMoreDiv.querySelector('.p2-load-more-btn').addEventListener('click', function() {
+              var hidden = waterfall.querySelectorAll('.waterfall-card[style*="display: none"]');
+              var showCount = 0;
+              hidden.forEach(function(card) {
+                if (showCount < PAGE_SIZE) {
+                  card.style.display = '';
+                  setTimeout(function() { card.classList.add('card-visible'); }, 50 * showCount);
+                  showCount++;
                 }
               });
-              waterfall.appendChild(loadMoreDiv);
-            }
+              var remaining = waterfall.querySelectorAll('.waterfall-card[style*="display: none"]');
+              if (remaining.length === 0) {
+                loadMoreDiv.remove();
+              }
+            });
+            waterfall.appendChild(loadMoreDiv);
           }
-        }, 150);
+        }, 200);
       };
     }
 
@@ -470,20 +483,17 @@
       if (tabBar && !tabBar.getAttribute('role')) {
         tabBar.setAttribute('role', 'tablist');
       }
-
       var toast = document.getElementById('toast');
       if (toast) {
         toast.setAttribute('role', 'alert');
         toast.setAttribute('aria-live', 'polite');
       }
-
       document.querySelectorAll('.filter-btn, .sort-btn').forEach(function(btn) {
         if (!btn.getAttribute('role')) {
           btn.setAttribute('role', 'button');
           btn.setAttribute('tabindex', '0');
         }
       });
-
       document.querySelectorAll('.detail-modal, .modal').forEach(function(modal) {
         if (!modal.getAttribute('role')) {
           modal.setAttribute('role', 'dialog');
@@ -491,12 +501,10 @@
           modal.setAttribute('aria-label', modal.classList.contains('detail-modal') ? '记忆详情' : '弹窗');
         }
       });
-
       var search = document.getElementById('discover-search');
       if (search && !search.getAttribute('aria-label')) {
         search.setAttribute('aria-label', '搜索地标、回忆、标签');
       }
-
       var citySelector = document.querySelector('.city-selector');
       if (citySelector && !citySelector.getAttribute('role')) {
         citySelector.setAttribute('role', 'button');
@@ -543,7 +551,6 @@
 
     addAriaAttrs();
     addKeyboardNav();
-
     var ariaObs = new MutationObserver(function() { addAriaAttrs(); });
     ariaObs.observe(document.body, { childList: true, subtree: true });
 
@@ -690,7 +697,6 @@
     console.log('[P2-6] 消息中心增强已初始化');
   }
 
-  // ==================== 初始化 ====================
   function init() {
     initThemePanel();
     initMapCluster();
