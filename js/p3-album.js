@@ -181,9 +181,9 @@
     // 收集所有有 memId 的标记
     var points = [];
     app.markerLayer.eachLayer(function(layer) {
-      if (!layer.getLatLng || !layer._memId) return;
+      if (!layer.getLatLng || !layer.memoryId) return;
       var pos = app.map.latLngToContainerPoint(layer.getLatLng());
-      points.push({ layer: layer, memId: layer._memId, pos: pos });
+      points.push({ layer: layer, memId: layer.memoryId, pos: pos });
     });
 
     // 像素距离聚合
