@@ -1,0 +1,103 @@
+/**
+ * 城市微记忆 P1 · 交互增强层样式
+ * P1-1 详情面板 | P1-2 瀑布流 | P1-3 上传 | P1-4 互动反馈
+ * P1-5 地图交互 | P1-6 动画系统
+ */
+
+/* ===== P1-6: 动画过渡系统 ===== */
+.page { will-change: opacity, transform; backface-visibility: hidden; }
+.page.page-enter { animation: p1-page-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.page.page-leave { animation: p1-page-leave 0.25s cubic-bezier(0.4, 0, 1, 1) forwards; }
+@keyframes p1-page-enter { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes p1-page-leave { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+.p1-reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.p1-reveal.revealed { opacity: 1; transform: translateY(0); }
+@keyframes p1-fade-in-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes p1-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes p1-scale-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+@keyframes p1-slide-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== P1-1: 详情面板重构 ===== */
+.p1-detail-skeleton { padding: 16px; }
+.p1-skeleton-block { background: linear-gradient(90deg, var(--cm-surface-2) 25%, var(--cm-surface-3) 50%, var(--cm-surface-2) 75%); background-size: 200% 100%; animation: p1-skeleton-shimmer 1.5s infinite; border-radius: var(--cm-radius-sm); }
+@keyframes p1-skeleton-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.p1-skeleton-img { width: 100%; height: 200px; border-radius: var(--cm-radius-md); margin-bottom: 12px; }
+.p1-skeleton-title { height: 22px; width: 70%; margin-bottom: 10px; }
+.p1-skeleton-meta { height: 14px; width: 50%; margin-bottom: 16px; }
+.p1-skeleton-story { height: 14px; width: 100%; margin-bottom: 8px; }
+.p1-skeleton-actions { display: flex; gap: 24px; margin-top: 16px; }
+.p1-skeleton-action { width: 40px; height: 40px; border-radius: 50%; }
+.p1-gallery { position: relative; width: 100%; margin-bottom: var(--cm-space-md); border-radius: var(--cm-radius-md); overflow: hidden; background: var(--cm-surface-3); }
+.p1-gallery-main { width: 100%; height: 260px; position: relative; overflow: hidden; }
+.p1-gallery-main img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+.p1-gallery-counter { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; padding: 2px 8px; border-radius: var(--cm-radius-full); backdrop-filter: blur(4px); }
+.p1-gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--cm-elevation-1); z-index: 3; font-size: 12px; color: var(--cm-text-primary); }
+.p1-gallery-nav:active { transform: translateY(-50%) scale(0.9); }
+.p1-gallery-nav-prev { left: 8px; }
+.p1-gallery-nav-next { right: 8px; }
+.p1-gallery-thumbs { display: flex; gap: 6px; padding: 8px; overflow-x: auto; scrollbar-width: none; }
+.p1-gallery-thumbs::-webkit-scrollbar { display: none; }
+.p1-gallery-thumb { width: 48px; height: 48px; border-radius: var(--cm-radius-sm); overflow: hidden; flex-shrink: 0; opacity: 0.5; border: 2px solid transparent; cursor: pointer; transition: opacity var(--cm-transition-fast), border-color var(--cm-transition-fast); }
+.p1-gallery-thumb.active { opacity: 1; border-color: var(--cm-accent); }
+.p1-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.p1-detail-animate .detail-title { animation: p1-fade-in-up 0.4s 0.05s both; }
+.p1-detail-animate .detail-meta { animation: p1-fade-in-up 0.4s 0.1s both; }
+.p1-detail-animate .detail-story { animation: p1-fade-in-up 0.4s 0.15s both; }
+.p1-detail-animate .detail-tags { animation: p1-fade-in-up 0.4s 0.2s both; }
+.p1-detail-animate .detail-actions { animation: p1-fade-in-up 0.4s 0.25s both; }
+.p1-detail-animate .p0-comments-section { animation: p1-slide-up 0.4s 0.3s both; }
+
+/* ===== P1-2: 瀑布流增强 ===== */
+.p1-card-skeleton { background: var(--cm-surface-1); border-radius: var(--cm-radius-md); overflow: hidden; border: 1px solid var(--cm-border); }
+.p1-card-skeleton-img { width: 100%; height: 140px; }
+.p1-card-skeleton-info { padding: 10px; }
+.p1-card-skeleton-title { height: 14px; width: 80%; margin-bottom: 8px; }
+.p1-card-skeleton-desc { height: 12px; width: 60%; }
+.p1-waterfall-stagger .waterfall-card { opacity: 0; transform: translateY(24px); transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.p1-waterfall-stagger .waterfall-card.card-visible { opacity: 1; transform: translateY(0); }
+.p1-empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; animation: p1-fade-in 0.4s; }
+.p1-empty-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--cm-surface-2); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--cm-text-tertiary); margin-bottom: 16px; }
+.p1-empty-title { font-size: 16px; font-weight: 600; color: var(--cm-text-primary); margin-bottom: 6px; }
+.p1-empty-desc { font-size: 13px; color: var(--cm-text-tertiary); text-align: center; }
+
+/* ===== P1-4: 互动反馈升级 ===== */
+.p1-like-burst { position: absolute; pointer-events: none; z-index: 100; }
+.p1-like-particle { position: absolute; font-size: 16px; animation: p1-burst 0.6s ease-out forwards; }
+@keyframes p1-burst { 0% { opacity: 1; transform: translate(0, 0) scale(1); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3); } }
+.p1-star-burst .detail-action i, .p1-star-burst i { animation: p1-star-pop 0.5s cubic-bezier(0.17, 0.89, 0.32, 1.49); }
+@keyframes p1-star-pop { 0% { transform: scale(1); } 40% { transform: scale(1.4); } 70% { transform: scale(0.9); } 100% { transform: scale(1); } }
+.p1-heart-beat { animation: p1-heart-beat 0.4s ease; }
+@keyframes p1-heart-beat { 0% { transform: scale(1); } 25% { transform: scale(1.3); } 50% { transform: scale(0.95); } 100% { transform: scale(1); } }
+.detail-action { position: relative; transition: transform var(--cm-transition-fast), color var(--cm-transition-fast); }
+.detail-action:active { transform: scale(0.9); }
+.detail-action.active i { animation: p1-heart-beat 0.4s ease; }
+.p1-comment-enter { animation: p1-comment-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes p1-comment-slide-in { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+.p1-count-bump { display: inline-block; animation: p1-count-bump 0.3s ease; }
+@keyframes p1-count-bump { 0% { transform: translateY(0); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0); } }
+
+/* ===== P1-5: 地图交互增强 ===== */
+.p1-cluster-marker { background: var(--cm-accent); color: #fff; font-size: 12px; font-weight: 700; border-radius: 50%; border: 3px solid var(--cm-surface-1); box-shadow: var(--cm-elevation-2); display: flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; cursor: pointer; }
+.p1-marker-info-card { background: var(--cm-surface-1); border-radius: var(--cm-radius-md); box-shadow: var(--cm-elevation-3); padding: 12px; min-width: 200px; max-width: 280px; animation: p1-scale-in 0.2s ease; }
+
+/* ===== P1-3: 上传增强 ===== */
+.p1-field-error { color: var(--cm-danger); font-size: 12px; margin-top: 4px; animation: p1-fade-in 0.2s; }
+.p1-field-wrap { position: relative; }
+.p1-field-wrap.error input, .p1-field-wrap.error textarea, .p1-field-wrap.error select { border-color: var(--cm-danger) !important; }
+.p1-field-wrap.success input, .p1-field-wrap.success textarea { border-color: var(--cm-success) !important; }
+.p1-field-hint { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; }
+.p1-field-hint.error { color: var(--cm-danger); }
+.p1-upload-add { width: 80px; height: 80px; border-radius: var(--cm-radius-sm); border: 2px dashed var(--cm-border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--cm-text-tertiary); font-size: 11px; cursor: pointer; }
+.p1-upload-add:active { border-color: var(--cm-accent); color: var(--cm-accent); }
+.p1-submit-loading { position: relative; pointer-events: none; opacity: 0.8; }
+.p1-submit-loading::after { content: ''; position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border: 2px solid transparent; border-top-color: #fff; border-radius: 50%; animation: p1-spin 0.6s linear infinite; }
+@keyframes p1-spin { to { transform: rotate(360deg); } }
+.p1-step-bar { display: flex; align-items: center; justify-content: center; gap: 0; padding: 16px; }
+.p1-step { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--cm-text-tertiary); }
+.p1-step.active { color: var(--cm-accent); }
+.p1-step.done { color: var(--cm-success); }
+.p1-step-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--cm-border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.p1-step.active .p1-step-dot { border-color: var(--cm-accent); background: var(--cm-accent); color: #fff; }
+.p1-step.done .p1-step-dot { border-color: var(--cm-success); background: var(--cm-success); color: #fff; }
+.p1-step-line { width: 32px; height: 2px; background: var(--cm-border); margin: 0 8px; }
+.p1-step-line.done { background: var(--cm-success); }

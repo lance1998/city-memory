@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/v2.1-features.css?v=20250715">
   <link rel="stylesheet" href="css/linkage-fix.css?v=20250716">
   <link rel="stylesheet" href="css/p0-enhance.css?v=20250716">
+  <link rel="stylesheet" href="css/p1-enhance.css?v=20250716">
   <style id="app-css"></style>
   <style>
     .modal, .detail-modal {
@@ -72,7 +73,6 @@
       </div>
       <div id="map-container"></div>
       <div class="map-locate-btn" onclick="app.locateMe()"><i class="fas fa-crosshairs"></i></div>
-      <!-- V2.1 浮标 -->
       <div class="v21-float-tag v21-density-tag" id="v21-density-tag">
         <span class="v21-float-dot"></span>
         <span class="v21-float-label">浓度</span>
@@ -123,7 +123,8 @@
     <div id="toast" class="toast"></div>
   </div>
   <div id="memory-detail" class="detail-modal">
-    <div class="detail-backdrop" onclick="app.closeDetail()"></div>
+    <div class="detail-backdrop" onclick="app.closeDetail()">
+    </div>
     <div class="detail-sheet">
       <div class="detail-handle"></div>
       <div class="detail-content" id="detail-content"></div>
@@ -178,5 +179,6 @@
   <script src="js/v2.1-features.js?v=20250716"></script>
   <script src="js/linkage-fix.js?v=20250716"></script>
   <script src="js/p0-enhance.js?v=20250716"></script>
+  <script src="js/p1-enhance.js?v=20250716"></script>
 </body>
 </html>
