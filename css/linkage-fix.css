@@ -1,0 +1,127 @@
+/**
+ * 城市微记忆 · 全页面联动修复样式
+ * 配合 linkage-fix.js 使用
+ */
+
+/* ===== L1: Tab 切换动画（覆盖 style-patch 的 visibility:hidden） ===== */
+.page:not(.active) {
+  opacity: 0 !important;
+  transform: translateY(8px);
+  pointer-events: none !important;
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+.page.active {
+  opacity: 1 !important;
+  transform: translateY(0);
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+
+/* ===== S4: 详情页\"在地图中查看\"按钮 ===== */
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.linkage-view-map-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--primary, #4F46E5);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  font-size: 13px;
+  font-weight: 500;
+}
+.linkage-view-map-btn:hover {
+  background: rgba(79, 70, 229, 0.15);
+}
+.linkage-view-map-btn:active {
+  transform: scale(0.95);
+}
+[data-theme="dark"] .linkage-view-map-btn {
+  background: rgba(79, 70, 229, 0.2);
+  color: var(--primary, #818cf8);
+}
+
+/* ===== S5: 时光页筛选状态提示 ===== */
+.linkage-filter-info {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: rgba(79, 70, 229, 0.06);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--text-muted, #64748b);
+  margin-top: 8px;
+  border: 1px solid rgba(79, 70, 229, 0.1);
+}
+[data-theme="dark"] .linkage-filter-info {
+  background: rgba(79, 70, 229, 0.15);
+  border-color: rgba(79, 70, 229, 0.2);
+  color: var(--text-muted, #94a3b8);
+}
+
+/* ===== M2: 城市标签计数 ===== */
+.city-tag {
+  position: relative;
+}
+.city-tag-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--primary, #4F46E5);
+  color: #fff;
+  font-size: 10px;
+  min-width: 16px;
+  height: 16px;
+  line-height: 16px;
+  border-radius: 8px;
+  text-align: center;
+  padding: 0 4px;
+  font-weight: 600;
+}
+
+/* ===== M4: 年代栏收起提示 ===== */
+#v21-year-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.1);
+  transition: opacity 0.3s;
+}
+[data-theme="dark"] #v21-year-bar::before {
+  background: rgba(255,255,255,0.15);
+}
+#v21-year-bar {
+  position: relative;
+}
+
+/* ===== L4: 深色模式切换按钮 ===== */
+.linkage-dark-switch {
+  transition: background 0.3s ease !important;
+}
+.linkage-dark-switch-knob {
+  transition: left 0.3s cubic-bezier(0.68, -0.2, 0.265, 1.4) !important;
+}
+
+/* ===== L2: Toast 动画优化 ===== */
+#toast {
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+#toast.show {
+  animation: linkageToastIn 0.3s ease forwards !important;
+}
+@keyframes linkageToastIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
