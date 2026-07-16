@@ -1,1 +1,459 @@
-ICAgICAgICAgICAgPGltZyBzcmM9IiR7bmV3SW1nfSIgYWx0PSLmlrAiIGxvYWRpbmc9ImxhenkiPgogICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJ2MjEtcHJldmlldy1sYWJlbCI+5pawPC9zcGFuPgogICAgICAgICAgICA8L2Rpdj5gIDogJzxkaXYgY2xhc3M9InYyMS1wcmV2aWV3LXNpZGUgdjIxLXByZXZpZXctZW1wdHkiPuaaguaXoOaWsOeFpzwvZGl2Pid9CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InYyMS1wcmV2aWV3LWluZm8iPgogICAgICAgICAgICA8c3BhbiBjbGFzcz0idjIxLXByZXZpZXctdGl0bGUiPiR7ZXNjSHRtbChtZW0udGl0bGUpfTwvc3Bhbj4KICAgICAgICAgICAgPHNwYW4gY2xhc3M9InYyMS1wcmV2aWV3LW1ldGEiIHN0eWxlPSJjb2xvcjoke2NvbG9yfSI+JHtlc2NIdG1sKG1lbS5jaXR5KX0gwrcgJHtlc2NIdG1sKG1lbS55ZWFyIHx8ICcnKX08L3NwYW4+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj5gOwoKICAgICAgY29uc3QgcG9wdXAgPSBMLnBvcHVwKHsKICAgICAgICBjbG9zZUJ1dHRvbjogZmFsc2UsCiAgICAgICAgY2xhc3NOYW1lOiAndjIxLXByZXZpZXctcG9wdXAnLAogICAgICAgIG9mZnNldDogWzAsIC00MF0sCiAgICAgICAgbWluV2lkdGg6IDIyMCwKICAgICAgICBtYXhXaWR0aDogMjgwLAogICAgICAgIGF1dG9QYW46IGZhbHNlCiAgICAgIH0pCiAgICAgIC5zZXRMYXRMbmcoW21lbS5sYXQsIG1lbS5sbmddKQogICAgICAuc2V0Q29udGVudChodG1sKQogICAgICAub3Blbk9uKGFwcC5tYXApOwoKICAgICAgdGhpcy5fcG9wdXAgPSBwb3B1cDsKICAgIH0sCgogICAgaGlkZVByZXZpZXcoKSB7CiAgICAgIGlmICh0aGlzLl9wb3B1cCkgewogICAgICAgIGFwcC5tYXAuY2xvc2VQb3B1cCh0aGlzLl9wb3B1cCk7CiAgICAgICAgdGhpcy5fcG9wdXAgPSBudWxsOwogICAgICB9CiAgICB9LAoKICAgIC8vIOe7keWumiBtYXJrZXIgaG92ZXIg5LqL5Lu2CiAgICBfYmluZE1hcmtlckhvdmVyKCkgewogICAgICBpZiAoIWFwcC5tYXJrZXJMYXllcikgcmV0dXJuOwogICAgICAvLyDkvb/nlKggbW91c2VvdmVyL21vdXNlb3V0IOWunueOsOaCrOWBnOmihOiniAogICAgICBhcHAubWFya2VyTGF5ZXIub24oJ21vdXNlb3ZlcicsIChlKSA9PiB7CiAgICAgICAgY29uc3QgbWVtSWQgPSBlLmxheWVyLm1lbW9yeUlkOwogICAgICAgIGlmIChtZW1JZCA9PT0gdW5kZWZpbmVkKSByZXR1cm47CiAgICAgICAgY29uc3QgbWVtID0gREIubWVtb3JpZXMuZmluZChtID0+IG0uaWQgPT09IG1lbUlkKTsKICAgICAgICBpZiAobWVtKSB0aGlzLnNob3dQcmV2aWV3KG1lbSwgZSk7CiAgICAgIH0pOwogICAgICBhcHAubWFya2VyTGF5ZXIub24oJ21vdXNlb3V0JywgKGUpID0+IHsKICAgICAgICB0aGlzLmhpZGVQcmV2aWV3KCk7CiAgICAgIH0pOwogICAgfSwKCiAgICAvKiA9PT09PT09PT09IDIuIOWfjuW4guiusOW/hua1k+W6puWPr+inhuWMliA9PT09PT09PT09ICovCiAgICAvLyDlnKjlnLDlm77kuIrmmL7npLrmr4/kuKrln47luILnmoTorrDlv4blr4bluqbvvIznlKjohInlhrLlnIbnjq/ooajnpLoKCiAgICBzaG93Q2l0eURlbnNpdHkoKSB7CiAgICAgIGlmICghYXBwLm1hcCkgcmV0dXJuOwoKICAgICAgLy8g5aaC5p6c5bey5pi+56S677yM5YiZ6ZqQ6JePCiAgICAgIGlmICh0aGlzLl9kZW5zaXR5VmlzaWJsZSkgewogICAgICAgIHRoaXMuaGlkZUNpdHlEZW5zaXR5KCk7CiAgICAgICAgcmV0dXJuOwogICAgICB9CgogICAgICB0aGlzLl9kZW5zaXR5TGF5ZXJzID0gTC5sYXllckdyb3VwKCkuYWRkVG8oYXBwLm1hcCk7CgogICAgICAvLyDmjInln47luILogZrlkIjorrDlv4bmlbDph48KICAgICAgY29uc3QgY2l0eURhdGEgPSB7fTsKICAgICAgY29uc3QgYWxsTWVtb3JpZXMgPSBbCiAgICAgICAgLi4uREIubWVtb3JpZXMuZmlsdGVyKG0gPT4gbS5zdGF0dXMgPT09ICflt7Llj5HluIMnKSwKICAgICAgICAvLyDkuZ/ljIXlkKvlhajlm73ln47luILmlbDmja7kuK3nmoQgbGFuZG1hcmtzCiAgICAgICAgLi4uKERCLmNoaW5hQ2l0aWVzIHx8IFtdKS5mbGF0TWFwKGMgPT4KICAgICAgICAgIChjLmxhbmRtYXJrcyB8fCBbXSkuZmlsdGVyKGwgPT4gbC5zdGF0dXMgPT09ICflt7Llj5HluIMnKS5tYXAobCA9PiAoewogICAgICAgICAgICAuLi5sLCBjaXR5OiBjLm5hbWUsCiAgICAgICAgICAgIGxhdDogbC5sYXQsIGxuZzogbC5sbmcKICAgICAgICAgIH0pKQogICAgICAgICkKICAgICAgXTsKCiAgICAgIGFsbE1lbW9yaWVzLmZvckVhY2gobSA9PiB7CiAgICAgICAgaWYgKCFjaXR5RGF0YVttLmNpdHldKSBjaXR5RGF0YVttLmNpdHldID0geyBjb3VudDogMCwgbGF0OiAwLCBsbmc6IDAsIG1lbW9yaWVzOiBbXSB9OwogICAgICAgIGNpdHlEYXRhW20uY2l0eV0uY291bnQrKzsKICAgICAgICBjaXR5RGF0YVttLmNpdHldLmxhdCArPSBtLmxhdDsKICAgICAgICBjaXR5RGF0YVttLmNpdHldLmxuZyArPSBtLmxuZzsKICAgICAgICBjaXR5RGF0YVttLmNpdHldLm1lbW9yaWVzLnB1c2gobSk7CiAgICAgIH0pOwoKICAgICAgLy8g6K6h566X5q+P5Liq5Z+O5biC55qE5Lit5b+D54K55ZKM5ZyG546v5aSn5bCPCiAgICAgIGNvbnN0IG1heENvdW50ID0gTWF0aC5tYXgoLi4uT2JqZWN0LnZhbHVlcyhjaXR5RGF0YSkubWFwKGMgPT4gYy5jb3VudCksIDEpOwogICAgICBPYmplY3QuZW50cmllcyhjaXR5RGF0YSkuZm9yRWFjaCgoW2NpdHksIGRhdGFdKSA9PiB7CiAgICAgICAgY29uc3QgbGF0ID0gZGF0YS5sYXQgLyBkYXRhLmNvdW50OwogICAgICAgIGNvbnN0IGxuZyA9IGRhdGEubG5nIC8gZGF0YS5jb3VudDsKICAgICAgICBjb25zdCByYXRpbyA9IGRhdGEuY291bnQgLyBtYXhDb3VudDsKICAgICAgICBjb25zdCBiYXNlU2l6ZSA9IDMwICsgcmF0aW8gKiA4MDsgLy8gMzBweCB+IDExMHB4CiAgICAgICAgY29uc3QgY29sb3IgPSB0aGlzLl9nZXRDaXR5Q29sb3IocmF0aW8pOwoKICAgICAgICAvLyDlpJblnIjohInlhrIKICAgICAgICBjb25zdCByaW5nID0gTC5kaXZJY29uKHsKICAgICAgICAgIGNsYXNzTmFtZTogJ3YyMS1kZW5zaXR5LWljb24nLAogICAgICAgICAgaHRtbDogYAogICAgICAgICAgICA8ZGl2IGNsYXNzPSJ2MjEtZGVuc2l0eS1yaW5nIiBzdHlsZT0iCiAgICAgICAgICAgICAgd2lkdGg6JHtiYXNlU2l6ZX1weDtoZWlnaHQ6JHtiYXNlU2l6ZX1weDsKICAgICAgICAgICAgICBib3JkZXItY29sb3I6JHtjb2xvcn07CiAgICAgICAgICAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiR7MiArICgxIC0gcmF0aW8pICogMn1zOwogICAgICAgICAgICAiPgogICAgICAgICAgICAgIDxkaXYgY2xhc3M9InYyMS1kZW5zaXR5LXJpbmctaW5uZXIiIHN0eWxlPSJib3JkZXItY29sb3I6JHtjb2xvcn07Ij48L2Rpdj4KICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0idjIxLWRlbnNpdHktY291bnQiIHN0eWxlPSJjb2xvcjoke2NvbG9yfTsiPiR7ZGF0YS5jb3VudH08L3NwYW4+CiAgICAgICAgICAgIDwvZGl2PmAsCiAgICAgICAgICBpY29uU2l6ZTogW2Jhc2VTaXplLCBiYXNlU2l6ZV0sCiAgICAgICAgICBpY29uQW5jaG9yOiBbYmFzZVNpemUgLyAyLCBiYXNlU2l6ZSAvIDJdCiAgICAgICAgfSk7CgogICAgICAgIGNvbnN0IG1hcmtlciA9IEwubWFya2VyKFtsYXQsIGxuZ10sIHsgaWNvbjogcmluZywgaW50ZXJhY3RpdmU6IGZhbHNlIH0pOwogICAgICAgIHRoaXMuX2RlbnNpdHlMYXllcnMuYWRkTGF5ZXIobWFya2VyKTsKICAgICAgfSk7CgogICAgICB0aGlzLl9kZW5zaXR5VmlzaWJsZSA9IHRydWU7CgogICAgICAvLyDmm7TmlrDmjInpkq7nirbmgIEKICAgICAgY29uc3QgdGFnID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3YyMS1kZW5zaXR5LXRhZycpOwogICAgICBpZiAodGFnKSB0YWcuY2xhc3NMaXN0LmFkZCgnYWN0aXZlJyk7CiAgICAgIGFwcC50b2FzdCAmJiBhcHAudG9hc3QoJ+WfjuW4guiusOW/hua1k+W6puW3suW8gOWQrycpOwogICAgfSwKCiAgICBoaWRlQ2l0eURlbnNpdHkoKSB7CiAgICAgIGlmICh0aGlzLl9kZW5zaXR5TGF5ZXJzKSB7CiAgICAgICAgYXBwLm1hcC5yZW1vdmVMYXllcih0aGlzLl9kZW5zaXR5TGF5ZXJzKTsKICAgICAgICB0aGlzLl9kZW5zaXR5TGF5ZXJzID0gbnVsbDsKICAgICAgfQogICAgICB0aGlzLl9kZW5zaXR5VmlzaWJsZSA9IGZhbHNlOwogICAgICBjb25zdCB0YWcgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndjIxLWRlbnNpdHktdGFnJyk7CiAgICAgIGlmICh0YWcpIHRhZy5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKTsKICAgIH0sCgogICAgX2dldENpdHlDb2xvcihyYXRpbykgewogICAgICAvLyDkvY7lr4bluqbihpLlhrfoibIoIzRhN2M5YinvvIzpq5jlr4bluqbihpLmmpboibIoI2M3NWIzOSkKICAgICAgY29uc3QgciA9IE1hdGgucm91bmQoNzQgKyByYXRpbyAqIDEyNSk7CiAgICAgIGNvbnN0IGcgPSBNYXRoLnJvdW5kKDEyNCAtIHJhdGlvICogMzMpOwogICAgICBjb25zdCBiID0gTWF0aC5yb3VuZCgxNTUgLSByYXRpbyAqIDk4KTsKICAgICAgcmV0dXJuIGByZ2IoJHtyfSwke2d9LCR7Yn0pYDsKICAgIH0sCgogICAgLyogPT09PT09PT09PSAzLiDlubTku6PmsJvlm7ToibLnk6bniYfmu6TplZwgPT09PT09PT09PSAqLwogICAgLy8g6YCJ5oup5bm05Luj5ZCO77yM5Zyo5Zyw5Zu+5LiK5Y+g5Yqg5Y2K6YCP5piO6Imy6LCD6KaG55uW5bGCCgogICAgYXBwbHlZZWFyQXRtb3NwaGVyZSh5ZWFyS2V5KSB7CiAgICAgIGlmICghYXBwLm1hcCkgcmV0dXJuOwoKICAgICAgLy8g56e76Zmk5bey5pyJ6KaG55uW5bGCCiAgICAgIGlmICh0aGlzLl9hdG1vc3BoZXJlT3ZlcmxheSkgewogICAgICAgIGFwcC5tYXAucmVtb3ZlTGF5ZXIodGhpcy5fYXRtb3NwaGVyZU92ZXJsYXkpOwogICAgICAgIHRoaXMuX2F0bW9zcGhlcmVPdmVybGF5ID0gbnVsbDsKICAgICAgfQoKICAgICAgaWYgKHllYXJLZXkgPT09ICdhbGwnKSByZXR1cm47IC8vIOWFqOmDqOW5tOS7o+S4jeWPoOWKoAoKICAgICAgY29uc3QgYXRtbyA9IHRoaXMueWVhckF0bW9zcGhlcmVbeWVhcktleV07CiAgICAgIGlmICghYXRtbykgcmV0dXJuOwoKICAgICAgLy8g5Yib5bu65Y2K6YCP5piO55+p5b2i6KaG55uW5bGCCiAgICAgIGNvbnN0IGJvdW5kcyA9IGFwcC5tYXAuZ2V0Qm91bmRzKCk7CiAgICAgIHRoaXMuX2F0bW9zcGhlcmVPdmVybGF5ID0gTC5yZWN0YW5nbGUoYm91bmRzLCB7CiAgICAgICAgY29sb3I6ICd0cmFuc3BhcmVudCcsCiAgICAgICAgZmlsbENvbG9yOiBhdG1vLmNvbG9yLAogICAgICAgIGZpbGxPcGFjaXR5OiAwLjEyLAogICAgICAgIGludGVyYWN0aXZlOiBmYWxzZQogICAgICB9KS5hZGRUbyhhcHAubWFwKTsKCiAgICAgIC8vIOWcsOWbvuenu+WKqOaXtuabtOaWsOimhuebluWxguiMg+WbtAogICAgICB0aGlzLl9hdG1vc3BoZXJlQm91bmRzSGFuZGxlciA9ICgpID0+IHsKICAgICAgICBpZiAodGhpcy5fYXRtb3NwaGVyZU92ZXJsYXkpIHsKICAgICAgICAgIGNvbnN0IGIgPSBhcHAubWFwLmdldEJvdW5kcygpOwogICAgICAgICAgdGhpcy5fYXRtb3NwaGVyZU92ZXJsYXkuc2V0Qm91bmRzKGIpOwogICAgICAgIH0KICAgICAgfTsKICAgICAgYXBwLm1hcC5vbignbW92ZWVuZCB6b29tZW5kJywgdGhpcy5fYXRtb3NwaGVyZUJvdW5kc0hhbmRsZXIpOwoKICAgICAgLy8g57uZ5Zyw5Zu+5a655Zmo5re75YqgIENTUyDmu6TplZwKICAgICAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21hcC1jb250YWluZXInKTsKICAgICAgaWYgKGNvbnRhaW5lcikgewogICAgICAgIGNvbnRhaW5lci5zdHlsZS5maWx0ZXIgPSB0aGlzLnllYXJGaWx0ZXJzW3llYXJLZXldIHx8ICdub25lJzsKICAgICAgfQogICAgfSwKCiAgICBjbGVhclllYXJBdG1vc3BoZXJlKCkgewogICAgICBpZiAodGhpcy5fYXRtb3NwaGVyZU92ZXJsYXkpIHsKICAgICAgICBhcHAubWFwLnJlbW92ZUxheWVyKHRoaXMuX2F0bW9zcGhlcmVPdmVybGF5KTsKICAgICAgICB0aGlzLl9hdG1vc3BoZXJlT3ZlcmxheSA9IG51bGw7CiAgICAgIH0KICAgICAgaWYgKHRoaXMuX2F0bW9zcGhlcmVCb3VuZHNIYW5kbGVyKSB7CiAgICAgICAgYXBwLm1hcC5vZmYoJ21vdmVlbmQgem9vbWVuZCcsIHRoaXMuX2F0bW9zcGhlcmVCb3VuZHNIYW5kbGVyKTsKICAgICAgICB0aGlzLl9hdG1vc3BoZXJlQm91bmRzSGFuZGxlciA9IG51bGw7CiAgICAgIH0KICAgICAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21hcC1jb250YWluZXInKTsKICAgICAgaWYgKGNvbnRhaW5lcikgY29udGFpbmVyLnN0eWxlLmZpbHRlciA9ICdub25lJzsKICAgIH0sCgogICAgLyogPT09PT09PT09PSA0LiDngrnlh7vmtp/mvKrmlYjmnpwgPT09PT09PT09PSAqLwogICAgLy8g54K55Ye7IG1hcmtlciDml7blnKjngrnlh7vkvY3nva7kuqfnlJ/lubTku6PoibLmtp/mvKrmianmlaPliqjnlLsKCiAgICBjcmVhdGVSaXBwbGUobWVtLCBsYXRsbmcpIHsKICAgICAgaWYgKCFhcHAubWFwKSByZXR1cm47CiAgICAgIGNvbnN0IGNvbG9yID0gYXBwLmdldE1hcmtlckNvbG9yKG1lbS55ZWFyKTsKCiAgICAgIGNvbnN0IHJpcHBsZUljb24gPSBMLmRpdkljb24oewogICAgICAgIGNsYXNzTmFtZTogJ3YyMS1yaXBwbGUtaWNvbicsCiAgICAgICAgaHRtbDogYDxkaXYgY2xhc3M9InYyMS1yaXBwbGUiIHN0eWxlPSItLXJpcHBsZS1jb2xvcjoke2NvbG9yfTsiPjwvZGl2PmAsCiAgICAgICAgaWNvblNpemU6IFswLCAwXSwKICAgICAgICBpY29uQW5jaG9yOiBbMCwgMF0KICAgICAgfSk7CgogICAgICBjb25zdCByaXBwbGUgPSBMLm1hcmtlcihsYXRsbmcsIHsgaWNvbjogcmlwcGxlSWNvbiwgaW50ZXJhY3RpdmU6IGZhbHNlIH0pLmFkZFRvKGFwcC5tYXApOwogICAgICBjb25zdCB0aW1lciA9IHNldFRpbWVvdXQoKCkgPT4gewogICAgICAgIGFwcC5tYXAucmVtb3ZlTGF5ZXIocmlwcGxlKTsKICAgICAgfSwgMTIwMCk7CiAgICAgIHRoaXMuX3JpcHBsZVRpbWVycy5wdXNoKHRpbWVyKTsKICAgIH0sCgogICAgLyogPT09PT09PT09PSA1LiDmoIforrDlubTku6PoibLovrnmoYblop7lvLogPT09PT09PT09PSAqLwogICAgLy8g57uZ546w5pyJIG1hcmtlciDmt7vliqDlubTku6PoibLlj5HlhYnovrnmoYblj5Hluo/vvIjpgJrov4fkv67mlLkgY3JlYXRlUGhvdG9JY29uIOWQjueahOagt+W8j+azqOWFpe+8iQoKICAgIGVuaGFuY2VNYXJrZXJTdHlsZXMoKSB7CiAgICAgIC8vIOWcqCBzdHlsZSDmoIfnrb7kuK3ms6jlhaUgbWFya2VyIOWinuW8uuagt+W8jwogICAgICBjb25zdCBzdHlsZSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3N0eWxlJyk7CiAgICAgIHN0eWxlLmlkID0gJ3YyMS1tYXJrZXItZW5oYW5jZSc7CiAgICAgIHN0eWxlLnRleHRDb250ZW50ID0gYAogICAgICAgIC5sZWFmbGV0LW1hcmtlci1pY29uIGltZyB7CiAgICAgICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4ycyBlYXNlLCBib3gtc2hhZG93IDAuMnMgZWFzZSAhaW1wb3J0YW50OwogICAgICAgIH0KICAgICAgICAubGVhZmxldC1tYXJrZXItaWNvbjpob3ZlciBpbWcgewogICAgICAgICAgdHJhbnNmb3JtOiBzY2FsZSgxLjE1KSAhaW1wb3J0YW50OwogICAgICAgICAgYm94LXNoYWRvdzogMCA0cHggMTZweCByZ2JhKDAsMCwwLDAuNCkgIWltcG9ydGFudDsKICAgICAgICB9CiAgICAgIGA7CiAgICAgIGRvY3VtZW50LmhlYWQuYXBwZW5kQ2hpbGQoc3R5bGUpOwogICAgfSwKCiAgICAvKiA9PT09PT09PT09IDYuIOWfjuW4guW5tOiwsSA9PT09PT09PT09ICovCiAgICAvLyDmjInln47luILliIbnu4TlsZXnpLrmiYDmnInlnLDmoIflj5jov4HvvIznu43kvLznvJblubTlj7IKCiAgICBzaG93Q2hyb25pY2xlKCkgewogICAgICAvLyDmlLbpm4bmiYDmnInln47luILmlbDmja4KICAgICAgY29uc3QgY2l0aWVzID0ge307CgogICAgICAvLyDku44gREIubWVtb3JpZXMg5pS26ZuGCiAgICAgIERCLm1lbW9yaWVzLmZpbHRlcihtID0+IG0uc3RhdHVzID09PSAn5bey5Y+R5biDJykuZm9yRWFjaChtID0+IHsKICAgICAgICBpZiAoIWNpdGllc1ttLmNpdHldKSBjaXRpZXNbbS5jaXR5XSA9IFtdOwogICAgICAgIGNpdGllc1ttLmNpdHldLnB1c2gobSk7CiAgICAgIH0pOwoKICAgICAgLy8g5LuO5YWo5Zu95Z+O5biC5pWw5o2u5pS26ZuGIGxhbmRtYXJrcwogICAgICAoREIuY2hpbmFDaXRpZXMgfHwgW10pLmZvckVhY2goYyA9PiB7CiAgICAgICAgaWYgKCFjaXRpZXNbYy5uYW1lXSkgY2l0aWVzW2MubmFtZV0gPSBbXTsKICAgICAgICAoYy5sYW5kbWFya3MgfHwgW10pLmZpbHRlcihsID0+IGwuc3RhdHVzID09PSAn5bey5Y+R5biDJykuZm9yRWFjaChsID0+IHsKICAgICAgICAgIGNpdGllc1tjLm5hbWVdLnB1c2goeyAuLi5sLCBjaXR5OiBjLm5hbWUgfSk7CiAgICAgICAgfSk7CiAgICAgIH0pOwoKICAgICAgLy8g5oyJ6K6w5b+G5pWw6YeP5o6S5bqPCiAgICAgIGNvbnN0IHNvcnRlZCA9IE9iamVjdC5lbnRyaWVzKGNpdGllcykKICAgICAgICAuZmlsdGVyKChbXywgaXRlbXNdKSA9PiBpdGVtcy5sZW5ndGggPiAwKQogICAgICAgIC5zb3J0KChhLCBiKSA9PiBiWzFdLmxlbmd0aCAtIGFbMV0ubGVuZ3RoKTsKCiAgICAgIGlmIChzb3J0ZWQubGVuZ3RoID09PSAwKSB7CiAgICAgICAgYXBwLnRvYXN0ICYmIGFwcC50b2FzdCgn5pqC5peg5pWw5o2uJyk7CiAgICAgICAgcmV0dXJuOwogICAgICB9CgogICAgICBsZXQgaHRtbCA9ICc8ZGl2IGNsYXNzPSJ2MjEtY2hyb25pY2xlIj4nOwogICAgICBzb3J0ZWQuZm9yRWFjaCgoW2NpdHksIGl0ZW1zXSkgPT4gewogICAgICAgIGNvbnN0IGNvbG9yID0gdGhpcy5fZ2V0Q2l0eUNvbG9yKGl0ZW1zLmxlbmd0aCAvIE1hdGgubWF4KC4uLnNvcnRlZC5tYXAocyA9PiBzWzFdLmxlbmd0aCkpKTsKICAgICAgICBodG1sICs9IGA8ZGl2IGNsYXNzPSJ2MjEtY2hyb25pY2xlLWNpdHkiPgogICAgICAgICAgPGRpdiBjbGFzcz0idjIxLWNocm9uaWNsZS1jaXR5LWhlYWRlciIgc3R5bGU9ImJvcmRlci1sZWZ0LWNvbG9yOiR7Y29sb3J9Ij4KICAgICAgICAgICAgPHNwYW4gY2xhc3M9InYyMS1jaHJvbmljbGUtY2l0eS1uYW1lIj4ke2VzY0h0bWwoY2l0eSl9PC9zcGFuPgogICAgICAgICAgICA8c3BhbiBjbGFzcz0idjIxLWNocm9uaWNsZS1jaXR5LWNvdW50Ij4ke2l0ZW1zLmxlbmd0aH0g5aSE5Y+Y6L+BPC9zcGFuPgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ2MjEtY2hyb25pY2xlLWl0ZW1zIj5gOwoKICAgICAgICAvLyDmjInlubTku6PmjpLluo8KICAgICAgICBpdGVtcy5zb3J0KChhLCBiKSA9PiB7CiAgICAgICAgICBjb25zdCB5YSA9IChhLnllYXIgfHwgJycpLnJlcGxhY2UoL1teMC05XS9nLCAnJyk7CiAgICAgICAgICBjb25zdCB5YiA9IChiLnllYXIgfHwgJycpLnJlcGxhY2UoL1teMC05XS9nLCAnJyk7CiAgICAgICAgICByZXR1cm4geWEubG9jYWxlQ29tcGFyZSh5Yik7CiAgICAgICAgfSk7CgogICAgICAgIGl0ZW1zLmZvckVhY2gobSA9PiB7CiAgICAgICAgICBjb25zdCB7IG9sZEltZyB9ID0gdGhpcy5fZ2V0TWVtb3J5SW1hZ2VzKG0pOwogICAgICAgICAgaHRtbCArPSBgPGRpdiBjbGFzcz0idjIxLWNocm9uaWNsZS1pdGVtIiBvbmNsaWNrPSJWMjEuaGlkZUNocm9uaWNsZSgpO2FwcC5vcGVuRGV0YWlsKCcke20uaWR9JykiPgogICAgICAgICAgICAke29sZEltZyA/IGA8aW1nIHNyYz0iJHtvbGRJbWd9IiBhbHQ9IiR7ZXNjSHRtbChtLnRpdGxlKX0iIGxvYWRpbmc9ImxhenkiPmAgOiAnPGRpdiBjbGFzcz0idjIxLWNocm9uaWNsZS1ub2ltZyI+PGkgY2xhc3M9ImZhcyBmYS1pbWFnZSI+PC9pPjwvZGl2Pid9CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InYyMS1jaHJvbmljbGUtaXRlbS1pbmZvIj4KICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0idjIxLWNocm9uaWNsZS1pdGVtLXRpdGxlIj4ke2VzY0h0bWwobS50aXRsZSl9PC9zcGFuPgogICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJ2MjEtY2hyb25pY2xlLWl0ZW0teWVhciIgc3R5bGU9ImNvbG9yOiR7YXBwLmdldE1hcmtlckNvbG9yKG0ueWVhcil9Ij4ke2VzY0h0bWwobS55ZWFyIHx8ICcnKX08L3NwYW4+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPC9kaXY+YDsKICAgICAgICB9KTsKCiAgICAgICAgaHRtbCArPSAnPC9kaXY+PC9kaXY+JzsKICAgICAgfSk7CiAgICAgIGh0bWwgKz0gJzwvZGl2Pic7CgogICAgICAvLyDkvb/nlKjnjrDmnInnmoQgbW9kYWwg57O757uf5bGV56S6CiAgICAgIHRoaXMuX3Nob3dNb2RhbCgn5Z+O5biC5bm06LCxJywgaHRtbCwgJ3YyMS1jaHJvbmljbGUtbW9kYWwnKTsKICAgIH0sCgogICAgaGlkZUNocm9uaWNsZSgpIHsKICAgICAgY29uc3QgbW9kYWwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndjIxLWNocm9uaWNsZS1tb2RhbCcpOwogICAgICBpZiAobW9kYWwpIG1vZGFsLmNsYXNzTGlzdC5yZW1vdmUoJ3Nob3cnKTsKICAgIH0sCgogICAgX3Nob3dNb2RhbCh0aXRsZSwgY29udGVudCwgaWQpIHsKICAgICAgbGV0IG1vZGFsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoaWQpOwogICAgICBpZiAobW9kYWwpIHsgbW9kYWwucmVtb3ZlKCk7IH0KCiAgICAgIG1vZGFsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgICAgIG1vZGFsLmlkID0gaWQ7CiAgICAgIG1vZGFsLmNsYXNzTmFtZSA9ICdtb2RhbCc7CiAgICAgIG1vZGFsLmlubmVySFRNTCA9IGAKICAgICAgICA8ZGl2IGNsYXNzPSJtb2RhbC1iYWNrZHJvcCIgb25jbGljaz0iVjIxLmhpZGVDaHJvbmljbGUoKSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0ibW9kYWwtc2hlZXQiIHN0eWxlPSJtYXgtaGVpZ2h0Ojgwdmg7Ij4KICAgICAgICAgIDxkaXYgY2xhc3M9ImRldGFpbC1oYW5kbGUiPjwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0ibW9kYWwtdGl0bGUiIHN0eWxlPSJwYWRkaW5nOjEycHggMTZweCA4cHg7Zm9udC1zaXplOjE4cHg7Zm9udC13ZWlnaHQ6NzAwOyI+JHt0aXRsZX08L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9Im1vZGFsLWJvZHkiIHN0eWxlPSJwYWRkaW5nOjAgMTZweCAyNHB4O292ZXJmbG93LXk6YXV0bzttYXgtaGVpZ2h0OmNhbGMoODB2aCAtIDgwcHgpOyI+CiAgICAgICAgICAgICR7Y29udGVudH0KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PmA7CiAgICAgIGRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQobW9kYWwpOwogICAgICAvLyDop6blj5Hph43mjpLlkI7mt7vliqAgc2hvdyDnsbvku6XlkK/liqjliqjnlLsKICAgICAgcmVxdWVzdEFuaW1hdGlvbkZyYW1lKCgpID0+IHsKICAgICAgICByZXF1ZXN0QW5pbWF0aW9uRnJhbWUoKCkgPT4gbW9kYWwuY2xhc3NMaXN0LmFkZCgnc2hvdycpKTsKICAgICAgfSk7CiAgICB9LAoKICAgIC8qID09PT09PT09PT0g5oyC6L295a+G5bqm5oyJ6ZKu5Yiw5Zyw5Zu+6aG16Z2iID09PT09PT09PT0gKi8KICAgIF9iaW5kRmxvYXRpbmdVSSgpIHsKICAgICAgY29uc3QgZGVuc2l0eVRhZyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd2MjEtZGVuc2l0eS10YWcnKTsKICAgICAgaWYgKGRlbnNpdHlUYWcgJiYgIWRlbnNpdHlUYWcuX3YyMV9ib3VuZCkgewogICAgICAgIGRlbnNpdHlUYWcub25jbGljayA9ICgpID0+IHRoaXMuc2hvd0NpdHlEZW5zaXR5KCk7CiAgICAgICAgZGVuc2l0eVRhZy5fdjIxX2JvdW5kID0gdHJ1ZTsKICAgICAgfQogICAgICBjb25zdCBjaHJvbmljbGVUYWcgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndjIxLWNocm9uaWNsZS10YWcnKTsKICAgICAgaWYgKGNocm9uaWNsZVRhZyAmJiAhY2hyb25pY2xlVGFnLl92MjFfYm91bmQpIHsKICAgICAgICBjaHJvbmljbGVUYWcub25jbGljayA9ICgpID0+IHRoaXMuc2hvd0Nocm9uaWNsZSgpOwogICAgICAgIGNocm9uaWNsZVRhZy5fdjIxX2JvdW5kID0gdHJ1ZTsKICAgICAgfQogICAgfSwKCiAgICAvKiA9PT09PT09PT09IOS6i+S7tuaLpuaIquS4juWinuW8uiA9PT09PT09PT09ICovCgogICAgLy8g5aKe5by6IGFkZE1hcE1hcmtlcnPvvJrlnKggbWFya2VyIOWIm+W7uuWQjue7keWumiBob3ZlciDlkowgY2xpY2sg5raf5ryqCiAgICBfb3JpZ0FkZE1hcE1hcmtlcnM6IG51bGwsCgogICAgX2VuaGFuY2VBZGRNYXBNYXJrZXJzKCkgewogICAgICBpZiAoIWFwcC5hZGRNYXBNYXJrZXJzIHx8IGFwcC5fdjIxX3BhdGNoZWQpIHJldHVybjsKICAgICAgYXBwLl92MjFfcGF0Y2hlZCA9IHRydWU7CiAgICAgIHRoaXMuX29yaWdBZGRNYXBNYXJrZXJzID0gYXBwLmFkZE1hcE1hcmtlcnMuYmluZChhcHApOwoKICAgICAgYXBwLmFkZE1hcE1hcmtlcnMgPSBmdW5jdGlvbigpIHsKICAgICAgICB0aGlzLl9vcmlnQWRkTWFwTWFya2VycygpOwogICAgICAgIC8vIOe7keWumiBob3ZlciDpooTop4gKICAgICAgICBWMjEuX2JpbmRNYXJrZXJIb3ZlcigpOwoKICAgICAgICAvLyDlop7lvLogY2xpY2sg5LqL5Lu277yI5raf5ryq5pWI5p6c77yJCiAgICAgICAgaWYgKHRoaXMubWFya2VyTGF5ZXIpIHsKICAgICAgICAgIHRoaXMubWFya2VyTGF5ZXIub24oJ2NsaWNrJywgKGUpID0+IHsKICAgICAgICAgICAgY29uc3QgbWVtSWQgPSBlLmxheWVyLm1lbW9yeUlkOwogICAgICAgICAgICBpZiAobWVtSWQgPT09IHVuZGVmaW5lZCkgcmV0dXJuOwogICAgICAgICAgICBjb25zdCBtZW0gPSBEQi5tZW1vcmllcy5maW5kKG0gPT4gbS5pZCA9PT0gbWVtSWQpOwogICAgICAgICAgICBpZiAobWVtICYmIGUubGF0bG5nKSB7CiAgICAgICAgICAgICAgVjIxLmNyZWF0ZVJpcHBsZShtZW0sIGUubGF0bG5nKTsKICAgICAgICAgICAgfQogICAgICAgICAgfSk7CiAgICAgICAgfQogICAgICB9OwogICAgfSwKCiAgICAvLyDlop7lvLogZmlsdGVyTWFwTWFya2Vyc++8muetm+mAieaXtuWQjOatpeabtOaWsOW5tOS7o+awm+WbtOiJsgogICAgX29yaWdGaWx0ZXJNYXBNYXJrZXJzOiBudWxsLAoKICAgIF9lbmhhbmNlRmlsdGVyTWFwTWFya2VycygpIHsKICAgICAgaWYgKCFhcHAuZmlsdGVyTWFwTWFya2VycyB8fCBhcHAuX3YyMV9maWx0ZXJfcGF0Y2hlZCkgcmV0dXJuOwogICAgICBhcHAuX3YyMV9maWx0ZXJfcGF0Y2hlZCA9IHRydWU7CiAgICAgIHRoaXMuX29yaWdGaWx0ZXJNYXBNYXJrZXJzID0gYXBwLmZpbHRlck1hcE1hcmtlcnMuYmluZChhcHApOwoKICAgICAgYXBwLmZpbHRlck1hcE1hcmtlcnMgPSBmdW5jdGlvbigpIHsKICAgICAgICB0aGlzLl9vcmlnRmlsdGVyTWFwTWFya2VycygpOwogICAgICAgIC8vIOetm+mAieWQjuW6lOeUqOW5tOS7o+awm+WbtOiJsgogICAgICAgIFYyMS5hcHBseVllYXJBdG1vc3BoZXJlKERCLnN0YXRlLnllYXJGaWx0ZXIpOwogICAgICAgIFYyMS5fdXBkYXRlWWVhckJhckFjdGl2ZSgpOwogICAgICB9OwogICAgfSwKCiAgICAvKiA9PT09PT09PT09IOWIneWni+WMluWFpeWPoyA9PT09PT09PT09ICovCiAgICBfaW5pdGVkOiBmYWxzZSwKCiAgICBpbml0KCkgewogICAgICBpZiAodGhpcy5faW5pdGVkKSByZXR1cm47CgogICAgICAvLyDlop7lvLogbWFya2VyIOagt+W8j++8iOaXoOmcgOetieW+heWcsOWbvu+8iQogICAgICB0aGlzLmVuaGFuY2VNYXJrZXJTdHlsZXMoKTsKCiAgICAgIC8vIEhvb2sgYWRkTWFwTWFya2VycyDlkowgZmlsdGVyTWFwTWFya2Vyc++8iOaXoOiuuuWcsOWbvuaYr+WQpuW3suWwsee7qu+8iQogICAgICB0aGlzLl9lbmhhbmNlQWRkTWFwTWFya2VycygpOwogICAgICB0aGlzLl9lbmhhbmNlRmlsdGVyTWFwTWFya2VycygpOwoKICAgICAgLy8g5rOo5YWl5rWu5qCH77yI5peg6ZyA562J5b6F5Zyw5Zu+77yJCiAgICAgIHRoaXMuX2JpbmRGbG9hdGluZ1VJKCk7CiAgICAgIHRoaXMuX3VwZGF0ZVllYXJCYXIoKTsKCiAgICAgIC8vIOWmguaenOWcsOWbvuW3suWIneWni+WMlu+8jOeri+WNs+e7keWumuS6i+S7tgogICAgICBpZiAodHlwZW9mIGFwcCAhPT0gJ3VuZGVmaW5lZCcgJiYgYXBwLm1hcCAmJiBhcHAubWFya2VyTGF5ZXIpIHsKICAgICAgICB0aGlzLl9iaW5kTWFya2VySG92ZXIoKTsKICAgICAgICB0aGlzLmFwcGx5WWVhckF0bW9zcGhlcmUoREIuc3RhdGUgJiYgREIuc3RhdGUueWVhckZpbHRlcik7CiAgICAgIH0KCiAgICAgIHRoaXMuX2luaXRlZCA9IHRydWU7CiAgICAgIGNvbnNvbGUubG9nKCdbVjIuMV0g5beu5byC5YyW5Yqf6IO96KGl5LiB5bey5Yqg6L2977ya5Y+Y6L+B6aKE6KeI44CB6K6w5b+G5rWT5bqm44CB5bm05Luj5rCb5Zu06Imy44CB54K55Ye75raf5ryq44CB5qCH6K6w5aKe5by644CB5Z+O5biC5bm06LCxJyk7CiAgICB9LAoKICAgIC8vIOetieW+hSBhcHAg5bCx57uq5ZCO57uR5a6a5Zyw5Zu+5LqL5Lu2CiAgICBfd2FpdEZvckFwcCgpIHsKICAgICAgaWYgKHR5cGVvZiBhcHAgIT09ICd1bmRlZmluZWQnICYmIGFwcC5tYXAgJiYgYXBwLm1hcmtlckxheWVyKSB7CiAgICAgICAgdGhpcy5fYmluZE1hcmtlckhvdmVyKCk7CiAgICAgICAgcmV0dXJuOwogICAgICB9CiAgICAgIC8vIOi9ruivouetieW+he+8jOacgOWkmiA1IOenkgogICAgICBpZiAodGhpcy5fd2FpdENvdW50ID09PSB1bmRlZmluZWQpIHRoaXMuX3dhaXRDb3VudCA9IDA7CiAgICAgIGlmICh0aGlzLl93YWl0Q291bnQrKyA8IDUwKSB7CiAgICAgICAgc2V0VGltZW91dCgoKSA9PiB0aGlzLl93YWl0Rm9yQXBwKCksIDEwMCk7CiAgICAgIH0KICAgIH0KICB9OwoKICAvLyDmmrTpnLLliLDlhajlsYAKICB3aW5kb3cuVjIxID0gVjIxOwoKICAvLyBET00gUmVhZHkg5ZCO5Yid5aeL5YyW77yM54S25ZCO562J5b6FIGFwcCDlsLHnu6oKICBjb25zdCBib290ID0gKCkgPT4gewogICAgVjIxLmluaXQoKTsKICAgIFYyMS5fd2FpdEZvckFwcCgpOwogIH07CgogIGlmIChkb2N1bWVudC5yZWFkeVN0YXRlID09PSAnbG9hZGluZycpIHsKICAgIGRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ0RPTUNvbnRlbnRMb2FkZWQnLCBib290KTsKICB9IGVsc2UgewogICAgYm9vdCgpOwogIH0KfSkoKTs=
+/**
+ * 城市微记忆 V2.1 差异化功能补丁
+ * 6个独有功能：变迁预览卡片、城市记忆浓度、年代氛围色瓦片滤镜、
+ *             点击涟漪、标记年代色边框、城市年谱
+ *
+ * 设计原则：作为补丁挂载到 app 对象上，不修改原始 app.js
+ * 适配远程仓库的 marker 系统（L.layerGroup + L.divIcon + marker.memoryId）
+ */
+
+(function() {
+  'use strict';
+
+  const V21 = {
+    /* ========== 配置 ========== */
+
+    // 年代氛围色配置 — 每个年代对应独特的色调
+    yearAtmosphere: {
+      'all':  { hue: 0,   sat: 0,  light: 0,  label: '全部年代',  color: 'transparent' },
+      '70s':  { hue: 42,  sat: 60, light: 8,  label: '70年代 · 暖黄', color: '#b8962e' },
+      '80s':  { hue: 15,  sat: 65, light: 6,  label: '80年代 · 橙红', color: '#c75b39' },
+      '90s':  { hue: 145, sat: 40, light: 5,  label: '90年代 · 翠绿', color: '#5B8C5A' },
+      '00s':  { hue: 205, sat: 50, light: 5,  label: '00年代 · 静蓝', color: '#4a7c9b' },
+      '10s':  { hue: 270, sat: 35, light: 5,  label: '10年代 · 靛紫', color: '#7b6b8d' }
+    },
+
+    // 年代到 CSS filter 的映射
+    yearFilters: {
+      '70s': 'sepia(0.3) saturate(1.2) hue-rotate(-10deg)',
+      '80s': 'sepia(0.2) saturate(1.1) hue-rotate(10deg)',
+      '90s': 'saturate(1.3) brightness(1.05)',
+      '00s': 'saturate(0.9) brightness(1.1) hue-rotate(5deg)',
+      '10s': 'saturate(1.1) contrast(1.05)'
+    },
+
+    _popup: null,
+    _densityLayers: null,
+    _densityVisible: false,
+    _atmosphereOverlay: null,
+    _rippleTimers: [],
+
+    _getYearCounts() {
+      const counts = { all: 0, '70s': 0, '80s': 0, '90s': 0, '00s': 0, '10s': 0 };
+      try {
+        const allMemories = [
+          ...(DB.memories || []).filter(m => m.status === '已发布'),
+          ...(DB.chinaCities || []).flatMap(c =>
+            (c.landmarks || []).filter(l => l.status === '已发布').map(l => ({ ...l, city: c.name }))
+          )
+        ];
+        allMemories.forEach(m => {
+          counts.all++;
+          const yearKey = (m.year || '').replace(/[^0-9]/g, '');
+          if (yearKey >= '1970' && yearKey < '1980') counts['70s']++;
+          else if (yearKey >= '1980' && yearKey < '1990') counts['80s']++;
+          else if (yearKey >= '1990' && yearKey < '2000') counts['90s']++;
+          else if (yearKey >= '2000' && yearKey < '2010') counts['00s']++;
+          else if (yearKey >= '2010' && yearKey < '2020') counts['10s']++;
+        });
+      } catch(e) {}
+      return counts;
+    },
+
+    _updateYearBar() {
+      const counts = this._getYearCounts();
+      const segments = document.querySelectorAll('.v21-year-segment');
+      segments.forEach(seg => {
+        const year = seg.dataset.year;
+        const countEl = seg.querySelector('.v21-year-count');
+        if (countEl) countEl.textContent = counts[year] || 0;
+        seg.onclick = (e) => {
+          e.stopPropagation();
+          segments.forEach(s => s.classList.remove('active'));
+          seg.classList.add('active');
+          if (typeof app !== 'undefined' && app.filterMapMarkers) {
+            DB.state.yearFilter = year;
+            app.filterMapMarkers();
+          }
+        };
+      });
+    },
+
+    _updateYearBarActive() {
+      const year = typeof DB !== 'undefined' && DB.state && DB.state.yearFilter;
+      if (!year) return;
+      document.querySelectorAll('.v21-year-segment').forEach(s => {
+        s.classList.toggle('active', s.dataset.year === year);
+      });
+    },
+
+    /* ========== 1. 变迁预览卡片 ========== */
+
+    _getMemoryImages(m) {
+      const oldImg = m.oldImages && m.oldImages[0] ? m.oldImages[0] : '';
+      const newImg = m.newImages ? (m.newImages[0] || '') : (m.newImage || '');
+      return { oldImg, newImg };
+    },
+
+    showPreview(mem, e) {
+      this.hidePreview();
+      if (!app.map || !mem) return;
+
+      const { oldImg, newImg } = this._getMemoryImages(mem);
+      const color = app.getMarkerColor(mem.year);
+
+      const html = `
+        <div class="v21-preview-card">
+          <div class="v21-preview-compare">
+            ${oldImg ? `<div class="v21-preview-side v21-preview-old">
+              <img src="${oldImg}" alt="旧" loading="lazy">
+              <span class="v21-preview-label">旧</span>
+            </div>` : '<div class="v21-preview-side v21-preview-empty">暂无旧照</div>'}
+            ${newImg ? `<div class="v21-preview-side v21-preview-new">
+              <img src="${newImg}" alt="新" loading="lazy">
+              <span class="v21-preview-label">新</span>
+            </div>` : '<div class="v21-preview-side v21-preview-empty">暂无新照</div>'}
+          </div>
+          <div class="v21-preview-info">
+            <span class="v21-preview-title">${escHtml(mem.title)}</span>
+            <span class="v21-preview-meta" style="color:${color}">${escHtml(mem.city)} · ${escHtml(mem.year || '')}</span>
+          </div>
+        </div>`;
+
+      const popup = L.popup({
+        closeButton: false,
+        className: 'v21-preview-popup',
+        offset: [0, -40],
+        minWidth: 220,
+        maxWidth: 280,
+        autoPan: false
+      })
+      .setLatLng([mem.lat, mem.lng])
+      .setContent(html)
+      .openOn(app.map);
+
+      this._popup = popup;
+    },
+
+    hidePreview() {
+      if (this._popup) {
+        app.map.closePopup(this._popup);
+        this._popup = null;
+      }
+    },
+
+    _bindMarkerHover() {
+      if (!app.markerLayer) return;
+      app.markerLayer.on('mouseover', (e) => {
+        const memId = e.layer.memoryId;
+        if (memId === undefined) return;
+        const mem = DB.memories.find(m => m.id === memId);
+        if (mem) this.showPreview(mem, e);
+      });
+      app.markerLayer.on('mouseout', (e) => {
+        this.hidePreview();
+      });
+    },
+
+    /* ========== 2. 城市记忆浓度可视化 ========== */
+
+    showCityDensity() {
+      if (!app.map) return;
+      if (this._densityVisible) {
+        this.hideCityDensity();
+        return;
+      }
+      this._densityLayers = L.layerGroup().addTo(app.map);
+      const cityData = {};
+      const allMemories = [
+        ...DB.memories.filter(m => m.status === '已发布'),
+        ...(DB.chinaCities || []).flatMap(c =>
+          (c.landmarks || []).filter(l => l.status === '已发布').map(l => ({
+            ...l, city: c.name, lat: l.lat, lng: l.lng
+          }))
+        )
+      ];
+      allMemories.forEach(m => {
+        if (!cityData[m.city]) cityData[m.city] = { count: 0, lat: 0, lng: 0, memories: [] };
+        cityData[m.city].count++;
+        cityData[m.city].lat += m.lat;
+        cityData[m.city].lng += m.lng;
+        cityData[m.city].memories.push(m);
+      });
+      const maxCount = Math.max(...Object.values(cityData).map(c => c.count), 1);
+      Object.entries(cityData).forEach(([city, data]) => {
+        const lat = data.lat / data.count;
+        const lng = data.lng / data.count;
+        const ratio = data.count / maxCount;
+        const baseSize = 30 + ratio * 80;
+        const color = this._getCityColor(ratio);
+        const ring = L.divIcon({
+          className: 'v21-density-icon',
+          html: `<div class="v21-density-ring" style="width:${baseSize}px;height:${baseSize}px;border-color:${color};animation-duration:${2 + (1 - ratio) * 2}s;"><div class="v21-density-ring-inner" style="border-color:${color};"></div><span class="v21-density-count" style="color:${color};">${data.count}</span></div>`,
+          iconSize: [baseSize, baseSize],
+          iconAnchor: [baseSize / 2, baseSize / 2]
+        });
+        const marker = L.marker([lat, lng], { icon: ring, interactive: false });
+        this._densityLayers.addLayer(marker);
+      });
+      this._densityVisible = true;
+      const tag = document.getElementById('v21-density-tag');
+      if (tag) tag.classList.add('active');
+      app.toast && app.toast('城市记忆浓度已开启');
+    },
+
+    hideCityDensity() {
+      if (this._densityLayers) {
+        app.map.removeLayer(this._densityLayers);
+        this._densityLayers = null;
+      }
+      this._densityVisible = false;
+      const tag = document.getElementById('v21-density-tag');
+      if (tag) tag.classList.remove('active');
+    },
+
+    _getCityColor(ratio) {
+      const r = Math.round(74 + ratio * 125);
+      const g = Math.round(124 - ratio * 33);
+      const b = Math.round(155 - ratio * 98);
+      return `rgb(${r},${g},${b})`;
+    },
+
+    /* ========== 3. 年代氛围色瓦片滤镜 ========== */
+
+    applyYearAtmosphere(yearKey) {
+      if (!app.map) return;
+      if (this._atmosphereOverlay) {
+        app.map.removeLayer(this._atmosphereOverlay);
+        this._atmosphereOverlay = null;
+      }
+      if (yearKey === 'all') return;
+      const atmo = this.yearAtmosphere[yearKey];
+      if (!atmo) return;
+      const bounds = app.map.getBounds();
+      this._atmosphereOverlay = L.rectangle(bounds, {
+        color: 'transparent', fillColor: atmo.color, fillOpacity: 0.12, interactive: false
+      }).addTo(app.map);
+      this._atmosphereBoundsHandler = () => {
+        if (this._atmosphereOverlay) {
+          const b = app.map.getBounds();
+          this._atmosphereOverlay.setBounds(b);
+        }
+      };
+      app.map.on('moveend zoomend', this._atmosphereBoundsHandler);
+      const container = document.getElementById('map-container');
+      if (container) {
+        container.style.filter = this.yearFilters[yearKey] || 'none';
+      }
+    },
+
+    clearYearAtmosphere() {
+      if (this._atmosphereOverlay) {
+        app.map.removeLayer(this._atmosphereOverlay);
+        this._atmosphereOverlay = null;
+      }
+      if (this._atmosphereBoundsHandler) {
+        app.map.off('moveend zoomend', this._atmosphereBoundsHandler);
+        this._atmosphereBoundsHandler = null;
+      }
+      const container = document.getElementById('map-container');
+      if (container) container.style.filter = 'none';
+    },
+
+    /* ========== 4. 点击涟漪效果 ========== */
+
+    createRipple(mem, latlng) {
+      if (!app.map) return;
+      const color = app.getMarkerColor(mem.year);
+      const rippleIcon = L.divIcon({
+        className: 'v21-ripple-icon',
+        html: `<div class="v21-ripple" style="--ripple-color:${color};"></div>`,
+        iconSize: [0, 0], iconAnchor: [0, 0]
+      });
+      const ripple = L.marker(latlng, { icon: rippleIcon, interactive: false }).addTo(app.map);
+      const timer = setTimeout(() => { app.map.removeLayer(ripple); }, 1200);
+      this._rippleTimers.push(timer);
+    },
+
+    /* ========== 5. 标记年代色边框增强 ========== */
+
+    enhanceMarkerStyles() {
+      const style = document.createElement('style');
+      style.id = 'v21-marker-enhance';
+      style.textContent = `
+        .leaflet-marker-icon img {
+          transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        }
+        .leaflet-marker-icon:hover img {
+          transform: scale(1.15) !important;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+        }
+      `;
+      document.head.appendChild(style);
+    },
+
+    /* ========== 6. 城市年谱 ========== */
+
+    showChronicle() {
+      const cities = {};
+      DB.memories.filter(m => m.status === '已发布').forEach(m => {
+        if (!cities[m.city]) cities[m.city] = [];
+        cities[m.city].push(m);
+      });
+      (DB.chinaCities || []).forEach(c => {
+        if (!cities[c.name]) cities[c.name] = [];
+        (c.landmarks || []).filter(l => l.status === '已发布').forEach(l => {
+          cities[c.name].push({ ...l, city: c.name });
+        });
+      });
+      const sorted = Object.entries(cities)
+        .filter(([_, items]) => items.length > 0)
+        .sort((a, b) => b[1].length - a[1].length);
+      if (sorted.length === 0) { app.toast && app.toast('暂无数据'); return; }
+      let html = '<div class="v21-chronicle">';
+      sorted.forEach(([city, items]) => {
+        const color = this._getCityColor(items.length / Math.max(...sorted.map(s => s[1].length)));
+        html += `<div class="v21-chronicle-city">
+          <div class="v21-chronicle-city-header" style="border-left-color:${color}">
+            <span class="v21-chronicle-city-name">${escHtml(city)}</span>
+            <span class="v21-chronicle-city-count">${items.length} 处变迁</span>
+          </div>
+          <div class="v21-chronicle-items">`;
+        items.sort((a, b) => {
+          const ya = (a.year || '').replace(/[^0-9]/g, '');
+          const yb = (b.year || '').replace(/[^0-9]/g, '');
+          return ya.localeCompare(yb);
+        });
+        items.forEach(m => {
+          const { oldImg } = this._getMemoryImages(m);
+          html += `<div class="v21-chronicle-item" onclick="V21.hideChronicle();app.openDetail('${m.id}')">
+            ${oldImg ? `<img src="${oldImg}" alt="${escHtml(m.title)}" loading="lazy">` : '<div class="v21-chronicle-noimg"><i class="fas fa-image"></i></div>'}
+            <div class="v21-chronicle-item-info">
+              <span class="v21-chronicle-item-title">${escHtml(m.title)}</span>
+              <span class="v21-chronicle-item-year" style="color:${app.getMarkerColor(m.year)}">${escHtml(m.year || '')}</span>
+            </div>
+          </div>`;
+        });
+        html += '</div></div>';
+      });
+      html += '</div>';
+      this._showModal('城市年谱', html, 'v21-chronicle-modal');
+    },
+
+    hideChronicle() {
+      const modal = document.getElementById('v21-chronicle-modal');
+      if (modal) modal.classList.remove('show');
+    },
+
+    _showModal(title, content, id) {
+      let modal = document.getElementById(id);
+      if (modal) { modal.remove(); }
+      modal = document.createElement('div');
+      modal.id = id;
+      modal.className = 'modal';
+      modal.innerHTML = `
+        <div class="modal-backdrop" onclick="V21.hideChronicle()"></div>
+        <div class="modal-sheet" style="max-height:80vh;">
+          <div class="detail-handle"></div>
+          <div class="modal-title" style="padding:12px 16px 8px;font-size:18px;font-weight:700;">${title}</div>
+          <div class="modal-body" style="padding:0 16px 24px;overflow-y:auto;max-height:calc(80vh - 80px);">
+            ${content}
+          </div>
+        </div>`;
+      document.body.appendChild(modal);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => modal.classList.add('show'));
+      });
+    },
+
+    /* ========== 浮标交互 ========== */
+    _bindFloatingUI() {
+      const densityTag = document.getElementById('v21-density-tag');
+      if (densityTag && !densityTag._v21_bound) {
+        densityTag.onclick = () => this.showCityDensity();
+        densityTag._v21_bound = true;
+      }
+      const chronicleTag = document.getElementById('v21-chronicle-tag');
+      if (chronicleTag && !chronicleTag._v21_bound) {
+        chronicleTag.onclick = () => this.showChronicle();
+        chronicleTag._v21_bound = true;
+      }
+    },
+
+    /* ========== 事件拦截与增强 ========== */
+    _origAddMapMarkers: null,
+
+    _enhanceAddMapMarkers() {
+      if (!app.addMapMarkers || app._v21_patched) return;
+      app._v21_patched = true;
+      this._origAddMapMarkers = app.addMapMarkers.bind(app);
+      app.addMapMarkers = function() {
+        this._origAddMapMarkers();
+        V21._bindMarkerHover();
+        if (this.markerLayer) {
+          this.markerLayer.on('click', (e) => {
+            const memId = e.layer.memoryId;
+            if (memId === undefined) return;
+            const mem = DB.memories.find(m => m.id === memId);
+            if (mem && e.latlng) { V21.createRipple(mem, e.latlng); }
+          });
+        }
+      };
+    },
+
+    _origFilterMapMarkers: null,
+
+    _enhanceFilterMapMarkers() {
+      if (!app.filterMapMarkers || app._v21_filter_patched) return;
+      app._v21_filter_patched = true;
+      this._origFilterMapMarkers = app.filterMapMarkers.bind(app);
+      app.filterMapMarkers = function() {
+        this._origFilterMapMarkers();
+        V21.applyYearAtmosphere(DB.state.yearFilter);
+        V21._updateYearBarActive();
+      };
+    },
+
+    /* ========== 初始化入口 ========== */
+    _inited: false,
+
+    init() {
+      if (this._inited) return;
+      this.enhanceMarkerStyles();
+      this._enhanceAddMapMarkers();
+      this._enhanceFilterMapMarkers();
+      this._bindFloatingUI();
+      this._updateYearBar();
+      if (typeof app !== 'undefined' && app.map && app.markerLayer) {
+        this._bindMarkerHover();
+        this.applyYearAtmosphere(DB.state && DB.state.yearFilter);
+      }
+      this._inited = true;
+      console.log('[V2.1] 差异化功能补丁已加载：变迁预览、记忆浓度、年代氛围色、点击涟漪、标记增强、城市年谱');
+    },
+
+    _waitForApp() {
+      if (typeof app !== 'undefined' && app.map && app.markerLayer) {
+        this._bindMarkerHover();
+        return;
+      }
+      if (this._waitCount === undefined) this._waitCount = 0;
+      if (this._waitCount++ < 50) {
+        setTimeout(() => this._waitForApp(), 100);
+      }
+    }
+  };
+
+  window.V21 = V21;
+
+  const boot = () => {
+    V21.init();
+    V21._waitForApp();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
