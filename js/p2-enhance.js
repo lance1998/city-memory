@@ -309,7 +309,12 @@
       var user = DB.currentUser || {};
       var memCount = user.memoryCount || DB.memories.filter(function(m) { return m.status === '已发布'; }).length;
       var likeCount = user.likeCount || 0;
-      var cityCount = (user.exploredCities || []).length || 0;
+      var cityCount = 0;
+      if (Array.isArray(user.exploredCities)) {
+        cityCount = user.exploredCities.length;
+      } else if (typeof user.exploredCities === 'number' && user.exploredCities > 0) {
+        cityCount = user.exploredCities;
+      }
 
       var statsArea = page.querySelector('.profile-info');
       if (statsArea && !page.querySelector('.p2-profile-stats')) {
@@ -326,6 +331,10 @@
       if (menu && !page.querySelector('.p2-level-bar')) {
         var vipLevel = user.vipLevel || 1;
         var expCurrent = memCount * 10 + likeCount;
+        while (vipLevel < 99 && expCurrent >= vipLevel * 100) {
+          expCurrent -= vipLevel * 100;
+          vipLevel++;
+        }
         var expNext = vipLevel * 100;
         var pct = Math.min(100, Math.round((expCurrent / expNext) * 100));
         var levelNames = ['新手记忆者', '城市探索者', '记忆达人', '城市故事家', '传奇记录者'];
@@ -352,8 +361,16 @@
         var wall = document.createElement('div');
         wall.className = 'p2-badge-wall';
         badges.forEach(function(b) {
+          var iconHtml = '';
+          if (b.icon && b.icon.indexOf('fa-') === 0) {
+            iconHtml = '<i class="fas ' + esc(b.icon) + '"></i>';
+          } else if (b.icon) {
+            iconHtml = esc(b.icon);
+          } else {
+            iconHtml = '🏆';
+          }
           wall.innerHTML += '<div class="p2-badge-item' + (b.unlocked ? '' : ' locked') + '">' +
-            '<div class="p2-badge-icon">' + (b.icon || '🏆') + '</div>' +
+            '<div class="p2-badge-icon">' + iconHtml + '</div>' +
             '<div class="p2-badge-name">' + esc(b.name || '') + '</div>' +
             (!b.unlocked ? '<div class="p2-badge-lock"><i class="fas fa-lock"></i></div>' : '') +
           '</div>';
@@ -440,7 +457,7 @@
             loadMoreDiv.className = 'p2-load-more';
             loadMoreDiv.innerHTML = '<button class="p2-load-more-btn"><i class="fas fa-chevron-down"></i> 加载更多</button>';
             loadMoreDiv.querySelector('.p2-load-more-btn').addEventListener('click', function() {
-              var hidden = waterfall.querySelectorAll('.waterfall-card[style*="display: none"]');
+              var hidden = waterfall.querySelectorAll('.waterfall-card[style*=\"display: none\"]');
               var showCount = 0;
               hidden.forEach(function(card) {
                 if (showCount < PAGE_SIZE) {
@@ -449,7 +466,7 @@
                   showCount++;
                 }
               });
-              var remaining = waterfall.querySelectorAll('.waterfall-card[style*="display: none"]');
+              var remaining = waterfall.querySelectorAll('.waterfall-card[style*=\"display: none\"]');
               if (remaining.length === 0) {
                 loadMoreDiv.remove();
               }

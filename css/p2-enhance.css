@@ -31,7 +31,8 @@
   opacity: 0; visibility: hidden; pointer-events: none;
   transition: opacity var(--cm-transition-normal), visibility var(--cm-transition-normal);
 }
-.p2-theme-backdrop.show { opacity: 1; visibility: visible; pointer-events: auto; }
+.p2-theme-backdrop.show { opacity: 1; visibility: visible; pointer-events: auto;
+}
 .p2-theme-handle {
   width: 40px; height: 4px; background: var(--cm-border);
   border-radius: 2px; margin: 10px auto 16px;
@@ -74,13 +75,18 @@
   border-color: var(--cm-accent); background: var(--cm-accent); color: #fff;
 }
 
+/* 深色模式补漏 */
 [data-theme="dark"] .p0-compare-label { color: rgba(255,255,255,0.9); }
 [data-theme="dark"] .p0-compare-handle { box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 [data-theme="dark"] .p1-gallery-nav { background: rgba(30,30,30,0.9); }
 [data-theme="dark"] .p1-gallery-counter { background: rgba(0,0,0,0.7); }
 [data-theme="dark"] .p0-search-dropdown { background: var(--cm-surface-1); }
 [data-theme="dark"] .detail-backdrop { background: rgba(0,0,0,0.7); }
+[data-theme="dark"] .profile-menu-item { border-bottom-color: var(--cm-border) !important; }
+[data-theme="dark"] .profile-menu-item > div:nth-child(2) { color: var(--cm-text-primary) !important; }
+[data-theme="dark"] .profile-menu-item > div:last-child { color: var(--cm-text-tertiary) !important; }
 
+/* ===== P2-2: 地图聚合与弹窗 ===== */
 .p2-cluster {
   background: var(--cm-accent); color: #fff;
   font-size: 12px; font-weight: 700;
@@ -147,6 +153,7 @@
 .leaflet-popup-content-wrapper { border-radius: var(--cm-radius-md) !important; box-shadow: var(--cm-elevation-2) !important; }
 .leaflet-popup-tip { display: none; }
 
+/* ===== P2-3: 个人资料增强 ===== */
 .p2-profile-banner {
   width: 100%; height: 120px;
   background: linear-gradient(135deg, var(--cm-accent), var(--cm-accent-soft, rgba(79,70,229,0.6)));
@@ -165,7 +172,8 @@
   font-size: 22px; font-weight: 800; color: var(--cm-text-primary);
   font-variant-numeric: tabular-nums;
 }
-.p2-stat-label { font-size: 11px; color: var(--cm-text-tertiary); margin-top: 2px; }
+.p2-stat-label { font-size: 11px; color: var(--cm-text-tertiary); margin-top: 2px;
+}
 .p2-level-bar {
   margin: 0 var(--cm-space-xl) var(--cm-space-lg);
   padding: 12px var(--cm-space-lg);
@@ -214,6 +222,7 @@
   font-size: 8px; color: var(--cm-text-tertiary);
 }
 
+/* ===== P2-4: 性能优化 ===== */
 .p2-lazy-img {
   background: var(--cm-surface-2);
   min-height: 100px;
@@ -236,6 +245,7 @@
 .p2-load-more-btn:active { background: var(--cm-accent-soft); border-color: var(--cm-accent); color: var(--cm-accent); }
 .p2-load-more-btn.loading { pointer-events: none; opacity: 0.6; }
 
+/* ===== P2-5: 无障碍增强 ===== */
 :focus-visible {
   outline: 2px solid var(--cm-accent);
   outline-offset: 2px;
@@ -259,6 +269,7 @@
   clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
+/* ===== P2-6: 消息中心增强 ===== */
 .p2-notif-group {
   padding: 0 var(--cm-space-xl);
   margin-bottom: var(--cm-space-sm);
@@ -311,4 +322,5 @@
   text-align: center; padding: 40px 20px;
   color: var(--cm-text-tertiary); font-size: 14px;
 }
-.p2-notif-empty i { font-size: 32px; margin-bottom: 10px; display: block; }
+.p2-notif-empty i { font-size: 32px; margin-bottom: 10px; display: block;
+}
