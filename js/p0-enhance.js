@@ -76,12 +76,10 @@
       }
       DB.state.yearFilter = key;
 
-      // 更新 labels
       labelsEl.querySelectorAll('.p0-timeslider-label').forEach(function(l) {
         l.classList.toggle('active', l.dataset.year === key);
       });
 
-      // 更新显示
       var label = decades.find(function(d) { return d.key === key; });
       if (label) {
         yearDisplay.textContent = key === 'all' ? '全部年代' : label.label + '年代';
@@ -89,13 +87,11 @@
         setTimeout(function() { yearDisplay.classList.remove('visible'); }, 1500);
       }
 
-      // 触发筛选
       if (app.filterMapMarkers) app.filterMapMarkers();
       if (typeof V21 !== 'undefined') {
         if (V21._updateYearBarActive) V21._updateYearBarActive();
         if (V21.applyYearAtmosphere) V21.applyYearAtmosphere(key);
       }
-      // 同步发现页
       if (app.renderDiscover) {
         var si = document.getElementById('discover-search');
         app.renderDiscover(si ? si.value : '');
@@ -105,7 +101,6 @@
       });
     }
 
-    // 拖拽
     function onPointerDown(e) {
       dragging = true;
       thumb.style.transition = 'none';
@@ -133,14 +128,12 @@
     document.addEventListener('mouseup', onPointerUp);
     document.addEventListener('touchend', onPointerUp);
 
-    // 初始化位置
     setSliderPos(0, 'all');
     console.log('[P0-1] 时光滑块已初始化');
   }
 
   // ==================== P0-2: 城市选择器重做 ====================
   function initCityPicker() {
-    // 创建新的城市选择器 DOM
     var picker = document.createElement('div');
     picker.className = 'p0-city-picker';
     picker.id = 'p0-city-picker';
@@ -165,7 +158,6 @@
     var backdrop = picker.querySelector('.p0-city-picker-backdrop');
     var cities = DB.chinaCities || [];
 
-    // 计算每个城市的记忆数
     function getCountMap() {
       var map = {};
       DB.memories.forEach(function(m) {
@@ -179,7 +171,6 @@
       return map;
     }
 
-    // 按拼音首字母分组
     function groupByLetter(cityList) {
       var groups = {};
       cityList.forEach(function(c) {
@@ -228,14 +219,12 @@
       });
       listEl.innerHTML = html;
 
-      // 渲染字母索引
       var indexHtml = '';
       groups.forEach(function(g) {
         indexHtml += '<span data-letter="' + esc(g.letter) + '">' + esc(g.letter) + '</span>';
       });
       indexEl.innerHTML = indexHtml;
 
-      // 绑定城市点击
       listEl.querySelectorAll('.p0-city-item').forEach(function(item) {
         item.addEventListener('click', function() {
           app.selectCity(item.dataset.city);
@@ -243,7 +232,6 @@
         });
       });
 
-      // 绑定字母索引点击
       indexEl.querySelectorAll('span').forEach(function(span) {
         span.addEventListener('click', function() {
           var target = listEl.querySelector('[data-letter="' + span.dataset.letter + '"]');
@@ -268,7 +256,6 @@
       renderCities(searchInput.value.trim());
     });
 
-    // 替换原有的城市选择器
     app.showCityPicker = openPicker;
     console.log('[P0-2] 城市选择器已重做');
   }
@@ -279,7 +266,6 @@
     app.openDetail = function(id) {
       origOpenDetail(id);
 
-      // 找到记忆
       var mem = DB.memories.find(function(m) { return m.id === id; });
       if (!mem) {
         DB.chinaCities.forEach(function(c) {
@@ -293,7 +279,6 @@
       var detailContent = document.getElementById('detail-content');
       if (!detailContent) return;
 
-      // 找到现有 compare-container 并替换为增强版
       var oldCompare = detailContent.querySelector('.compare-container');
       if (oldCompare) {
         var oldImg = oldCompare.querySelector('.compare-old img');
@@ -309,7 +294,6 @@
         initCompareSlider(newCompare);
       }
 
-      // 增强评论区
       enhanceComments(detailContent, mem);
     };
 
@@ -363,25 +347,29 @@
     }
 
     function enhanceComments(detailContent, mem) {
-      // 在 detail-actions 后添加评论区
       var actions = detailContent.querySelector('.detail-actions');
       if (!actions || actions.parentNode.querySelector('.p0-comments-section')) return;
 
-      var comments = (DB.comments && DB.comments[mem.id]) || [];
+      // B2-fix: DB.comments 是扁平数组 [{memoryId, ...}]，不是按 id 索引的对象
+      var memComments = [];
+      if (DB.comments && Array.isArray(DB.comments)) {
+        memComments = DB.comments.filter(function(c) { return String(c.memoryId) === String(mem.id); });
+      }
+
       var section = document.createElement('div');
       section.className = 'p0-comments-section';
       section.innerHTML =
         '<div class="p0-comments-header">' +
-          '<h3>评论 (' + comments.length + ')</h3>' +
+          '<h3>评论 (' + memComments.length + ')</h3>' +
         '</div>' +
         '<div class="p0-comments-list">' +
-          comments.map(function(c) {
+          memComments.map(function(c) {
             return '<div class="p0-comment-item">' +
               '<div class="p0-comment-avatar"><i class="fas fa-user"></i></div>' +
               '<div class="p0-comment-body">' +
-                '<div><span class="p0-comment-name">' + esc(c.name || '匿名') + '</span>' +
-                '<span class="p0-comment-time">' + esc(c.time || '') + '</span></div>' +
-                '<div class="p0-comment-text">' + esc(c.text || '') + '</div>' +
+                '<div><span class="p0-comment-name">' + esc(c.authorName || c.name || '匿名') + '</span>' +
+                '<span class="p0-comment-time">' + esc(c.createdAt || c.time || '') + '</span></div>' +
+                '<div class="p0-comment-text">' + esc(c.content || c.text || '') + '</div>' +
               '</div>' +
             '</div>';
           }).join('') +
@@ -393,7 +381,6 @@
 
       actions.parentNode.appendChild(section);
 
-      // 绑定发送
       var input = section.querySelector('.p0-comment-input');
       var sendBtn = section.querySelector('.p0-comment-send');
       var listEl = section.querySelector('.p0-comments-list');
@@ -402,23 +389,34 @@
       sendBtn.addEventListener('click', function() {
         var text = input.value.trim();
         if (!text) return;
-        if (!DB.comments[mem.id]) DB.comments[mem.id] = [];
-        var newComment = { name: DB.user ? DB.user.name : '我', text: text, time: '刚刚' };
-        DB.comments[mem.id].push(newComment);
+        // B1-fix: DB.user 不存在，使用 DB.currentUser.nickname
+        var authorName = (DB.currentUser && DB.currentUser.nickname) || '我';
+        var newComment = {
+          id: Date.now(),
+          memoryId: mem.id,
+          userId: DB.currentUser ? DB.currentUser.id : null,
+          authorName: authorName,
+          avatar: DB.currentUser ? DB.currentUser.avatar : '',
+          content: text,
+          createdAt: '刚刚',
+          likes: 0
+        };
+        if (!DB.comments) DB.comments = [];
+        DB.comments.push(newComment);
         if (DB.save) DB.save();
 
-        // 渲染新评论
         var item = document.createElement('div');
         item.className = 'p0-comment-item';
         item.innerHTML =
           '<div class="p0-comment-avatar"><i class="fas fa-user"></i></div>' +
           '<div class="p0-comment-body">' +
-            '<div><span class="p0-comment-name">' + esc(newComment.name) + '</span>' +
+            '<div><span class="p0-comment-name">' + esc(newComment.authorName) + '</span>' +
             '<span class="p0-comment-time">刚刚</span></div>' +
-            '<div class="p0-comment-text">' + esc(newComment.text) + '</div>' +
+            '<div class="p0-comment-text">' + esc(newComment.content) + '</div>' +
           '</div>';
         listEl.appendChild(item);
-        headerH3.textContent = '评论 (' + DB.comments[mem.id].length + ')';
+        var totalCount = DB.comments.filter(function(c) { return String(c.memoryId) === String(mem.id); }).length;
+        headerH3.textContent = '评论 (' + totalCount + ')';
         input.value = '';
         app.toast && app.toast('评论已发送');
       });
@@ -466,7 +464,6 @@
       var html = '';
 
       if (!query) {
-        // 显示历史 + 热门标签
         if (searchHistory.length > 0) {
           html += '<div class="p0-search-section-title">搜索历史</div>';
           searchHistory.slice(0, 5).forEach(function(h) {
@@ -487,7 +484,6 @@
           });
         }
       } else if (query.length >= 1) {
-        // 搜索建议
         var results = app.search ? app.search(query) : [];
         results.slice(0, 6).forEach(function(mem) {
           html += '<div class="p0-search-item" data-id="' + mem.id + '">' +
@@ -503,7 +499,6 @@
       dropdown.innerHTML = html;
       dropdown.classList.toggle('show', html.length > 0);
 
-      // 绑定点击
       dropdown.querySelectorAll('.p0-search-item[data-query]').forEach(function(item) {
         item.addEventListener('click', function() {
           searchInput.value = item.dataset.query;
@@ -545,12 +540,10 @@
       }, 250);
     });
 
-    // 点击外部关闭
     document.addEventListener('click', function(e) {
       if (!searchBar.contains(e.target)) dropdown.classList.remove('show');
     });
 
-    // 保存搜索历史
     var origSearch = searchInput.onchange;
     searchInput.addEventListener('change', function() {
       var val = searchInput.value.trim();
@@ -575,7 +568,6 @@
     var mapContainer = document.getElementById('map-container');
     if (!mapHeader || !mapContainer) return;
 
-    // 向下滚动地图时收起 header
     var lastScrollTop = 0;
     mapContainer.addEventListener('scroll', function() {
       var st = mapContainer.scrollTop || document.documentElement.scrollTop;
@@ -587,14 +579,12 @@
       lastScrollTop = st;
     }, { passive: true });
 
-    // 双击 marker 在触摸设备上的处理（避免与双击缩放冲突）
     var lastTapTime = 0;
     if ('ontouchstart' in window) {
       var mapEl = mapContainer;
       mapEl.addEventListener('touchend', function(e) {
         var now = Date.now();
         if (now - lastTapTime < 300) {
-          // 双击 - 不做处理，让 Leaflet 处理缩放
         }
         lastTapTime = now;
       }, { passive: true });
@@ -603,7 +593,6 @@
     console.log('[P0-6] 移动端增强已初始化');
   }
 
-  // ==================== 初始化 ====================
   function init() {
     initTimeSlider();
     initCityPicker();
