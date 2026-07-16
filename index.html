@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/linkage-fix.css?v=20250716">
   <link rel="stylesheet" href="css/p0-enhance.css?v=20250716">
   <link rel="stylesheet" href="css/p1-enhance.css?v=20250716">
+  <link rel="stylesheet" href="css/p2-enhance.css?v=20250716">
   <style id="app-css"></style>
   <style>
     .modal, .detail-modal {
@@ -123,8 +124,7 @@
     <div id="toast" class="toast"></div>
   </div>
   <div id="memory-detail" class="detail-modal">
-    <div class="detail-backdrop" onclick="app.closeDetail()">
-    </div>
+    <div class="detail-backdrop" onclick="app.closeDetail()"></div>
     <div class="detail-sheet">
       <div class="detail-handle"></div>
       <div class="detail-content" id="detail-content"></div>
@@ -159,7 +159,8 @@
             querySelector: function(){ return null; },
             querySelectorAll: function(){ return []; },
             getBoundingClientRect: function(){ return {top:0,left:0,width:0,height:0}; },
-            scrollTo: function(){}, scrollIntoView: function(){}, focus: function(){}, blur: function(){}, click: function(){}
+            scrollTo: function(){}, scrollIntoView: function(){},
+            focus: function(){}, blur: function(){}, click: function(){}
           };
         }
         return el;
@@ -176,9 +177,10 @@
   <script src="js/nationwide-data.js?v=20250707m"></script>
   <script src="js/search-index.js?v=20250707l"></script>
   <script src="js/mobile-adapt.js?v=20250707l"></script>
-  <script src="js/v2.1-features.js?v=20250716"></script>
+  <script src="js/v2.1-features.js?v=20250715"></script>
   <script src="js/linkage-fix.js?v=20250716"></script>
   <script src="js/p0-enhance.js?v=20250716"></script>
   <script src="js/p1-enhance.js?v=20250716"></script>
+  <script src="js/p2-enhance.js?v=20250716"></script>
 </body>
 </html>
