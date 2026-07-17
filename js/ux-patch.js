@@ -98,7 +98,7 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' || e.key === ' ') {
       var el = document.activeElement;
-      if (el && (el.getAttribute('role') === 'button' || el.getAttribute('role') === 'tab' || el.classList.contains('filter-btn') || el.classList.contains('map-locate-btn') || el.classList.contains('search-clear-btn'))) {
+      if (el && (el.getAttribute('role') === 'button' || el.getAttribute('role') === 'tab' || el.classList.contains('filter-btn') || el.classList.contains('map-locate-btn') || el.classList.contains('search-clear-btn') || el.classList.contains('detail-action'))) {
         e.preventDefault();
         el.click();
       }
@@ -120,6 +120,34 @@
       content.setAttribute('aria-label', '记忆详情');
       var backdrop = content.closest('.detail-modal');
       if (backdrop) backdrop.setAttribute('aria-modal', 'true');
+
+      var actions = content.querySelectorAll('.detail-action');
+      actions.forEach(function(action) {
+        action.setAttribute('role', 'button');
+        action.setAttribute('tabindex', '0');
+        var icon = action.querySelector('i');
+        var span = action.querySelector('span');
+        if (icon && span) {
+          var actionName = '';
+          if (icon.classList.contains('fa-heart')) {
+            actionName = action.classList.contains('active') ? '取消点赞' : '点赞';
+          } else if (icon.classList.contains('fa-comment')) {
+            actionName = '评论';
+          } else if (icon.classList.contains('fa-star')) {
+            actionName = action.classList.contains('active') ? '取消收藏' : '收藏';
+          } else if (icon.classList.contains('fa-share-alt')) {
+            actionName = '分享';
+          } else if (icon.classList.contains('fa-images')) {
+            actionName = '同框';
+          }
+          var countText = span.textContent.trim();
+          if (countText && !isNaN(countText)) {
+            action.setAttribute('aria-label', actionName + ', ' + countText);
+          } else {
+            action.setAttribute('aria-label', actionName);
+          }
+        }
+      });
     }
   });
   var detailContent = document.getElementById('detail-content');
