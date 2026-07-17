@@ -133,8 +133,16 @@
     var THRESHOLD_ZOOM = 13;
     var PIXEL_THRESHOLD = 40;
 
+    var _memCache = null;
+    var _memCacheLength = -1;
+
     function getMemById(id) {
-      var mem = DB.memories.find(function(m) { return String(m.id) === String(id); });
+      if (!_memCache || _memCacheLength !== DB.memories.length) {
+        _memCache = {};
+        DB.memories.forEach(function(m) { _memCache[String(m.id)] = m; });
+        _memCacheLength = DB.memories.length;
+      }
+      var mem = _memCache[String(id)];
       if (mem) return mem;
       var found = null;
       DB.chinaCities.forEach(function(c) {
