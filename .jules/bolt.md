@@ -1,3 +1,6 @@
 ## 2024-07-13 - [O(N*M) loop lookup anti-pattern]
 **Learning:** In the codebase, it is a common performance anti-pattern to use `DB.memories.find(...)` inside iteration loops such as `this.markers.forEach` or `fragments.forEach`. This results in an O(N*M) time complexity, where N is the number of loops and M is the size of the database.
 **Action:** When working on optimization, convert these loop lookups by pre-calculating a lookup Map like `const memoryMap = new Map(DB.memories.map(m => [m.id, m]));` before the loop. This changes the time complexity to O(N+M) and is especially crucial for frequently called functions like scroll, zoom or render functions.
+## 2024-07-17 - [Search Result Mapping Optimization]
+**Learning:** In the `search-index.js` file, a common performance anti-pattern was found where an array of result IDs was mapped to memory objects using `DB.memories.find(...)` inside the `.map()` function, leading to `O(N*M)` complexity. Similar optimization was applied to `initFootprintMap()` in `app.js` and `app-part2.js` by converting `find` in `forEach` to a Map lookup (`O(N+M)`).
+**Action:** Always verify search result mapping arrays and nested loops where a single map lookup can replace repetitive array `find()` calls.
