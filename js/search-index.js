@@ -93,9 +93,12 @@
     var resultIds = search(query);
     if (resultIds === null) return _origSearch ? _origSearch.call(this, query) : [];
 
+    // Optimize performance: Pre-calculate memory lookup to prevent O(N*M) complexity
+    var memMap = new Map(DB.memories.map(function(m) { return [m.id, m]; }));
+
     // Convert IDs to memory objects
     return resultIds.map(function(id) {
-      return DB.memories.find(function(m) { return m.id === id; });
+      return memMap.get(id);
     }).filter(Boolean);
   };
 
