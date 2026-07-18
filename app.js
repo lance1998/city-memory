@@ -2806,8 +2806,11 @@ const app = {
       L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
         subdomains: '1234', maxZoom: 19, attribution: '&copy; 高德地图'
       }).addTo(map);
+
+      // ⚡ Bolt: Optimize DB lookup inside loop using a Map to avoid O(N*M) performance overhead
+      const memoryMap = new Map(DB.memories.map(m => [m.id, m]));
       DB.footprints.forEach(id => {
-        const m = DB.memories.find(x => x.id === id);
+        const m = memoryMap.get(id);
         if (!m) return;
         const color = this.getMarkerColor(m.year);
         const icon = L.divIcon({
