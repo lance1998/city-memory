@@ -120,6 +120,39 @@
       content.setAttribute('aria-label', '记忆详情');
       var backdrop = content.closest('.detail-modal');
       if (backdrop) backdrop.setAttribute('aria-modal', 'true');
+
+      // Accessibility for action buttons
+      content.querySelectorAll('.detail-action').forEach(function(btn) {
+        if (!btn.getAttribute('role')) {
+          btn.setAttribute('role', 'button');
+          btn.setAttribute('tabindex', '0');
+        }
+
+        var icon = btn.querySelector('i');
+        var span = btn.querySelector('span');
+        var text = span ? span.textContent.trim() : '';
+
+        if (icon && icon.classList.contains('fa-heart')) {
+          var isLiked = btn.classList.contains('active');
+          btn.setAttribute('aria-label', (isLiked ? '取消点赞, ' : '点赞, ') + text);
+        } else if (icon && icon.classList.contains('fa-comment')) {
+          btn.setAttribute('aria-label', '评论, ' + text);
+        } else if (icon && icon.classList.contains('fa-star')) {
+          var isFav = btn.classList.contains('active');
+          btn.setAttribute('aria-label', isFav ? '取消收藏' : '收藏');
+        } else if (icon && icon.classList.contains('fa-share-alt')) {
+          btn.setAttribute('aria-label', '分享');
+        } else if (icon && icon.classList.contains('fa-images')) {
+          btn.setAttribute('aria-label', '同框');
+        }
+      });
+
+      content.querySelectorAll('.detail-voice, .detail-dna-toggle').forEach(function(btn) {
+          if (!btn.getAttribute('role')) {
+              btn.setAttribute('role', 'button');
+              btn.setAttribute('tabindex', '0');
+          }
+      });
     }
   });
   var detailContent = document.getElementById('detail-content');
