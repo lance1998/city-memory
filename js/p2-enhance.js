@@ -133,16 +133,18 @@
     var THRESHOLD_ZOOM = 13;
     var PIXEL_THRESHOLD = 40;
 
+    var memoryMapCache = null;
     function getMemById(id) {
-      var mem = DB.memories.find(function(m) { return String(m.id) === String(id); });
-      if (mem) return mem;
-      var found = null;
-      DB.chinaCities.forEach(function(c) {
-        (c.landmarks || []).forEach(function(lm) {
-          if (String(lm.id) === String(id)) found = Object.assign({}, lm, { city: c.name });
+      if (!memoryMapCache) {
+        memoryMapCache = new Map();
+        DB.memories.forEach(function(m) { memoryMapCache.set(String(m.id), m); });
+        DB.chinaCities.forEach(function(c) {
+          (c.landmarks || []).forEach(function(lm) {
+            if (!memoryMapCache.has(String(lm.id))) memoryMapCache.set(String(lm.id), Object.assign({}, lm, { city: c.name }));
+          });
         });
-      });
-      return found;
+      }
+      return memoryMapCache.get(String(id)) || null;
     }
 
     function getThumb(mem) {
