@@ -70,14 +70,7 @@
       var memId = e.layer.memoryId;
       if (memId === undefined) return;
       if (e.latlng && typeof V21 !== 'undefined') {
-        var mem = DB.memories.find(function(m) { return m.id === memId; });
-        if (!mem) {
-          DB.chinaCities.forEach(function(c) {
-            (c.landmarks || []).forEach(function(lm) {
-              if (lm.id === memId) mem = Object.assign({}, lm, { city: c.name });
-            });
-          });
-        }
+        var mem = getLinkageMemById(memId);
         if (mem) V21.createRipple(mem, e.latlng);
       }
       self.openDetail(memId);
@@ -103,18 +96,25 @@
     });
   };
 
-  // --- openDetail: S4(添加\"在地图中查看\"按钮) ---
-  var _origOpenDetail = app.openDetail.bind(app);
-  app.openDetail = function(id) {
-    _origOpenDetail(id);
-    var mem = DB.memories.find(function(m) { return m.id === id; });
-    if (!mem) {
+  var linkageMemCache = null;
+  function getLinkageMemById(id) {
+    if (!linkageMemCache || linkageMemCache.size !== DB.memories.length) {
+      linkageMemCache = new Map();
+      DB.memories.forEach(function(m) { linkageMemCache.set(m.id, m); });
       DB.chinaCities.forEach(function(c) {
         (c.landmarks || []).forEach(function(lm) {
-          if (lm.id === id) mem = Object.assign({}, lm, { city: c.name });
+          if (!linkageMemCache.has(lm.id)) linkageMemCache.set(lm.id, Object.assign({}, lm, { city: c.name }));
         });
       });
     }
+    return linkageMemCache.get(id) || null;
+  }
+
+  // --- openDetail: S4(添加"在地图中查看"按钮) ---
+  var _origOpenDetail = app.openDetail.bind(app);
+  app.openDetail = function(id) {
+    _origOpenDetail(id);
+    var mem = getLinkageMemById(id);
     if (!mem || !mem.lat || !mem.lng) return;
     var actions = document.querySelector('.detail-actions');
     if (!actions || actions.querySelector('.linkage-view-map-btn')) return;
@@ -138,12 +138,14 @@
     var city = DB.state.currentCity;
     var year = DB.state.yearFilter;
     if (city && city !== '全部') {
+      var memoryMap = new Map();
+      DB.memories.forEach(function(m) { memoryMap.set(m.id, m); });
       hotCards.forEach(function(card) {
         card.style.display = '';
         var onclickStr = card.getAttribute('onclick') || '';
         var idMatch = onclickStr.match(/openDetail\((\d+)\)/);
         if (idMatch) {
-          var mem = DB.memories.find(function(m) { return m.id === parseInt(idMatch[1]); });
+          var mem = memoryMap.get(parseInt(idMatch[1]));
           if (mem) {
             var showCity = mem.city === city;
             var showYear = year === 'all' || Utils.getYearClass(mem.year) === year;

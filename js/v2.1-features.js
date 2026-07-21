@@ -144,10 +144,22 @@
 
     _bindMarkerHover() {
       if (!app.markerLayer) return;
+
+      let memMapCache = null;
+      const getMemMap = () => {
+        if (!memMapCache || memMapCache.size !== DB.memories.length) {
+          memMapCache = new Map();
+          for (let i = 0; i < DB.memories.length; i++) {
+             memMapCache.set(DB.memories[i].id, DB.memories[i]);
+          }
+        }
+        return memMapCache;
+      };
+
       app.markerLayer.on('mouseover', (e) => {
         const memId = e.layer.memoryId;
         if (memId === undefined) return;
-        const mem = DB.memories.find(m => m.id === memId);
+        const mem = getMemMap().get(memId);
         if (mem) this.showPreview(mem, e);
       });
       app.markerLayer.on('mouseout', (e) => {
@@ -391,10 +403,22 @@
         this._origAddMapMarkers();
         V21._bindMarkerHover();
         if (this.markerLayer) {
+
+          let memMapCache2 = null;
+          const getMemMap2 = () => {
+            if (!memMapCache2 || memMapCache2.size !== DB.memories.length) {
+              memMapCache2 = new Map();
+              for (let i = 0; i < DB.memories.length; i++) {
+                 memMapCache2.set(DB.memories[i].id, DB.memories[i]);
+              }
+            }
+            return memMapCache2;
+          };
+
           this.markerLayer.on('click', (e) => {
             const memId = e.layer.memoryId;
             if (memId === undefined) return;
-            const mem = DB.memories.find(m => m.id === memId);
+            const mem = getMemMap2().get(memId);
             if (mem && e.latlng) { V21.createRipple(mem, e.latlng); }
           });
         }

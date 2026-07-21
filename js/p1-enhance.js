@@ -74,9 +74,22 @@
       enhanceGallery(dc, id);
     }
 
+    var p1MemoryMapCache = null;
+    function getP1MemById(id) {
+      if (!p1MemoryMapCache || p1MemoryMapCache.size !== DB.memories.length) {
+        p1MemoryMapCache = new Map();
+        DB.memories.forEach(function(m) { p1MemoryMapCache.set(String(m.id), m); });
+        DB.chinaCities.forEach(function(c) {
+          (c.landmarks || []).forEach(function(lm) {
+            if (!p1MemoryMapCache.has(String(lm.id))) p1MemoryMapCache.set(String(lm.id), Object.assign({}, lm, { city: c.name }));
+          });
+        });
+      }
+      return p1MemoryMapCache.get(String(id)) || null;
+    }
+
     function enhanceGallery(dc, id) {
-      var mem = DB.memories.find(function(m) { return String(m.id) === String(id); });
-      if (!mem) { DB.chinaCities.forEach(function(c) { (c.landmarks || []).forEach(function(lm) { if (String(lm.id) === String(id)) mem = Object.assign({}, lm, { city: c.name }); }); }); }
+      var mem = getP1MemById(id);
       if (!mem) return;
       var allImages = [];
       (mem.oldImages || []).forEach(function(s) { allImages.push({ src: s, type: 'old' }); });
@@ -161,7 +174,25 @@
   function initMapEnhance() {
     if (!app.map || !app.markerLayer) return;
     var mdm = {};
-    function collect() { if (!app.markerLayer) return; app.markerLayer.eachLayer(function(l) { if (l._memId) { var mem = DB.memories.find(function(m) { return String(m.id) === String(l._memId); }); if (!mem) DB.chinaCities.forEach(function(c) { (c.landmarks || []).forEach(function(lm) { if (String(lm.id) === String(l._memId)) mem = Object.assign({}, lm, { city: c.name }); }); }); if (mem) mdm[l._memId] = mem; } }); }
+        var memoryMap = null;
+    function collect() {
+      if (!app.markerLayer) return;
+      if (!memoryMap) {
+        memoryMap = new Map();
+        DB.memories.forEach(function(m) { memoryMap.set(String(m.id), m); });
+        DB.chinaCities.forEach(function(c) {
+          (c.landmarks || []).forEach(function(lm) {
+            if (!memoryMap.has(String(lm.id))) memoryMap.set(String(lm.id), Object.assign({}, lm, { city: c.name }));
+          });
+        });
+      }
+      app.markerLayer.eachLayer(function(l) {
+        if (l._memId) {
+          var mem = memoryMap.get(String(l._memId));
+          if (mem) mdm[l._memId] = mem;
+        }
+      });
+    }
     var origAdd = app.addMapMarkers ? app.addMapMarkers.bind(app) : null;
     if (origAdd) { app.addMapMarkers = function() { origAdd(); setTimeout(collect, 200); }; }
     console.log('[P1-5] 地图交互增强已初始化');

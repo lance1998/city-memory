@@ -93,9 +93,13 @@
     var resultIds = search(query);
     if (resultIds === null) return _origSearch ? _origSearch.call(this, query) : [];
 
+    // Optimize DB.memories array lookup
+    var memoryMapCache = new Map();
+    DB.memories.forEach(function(m) { memoryMapCache.set(m.id, m); });
+
     // Convert IDs to memory objects
     return resultIds.map(function(id) {
-      return DB.memories.find(function(m) { return m.id === id; });
+      return memoryMapCache.get(id);
     }).filter(Boolean);
   };
 

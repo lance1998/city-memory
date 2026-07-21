@@ -260,20 +260,27 @@
     console.log('[P0-2] 城市选择器已重做');
   }
 
+  var p0MemoryMapCache = null;
+  function getP0MemById(id) {
+    if (!p0MemoryMapCache || p0MemoryMapCache.size !== DB.memories.length) {
+      p0MemoryMapCache = new Map();
+      DB.memories.forEach(function(m) { p0MemoryMapCache.set(m.id, m); });
+      DB.chinaCities.forEach(function(c) {
+        (c.landmarks || []).forEach(function(lm) {
+          if (!p0MemoryMapCache.has(lm.id)) p0MemoryMapCache.set(lm.id, Object.assign({}, lm, { city: c.name }));
+        });
+      });
+    }
+    return p0MemoryMapCache.get(id) || null;
+  }
+
   // ==================== P0-3: 详情面板增强 ====================
   function initDetailEnhance() {
     var origOpenDetail = app.openDetail.bind(app);
     app.openDetail = function(id) {
       origOpenDetail(id);
 
-      var mem = DB.memories.find(function(m) { return m.id === id; });
-      if (!mem) {
-        DB.chinaCities.forEach(function(c) {
-          (c.landmarks || []).forEach(function(lm) {
-            if (lm.id === id) mem = Object.assign({}, lm, { city: c.name });
-          });
-        });
-      }
+      var mem = getP0MemById(id);
       if (!mem) return;
 
       var detailContent = document.getElementById('detail-content');
