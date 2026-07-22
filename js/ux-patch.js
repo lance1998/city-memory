@@ -120,6 +120,37 @@
       content.setAttribute('aria-label', '记忆详情');
       var backdrop = content.closest('.detail-modal');
       if (backdrop) backdrop.setAttribute('aria-modal', 'true');
+
+      content.querySelectorAll('.detail-action').forEach(function(btn) {
+        if (!btn.hasAttribute('role')) {
+          btn.setAttribute('role', 'button');
+          btn.setAttribute('tabindex', '0');
+        }
+
+        var icon = btn.querySelector('i');
+        var span = btn.querySelector('span');
+        if (icon) {
+          var label = '';
+          var countText = span ? span.textContent.trim() : '';
+          var isActive = btn.classList.contains('active');
+
+          if (icon.classList.contains('fa-heart')) {
+            label = (isActive ? '取消点赞' : '点赞') + (countText ? ', ' + countText : '');
+          } else if (icon.classList.contains('fa-comment')) {
+            label = '评论' + (countText ? ', ' + countText : '');
+          } else if (icon.classList.contains('fa-star')) {
+            label = isActive ? '取消收藏' : '收藏';
+          } else if (icon.classList.contains('fa-share-alt')) {
+            label = '分享';
+          } else if (icon.classList.contains('fa-images')) {
+            label = '同框';
+          }
+
+          if (label) {
+            btn.setAttribute('aria-label', label);
+          }
+        }
+      });
     }
   });
   var detailContent = document.getElementById('detail-content');
