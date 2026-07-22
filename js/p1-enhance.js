@@ -161,7 +161,28 @@
   function initMapEnhance() {
     if (!app.map || !app.markerLayer) return;
     var mdm = {};
-    function collect() { if (!app.markerLayer) return; app.markerLayer.eachLayer(function(l) { if (l._memId) { var mem = DB.memories.find(function(m) { return String(m.id) === String(l._memId); }); if (!mem) DB.chinaCities.forEach(function(c) { (c.landmarks || []).forEach(function(lm) { if (String(lm.id) === String(l._memId)) mem = Object.assign({}, lm, { city: c.name }); }); }); if (mem) mdm[l._memId] = mem; } }); }
+    // ⚡ Bolt Optimization: Replaced O(N*M) nested loop find with O(N+M) hash map lookups
+    function collect() {
+      if (!app.markerLayer) return;
+      var memMap = {};
+      if (DB.memories) {
+        DB.memories.forEach(function(m) { memMap[String(m.id)] = m; });
+      }
+      var landmarkMap = {};
+      if (DB.chinaCities) {
+        DB.chinaCities.forEach(function(c) {
+          (c.landmarks || []).forEach(function(lm) {
+            landmarkMap[String(lm.id)] = Object.assign({}, lm, { city: c.name });
+          });
+        });
+      }
+      app.markerLayer.eachLayer(function(l) {
+        if (l._memId) {
+          var mem = memMap[String(l._memId)] || landmarkMap[String(l._memId)];
+          if (mem) mdm[l._memId] = mem;
+        }
+      });
+    }
     var origAdd = app.addMapMarkers ? app.addMapMarkers.bind(app) : null;
     if (origAdd) { app.addMapMarkers = function() { origAdd(); setTimeout(collect, 200); }; }
     console.log('[P1-5] 地图交互增强已初始化');
